@@ -440,23 +440,20 @@
   nav ul li a:hover{ transform: translateY(-1px); }
 
   /* ================= LOGO CONTRAST FIX ================= */
-  /* The logo artwork is very dark navy — on navy/black-navy surfaces it
-     needs a lifted halo behind it to stay legible. Logo pixels/design
-     are untouched; only the surface behind it changes. */
+  /* The logo is now rendered in its light (off-white) variant on
+     dark navy surfaces — assets/logo-light.png — so it reads clearly
+     at a glance. Kept: a thin gold ring for premium framing and a
+     soft drop-shadow for depth. The original navy logo file (used
+     for the favicon plate and any future light-background placement)
+     is untouched — only which asset we load, and this frame, changed. */
   .logo-halo{ position:relative; display:inline-flex; align-items:center; justify-content:center; }
-  .logo-halo::before{
-    content:""; position:absolute; inset:-30%; border-radius:50%;
-    background: radial-gradient(circle, rgba(240,240,239,0.20) 0%, rgba(240,240,239,0.07) 55%, rgba(240,240,239,0) 76%);
-    z-index:0; pointer-events:none;
-  }
   .logo-halo::after{
-    content:""; position:absolute; inset:-6%; border-radius:50%;
-    border: 1px solid rgba(198,149,80,0.32);
+    content:""; position:absolute; inset:-16%; border-radius:50%;
+    border: 1px solid rgba(198,149,80,0.35);
     z-index:0; pointer-events:none;
   }
-  .logo-halo img{ position:relative; z-index:1; filter: drop-shadow(0 2px 10px rgba(0,0,0,0.4)); }
-  .logo-halo-lg::before{ inset:-46%; }
-  .logo-halo-lg::after{ inset:-14%; }
+  .logo-halo img{ position:relative; z-index:1; filter: drop-shadow(0 2px 12px rgba(0,0,0,0.35)); }
+  .logo-halo-lg::after{ inset:-20%; }
 
   /* ================= AMBIENT HERO MOTION ================= */
   .hero-ambient{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:1; }
@@ -518,7 +515,7 @@
 
 <div id="introScreen" aria-hidden="true">
   <div class="intro-glow"></div>
-  <span class="logo-halo logo-halo-lg"><img class="intro-logo" src="assets/logo.png" alt="M H Balance"></span>
+  <span class="logo-halo logo-halo-lg"><img class="intro-logo" src="assets/logo-light.png" alt="M H Balance"></span>
   <div class="intro-word">M H BALANCE</div>
   <p class="intro-statement" data-i18n="intro.statement">بنحول الحسابات من مجرد أرقام إلي رؤية تساعدك تاخد قرار صح.</p>
   <button class="intro-skip" id="introSkip" data-i18n="intro.skip" type="button">تخطي</button>
@@ -545,7 +542,7 @@
 <header id="siteHeader">
   <div class="nav-inner">
     <a href="#home" class="brand" aria-label="M H Balance">
-      <span class="logo-halo"><img src="assets/logo.png" alt="M H Balance logo"></span>
+      <span class="logo-halo"><img src="assets/logo-light.png" alt="M H Balance logo"></span>
       <span class="brand-text">M H BALANCE<span data-i18n="brand.tagline">التوازن يقود النمو</span></span>
     </a>
     <nav aria-label="Primary">
@@ -1070,7 +1067,7 @@
   <div class="wrap">
     <div class="footer-top">
       <a href="#home" class="footer-brand">
-        <span class="logo-halo"><img src="assets/logo.png" alt="M H Balance logo"></span>
+        <span class="logo-halo"><img src="assets/logo-light.png" alt="M H Balance logo"></span>
         <span class="footer-brand-text">M H BALANCE</span>
       </a>
       <ul class="footer-nav">
