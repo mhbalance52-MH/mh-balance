@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="metaTitle">M H Balance — نفهم العمل خلف الأرقام</title>
+<meta id="metaDesc" name="description" content="M H Balance تقدّم خدمات المحاسبة والتقارير المالية استنادًا إلى خبرة عملية عبر قطاعات المقاولات والتصنيع والتجزئة عالية القيمة والسلع الاستهلاكية.">
+<meta name="keywords" content="M H Balance, محاسبة مصر, تقارير مالية, معايير IFRS, تسوية المخزون, محاسبة ERP">
+
+<meta property="og:type" content="website">
+<meta id="ogTitle" property="og:title" content="M H Balance — نفهم العمل خلف الأرقام">
+<meta id="ogDesc" property="og:description" content="خبرة عملية عبر قطاعات متنوعة، في خدمة وضوحكم المالي.">
+<meta property="og:image" content="assets/logo.png">
+
+<link rel="icon" type="image/png" href="assets/favicon.png">
+
+<style>
+  :root{
+    --navy:        #031934;
+    --navy-dark:   #152840;
+    --gold:        #C69550;
+    --gold-dark:   #996D34;
+    --off-white:   #EBE9E8;
+    --bg-light:    #F0F0EF;
+    --black-navy:  #040B1B;
+    --slate:       #445167;
+
+    --font: 'Sakkal Majalla', 'Traditional Arabic', 'Simplified Arabic', 'Palatino Linotype', 'Book Antiqua', Georgia, 'Times New Roman', serif;
+
+    --container: 1180px;
+    --radius: 3px;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    font-family: var(--font);
+    background: var(--bg-light);
+    color: var(--navy);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  img{ max-width:100%; display:block; }
+  a{ color:inherit; text-decoration:none; }
+  ::selection{ background: var(--gold); color: var(--black-navy); }
+
+  .wrap{ max-width: var(--container); margin: 0 auto; padding: 0 32px; }
+
+  h1,h2,h3,h4{ font-family: var(--font); font-weight: 700; letter-spacing: 0.01em; }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:12px;
+    font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gold-dark); font-weight: 700; margin-bottom: 18px;
+  }
+  .eyebrow::before{ content:""; width: 28px; height: 1px; background: var(--gold); display:inline-block; flex-shrink:0; }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:10px;
+    padding: 16px 34px; font-family: var(--font); font-size: 15.5px;
+    letter-spacing: 0.02em; font-weight:700; border-radius: var(--radius);
+    border: 1px solid transparent; cursor:pointer;
+    transition: all .35s cubic-bezier(.4,0,.2,1);
+  }
+  .btn-gold{ background: var(--gold); color: var(--black-navy); }
+  .btn-gold:hover{ background: var(--gold-dark); color: var(--off-white); transform: translateY(-2px); }
+  .btn-outline{ border-color: rgba(235,233,232,0.35); color: var(--off-white); }
+  .btn-outline:hover{ border-color: var(--gold); color: var(--gold); }
+
+  .reveal{ opacity:0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.2,.6,.2,1), transform .9s cubic-bezier(.2,.6,.2,1); }
+  .reveal.is-visible{ opacity:1; transform: translateY(0); }
+  .reveal-delay-1{ transition-delay: .12s; }
+  .reveal-delay-2{ transition-delay: .24s; }
+  .reveal-delay-3{ transition-delay: .36s; }
+  @media (prefers-reduced-motion: reduce){ .reveal{ opacity:1; transform:none; transition:none; } html{ scroll-behavior:auto; } }
+
+  header{
+    position: fixed; top:0; left:0; right:0; z-index: 999;
+    background: rgba(3,25,52,0.96); backdrop-filter: blur(6px);
+    border-bottom: 1px solid rgba(198,149,80,0.18);
+    transition: padding .35s ease;
+  }
+  .nav-inner{
+    max-width: var(--container); margin:0 auto; padding: 22px 32px;
+    display:flex; align-items:center; justify-content:space-between; transition: padding .35s ease;
+  }
+  header.scrolled .nav-inner{ padding: 13px 32px; }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand img{ height:44px; width:auto; transition: height .35s ease; }
+  header.scrolled .brand img{ height:34px; }
+  .brand-text{ color: var(--off-white); font-size: 15px; letter-spacing: 0.1em; font-weight: 700; line-height:1.2; }
+  .brand-text span{ display:block; font-size: 10px; letter-spacing: 0.1em; color: var(--gold); font-weight: 400; margin-top:4px; }
+
+  nav ul{ display:flex; gap: 36px; list-style:none; }
+  nav ul li a{ color: rgba(235,233,232,0.82); font-size: 14.5px; letter-spacing: 0.01em; position:relative; padding-bottom:4px; }
+  nav ul li a::after{ content:""; position:absolute; inset-inline-start:0; bottom:0; width:0%; height:1px; background: var(--gold); transition: width .35s ease; }
+  nav ul li a:hover::after{ width:100%; }
+  nav ul li a:hover{ color: var(--off-white); }
+
+  .nav-right{ display:flex; align-items:center; gap: 22px; }
+  .nav-cta{ padding: 11px 22px; font-size: 13.5px; }
+
+  .lang-switch{
+    display:flex; align-items:center; gap:8px;
+    font-size: 12.5px; letter-spacing:0.04em; color: rgba(235,233,232,0.6);
+    border: 1px solid rgba(235,233,232,0.22); border-radius: 20px; padding: 6px 6px;
+  }
+  .lang-switch button{
+    background:none; border:none; cursor:pointer; font-family: var(--font);
+    color: rgba(235,233,232,0.6); font-size:12.5px; padding: 5px 12px; border-radius:16px;
+    transition: all .3s ease; letter-spacing:0.04em;
+  }
+  .lang-switch button.active{ background: var(--gold); color: var(--black-navy); font-weight:700; }
+
+  .burger{ display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px; }
+  .burger span{ width: 24px; height:1.5px; background: var(--off-white); display:block; transition: all .3s ease; }
+
+  .mobile-menu{
+    position: fixed; top:0; inset-inline-end:0; height:100vh; width: min(320px, 82vw);
+    background: var(--black-navy); z-index: 1001; transform: translateX(100%);
+    transition: transform .45s cubic-bezier(.2,.8,.2,1); padding: 100px 40px;
+    border-inline-start: 1px solid rgba(198,149,80,0.2);
+  }
+  html[dir="rtl"] .mobile-menu{ transform: translateX(-100%); }
+  .mobile-menu.open{ transform: translateX(0) !important; }
+  .mobile-menu ul{ list-style:none; display:flex; flex-direction:column; gap:26px; margin-bottom:36px; }
+  .mobile-menu ul li a{ color: var(--off-white); font-size:19px; letter-spacing:0.01em; }
+  .mobile-menu ul li a:hover{ color: var(--gold); }
+  .menu-close{ position:absolute; top:34px; inset-inline-end:34px; background:none; border:none; color: var(--off-white); font-size: 26px; cursor:pointer; line-height:1; }
+  .scrim{ position:fixed; inset:0; background: rgba(4,11,27,0.6); z-index:1000; opacity:0; pointer-events:none; transition: opacity .4s ease; }
+  .scrim.open{ opacity:1; pointer-events:all; }
+  .mobile-lang{ display:flex; gap:10px; }
+  .mobile-lang button{
+    background:none; border:1px solid rgba(235,233,232,0.25); color: rgba(235,233,232,0.7);
+    padding:8px 18px; border-radius:20px; font-family: var(--font); font-size:14px; cursor:pointer;
+  }
+  .mobile-lang button.active{ background: var(--gold); border-color: var(--gold); color: var(--black-navy); font-weight:700; }
+
+  .hero{
+    position:relative; min-height: 100vh; display:flex; align-items:center;
+    background: var(--navy); color: var(--off-white); overflow:hidden; padding-top: 90px;
+  }
+  .hero-grid{ position:absolute; inset:0; opacity: 0.55; pointer-events:none; transition: transform .4s ease; }
+  html[dir="rtl"] .hero-grid{ transform: scaleX(-1); }
+  .hero-content{ position:relative; z-index:2; max-width: 800px; }
+  .hero h1{ font-size: clamp(34px, 5.2vw, 60px); line-height: 1.28; color: var(--off-white); margin-bottom: 26px; letter-spacing: 0.002em; }
+  .hero h1 em{ font-style: normal; color: var(--gold); }
+  .hero p.lead{ font-size: 18px; color: rgba(235,233,232,0.78); max-width: 600px; margin-bottom: 42px; line-height:1.9; }
+  .hero-actions{ display:flex; gap:18px; flex-wrap:wrap; margin-bottom: 64px; }
+
+  .hero-meta{ display:flex; gap: 46px; flex-wrap:wrap; border-top: 1px solid rgba(198,149,80,0.22); padding-top: 28px; }
+  .hero-meta div{ min-width:130px; }
+  .hero-meta .num{ font-size: 26px; color: var(--gold); font-weight:700; margin-bottom:6px; }
+  .hero-meta .label{ font-size: 12.5px; letter-spacing:0.02em; color: rgba(235,233,232,0.62); line-height:1.5; }
+
+  .scroll-cue{ position:absolute; bottom: 34px; inset-inline-start: 32px; display:flex; align-items:center; gap:12px; color: rgba(235,233,232,0.5); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; z-index:2; }
+  .scroll-cue .line{ width:1px; height:40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollLine 2.2s ease-in-out infinite; }
+  @keyframes scrollLine{ 0%{ transform: scaleY(0); transform-origin: top; } 50%{ transform: scaleY(1); transform-origin: top; } 51%{ transform-origin: bottom; } 100%{ transform: scaleY(0); transform-origin: bottom; } }
+
+  section{ position:relative; }
+  .section-pad{ padding: 130px 0; }
+  .section-light{ background: var(--bg-light); color: var(--navy); }
+  .section-off{ background: var(--off-white); color: var(--navy); }
+  .section-navy{ background: var(--navy-dark); color: var(--off-white); }
+  .section-black{ background: var(--black-navy); color: var(--off-white); }
+
+  .section-head{ max-width: 680px; margin-bottom: 70px; }
+  .section-head h2{ font-size: clamp(28px, 3.6vw, 42px); line-height:1.3; }
+  .section-navy .section-head h2, .section-black .section-head h2{ color: var(--off-white); }
+  .section-head p{ margin-top: 20px; font-size: 16.5px; color: var(--slate); line-height:1.9; }
+  .section-navy .section-head p, .section-black .section-head p{ color: rgba(235,233,232,0.68); }
+
+  .about-grid{ display:grid; grid-template-columns: 1.15fr 0.85fr; gap: 90px; align-items:center; }
+  .about-copy p{ font-size: 16.5px; color: var(--slate); margin-bottom: 20px; line-height:1.95; }
+  .about-copy strong{ color: var(--navy); }
+  .about-foot{ margin-top: 30px; padding-top: 26px; border-top: 1px solid rgba(3,25,52,0.12); font-size: 14.5px; color: var(--slate); font-style:italic; }
+
+  .balance-figure{ position:relative; aspect-ratio: 1/1; max-width: 420px; margin: 0 auto; }
+  .balance-figure .beam{ position:absolute; top:50%; inset-inline-start:8%; inset-inline-end:8%; height:1px; background: var(--gold); transform-origin:center; animation: tilt 6s ease-in-out infinite; }
+  @keyframes tilt{ 0%,100%{ transform: rotate(-3deg); } 50%{ transform: rotate(3deg); } }
+  .balance-figure .pivot{ position:absolute; left:50%; top:50%; width:8px; height:8px; background: var(--gold); transform: translate(-50%,-50%) rotate(45deg); }
+  .balance-figure .plate{ position:absolute; width: 118px; height:118px; border: 1px solid rgba(3,25,52,0.16); border-radius: 3px; background: rgba(3,25,52,0.03); display:flex; align-items:center; justify-content:center; animation: bob 6s ease-in-out infinite; }
+  .balance-figure .plate.pstart{ top: 20%; inset-inline-start: 2%; }
+  .balance-figure .plate.pend{ top: 20%; inset-inline-end: 2%; animation-delay: -3s; }
+  @keyframes bob{ 0%,100%{ transform: translateY(-6px); } 50%{ transform: translateY(10px); } }
+  .balance-figure .plate .fig{ font-size: 13.5px; letter-spacing:0.02em; color: var(--navy); text-align:center; font-weight:700; }
+  .balance-figure .plate .fig small{ display:block; font-weight:400; font-size:11px; color: var(--slate); margin-top:6px; letter-spacing:0.01em; }
+  .balance-figure .stand{ position:absolute; left:50%; bottom:6%; top:52%; width:1px; background: rgba(3,25,52,0.18); transform: translateX(-50%); }
+  .balance-figure .base{ position:absolute; bottom:5%; left:38%; right:38%; height:1px; background: rgba(3,25,52,0.18); }
+
+  .understand-grid{ display:grid; grid-template-columns: repeat(4,1fr); gap: 46px; }
+  .understand-item .num{ font-size:13px; color: var(--gold); font-weight:700; letter-spacing:0.05em; margin-bottom:16px; }
+  .understand-item h4{ font-size:17px; color: var(--off-white); margin-bottom:12px; }
+  .understand-item p{ font-size:14px; color: rgba(235,233,232,0.66); line-height:1.85; }
+  @media (max-width: 900px){ .understand-grid{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px){ .understand-grid{ grid-template-columns: 1fr; } }
+
+  .industries-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: rgba(3,25,52,0.1); border: 1px solid rgba(3,25,52,0.1); }
+  .industry-card{ background: var(--off-white); padding: 46px 42px; transition: background .4s ease; }
+  .industry-card:hover{ background: #ffffff; }
+  .industry-mark{ width:40px; height:40px; border:1px solid var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--gold-dark); font-size:14px; margin-bottom:22px; }
+  .industry-card h3{ font-size: 20px; margin-bottom: 12px; color: var(--navy); }
+  .industry-card .tag{ font-size:12px; letter-spacing:0.04em; color: var(--gold-dark); font-weight:700; margin-bottom:16px; display:block; }
+  .industry-card p{ font-size: 14.5px; color: var(--slate); line-height:1.9; }
+  @media (max-width: 900px){ .industries-grid{ grid-template-columns: 1fr; } }
+
+  .expertise-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(235,233,232,0.14); border: 1px solid rgba(235,233,232,0.14); }
+  .expertise-card{ background: var(--navy); padding: 42px 32px; }
+  .expertise-card h4{ font-size:16.5px; color: var(--off-white); margin-bottom:12px; }
+  .expertise-card p{ font-size:13.5px; color: rgba(235,233,232,0.62); line-height:1.85; }
+  @media (max-width: 900px){ .expertise-grid{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px){ .expertise-grid{ grid-template-columns: 1fr; } }
+
+  /* editorial capability list — replaces card grid for visual variety */
+  .expertise-list{ display:grid; grid-template-columns: 1fr 1fr; gap: 0 70px; }
+  .expertise-row{ display:flex; gap:24px; padding: 30px 0; border-bottom: 1px solid rgba(3,25,52,0.1); }
+  .expertise-row .exnum{ font-size:24px; color: var(--gold); font-weight:700; flex-shrink:0; min-width:38px; line-height:1.3; }
+  .expertise-row h4{ font-size:17px; color: var(--navy); margin-bottom:8px; }
+  .expertise-row p{ font-size:14px; color: var(--slate); line-height:1.85; }
+  @media (max-width: 760px){ .expertise-list{ grid-template-columns: 1fr; } }
+
+  /* large editorial statement banner — breaks up card rhythm */
+  .big-statement{ padding: 100px 0; text-align:center; background: var(--black-navy); }
+  .big-statement .rule{ width:56px; height:1px; background: var(--gold); margin: 0 auto 34px; }
+  .big-statement p{ font-size: clamp(24px, 3.2vw, 38px); color: var(--off-white); max-width: 880px; margin: 0 auto; line-height:1.55; font-weight:700; }
+  .big-statement p em{ font-style:normal; color: var(--gold); }
+  html[lang="ar"] .big-statement p{ line-height: 1.75; }
+
+  /* problem/understanding editorial rows */
+  .challenges-list{ display:flex; flex-direction:column; }
+  .challenge-row{ display:grid; grid-template-columns: 56px 1fr 1fr; gap: 34px; align-items:start; padding: 34px 0; border-bottom: 1px solid rgba(3,25,52,0.1); }
+  .challenge-row:first-child{ border-top: 1px solid rgba(3,25,52,0.1); }
+  .challenge-num{ font-size:14px; color: var(--gold-dark); font-weight:700; padding-top:2px; }
+  .challenge-problem{ font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color: var(--gold-dark); font-weight:700; margin-bottom:10px; }
+  .challenge-problem-text{ font-size:17.5px; color: var(--navy); font-weight:700; line-height:1.5; }
+  html[lang="ar"] .challenge-problem-text{ line-height: 1.75; }
+  .challenge-answer-label{ font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color: var(--slate); font-weight:700; margin-bottom:10px; }
+  .challenge-answer{ font-size:14.5px; color: var(--slate); line-height:1.9; }
+  @media (max-width: 760px){
+    .challenge-row{ grid-template-columns: 1fr; gap:12px; }
+    .challenge-num{ display:none; }
+  }
+
+  .services-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(3,25,52,0.1); border: 1px solid rgba(3,25,52,0.1); }
+  .service-card{ background: var(--off-white); padding: 44px 36px; transition: background .4s ease; }
+  .service-card:hover{ background: #ffffff; }
+  .service-num{ font-size: 12px; color: var(--gold-dark); letter-spacing:0.05em; margin-bottom: 22px; font-weight:700; }
+  .service-card h3{ font-size: 19px; margin-bottom: 14px; color: var(--navy); }
+  .service-card p{ font-size: 14.5px; color: var(--slate); line-height:1.85; margin-bottom: 16px; }
+  .service-benefit{ font-size: 12.5px; color: var(--gold-dark); padding-top: 14px; border-top: 1px solid rgba(3,25,52,0.1); }
+  @media (max-width: 900px){ .services-grid{ grid-template-columns: 1fr; } }
+
+  .process-row{ display:grid; grid-template-columns: repeat(5, 1fr); gap: 30px; position:relative; }
+  .process-row::before{ content:""; position:absolute; top: 22px; inset-inline-start: 5%; inset-inline-end:5%; height:1px; background: rgba(3,25,52,0.14); }
+  .proc-item{ position:relative; }
+  .proc-num{ width: 44px; height:44px; background: var(--bg-light); border: 1px solid var(--gold); color: var(--gold-dark); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; margin-bottom: 22px; position:relative; z-index:2; }
+  .proc-item h4{ font-size:16px; margin-bottom:10px; color: var(--navy); }
+  .proc-item p{ font-size:13.5px; color: var(--slate); line-height:1.8; }
+  @media (max-width: 900px){ .process-row{ grid-template-columns: 1fr; gap: 40px; } .process-row::before{ display:none; } }
+
+  .why-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 60px 70px; }
+  .why-item{ display:flex; gap: 22px; }
+  .why-mark{ flex-shrink:0; width: 38px; height:38px; border: 1px solid var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; color: var(--gold); font-size:14px; }
+  .why-item h4{ font-size:16.5px; margin-bottom:8px; color: var(--off-white); }
+  .why-item p{ font-size:14.5px; color: rgba(235,233,232,0.65); line-height:1.85; }
+  @media (max-width: 980px){ .why-grid{ grid-template-columns: 1fr; } }
+
+  .trust-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(235,233,232,0.14); border: 1px solid rgba(235,233,232,0.14); }
+  .trust-card{ background: var(--navy); padding: 46px 28px; text-align:center; }
+  .trust-num{ font-size: 40px; color: var(--gold); font-weight:700; margin-bottom: 12px; }
+  .trust-label{ font-size: 12.5px; letter-spacing:0.01em; color: rgba(235,233,232,0.68); line-height:1.6; }
+  @media (max-width: 900px){ .trust-grid{ grid-template-columns: 1fr 1fr; } }
+
+  .cta-final{ text-align:center; padding: 150px 0; }
+  .cta-final h2{ font-size: clamp(30px, 4.6vw, 50px); color: var(--off-white); max-width: 780px; margin: 0 auto 26px; line-height:1.35; }
+  .cta-final h2 em{ font-style:normal; color: var(--gold); }
+  .cta-final p{ color: rgba(235,233,232,0.62); max-width: 540px; margin: 0 auto 46px; font-size:16px; line-height:1.8; }
+  .cta-actions{ display:flex; gap:18px; justify-content:center; flex-wrap:wrap; }
+
+  .contact-grid{ display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: rgba(3,25,52,0.1); border: 1px solid rgba(3,25,52,0.1); }
+  .contact-card{ background: var(--off-white); padding: 46px 34px; }
+  .contact-card .eyebrow{ margin-bottom:16px; }
+  .contact-card a, .contact-card p{ font-size: 18px; color: var(--navy); font-weight:700; word-break: break-word; direction: ltr; unicode-bidi: isolate; }
+  .contact-card p.plain{ direction: inherit; }
+  .contact-card:hover a{ color: var(--gold-dark); }
+  .contact-card .contact-link{ display:flex; align-items:center; gap:12px; }
+  .contact-card .contact-link svg{ flex-shrink:0; width:20px; height:20px; stroke: var(--gold-dark); }
+  .social-row{ display:flex; gap:14px; margin-top:4px; }
+  .social-btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    width: 46px; height: 46px; border-radius: 50%;
+    border: 1px solid rgba(3,25,52,0.18); color: var(--navy);
+    transition: all .3s ease;
+  }
+  .social-btn svg{ width:19px; height:19px; stroke: currentColor; }
+  .social-btn:hover{ border-color: var(--gold-dark); background: var(--gold); color: var(--black-navy); }
+  @media (max-width: 900px){ .contact-grid{ grid-template-columns: 1fr; } }
+
+  .whatsapp-fab{
+    position: fixed; bottom: 26px; inset-inline-end: 26px; z-index: 900;
+    width: 58px; height: 58px; border-radius: 50%;
+    background: var(--gold); display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 8px 24px rgba(3,25,52,0.35);
+    transition: transform .3s ease, background .3s ease;
+  }
+  .whatsapp-fab:hover{ transform: translateY(-3px); background: var(--gold-dark); }
+  .whatsapp-fab svg{ width:26px; height:26px; fill: var(--black-navy); }
+
+  footer{ background: var(--black-navy); color: rgba(235,233,232,0.55); padding: 60px 0 34px; }
+  .footer-top{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap: 30px; padding-bottom: 40px; margin-bottom: 34px; border-bottom: 1px solid rgba(198,149,80,0.16); }
+  .footer-brand{ display:flex; align-items:center; gap:14px; }
+  .footer-brand img{ height:38px; }
+  .footer-brand-text{ color: var(--off-white); font-size:14px; letter-spacing:0.08em; font-weight:700; }
+  .footer-nav{ display:flex; gap:30px; flex-wrap:wrap; list-style:none; }
+  .footer-nav a{ font-size:13.5px; color: rgba(235,233,232,0.55); }
+  .footer-nav a:hover{ color: var(--gold); }
+  .footer-bottom{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; font-size: 12.5px; }
+
+  @media (max-width: 980px){
+    nav, .nav-cta, .lang-switch{ display:none; }
+    .burger{ display:flex; }
+    .about-grid{ grid-template-columns: 1fr; gap: 56px; }
+    .balance-figure{ margin-top: 20px; }
+  }
+  @media (max-width: 600px){
+    .wrap{ padding: 0 22px; }
+    .section-pad{ padding: 90px 0; }
+    .hero-meta{ gap: 30px; }
+    .services-grid, .trust-grid{ grid-template-columns: 1fr; }
+    .trust-grid{ grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ================= ARABIC TYPOGRAPHY SYSTEM ================= */
+  /* Arabic script needs more vertical breathing room than Latin —
+     these overrides only apply when html[lang="ar"] is active. */
+  html[lang="ar"]{ --font-family-primary: 'Sakkal Majalla', 'Traditional Arabic', 'Simplified Arabic', serif; }
+  html[lang="en"]{ --font-family-primary: 'Sakkal Majalla', 'Palatino Linotype', 'Book Antiqua', Georgia, serif; }
+
+  h1, h2{ text-wrap: balance; }
+  .hero p.lead, .section-head p{ text-wrap: pretty; }
+
+  html[lang="ar"] .hero h1{ line-height: 1.55; letter-spacing: 0; font-size: clamp(36px, 5.6vw, 64px); }
+  html[lang="ar"] .hero p.lead{ line-height: 2; font-size: 18.5px; }
+  html[lang="ar"] .section-head h2{ line-height: 1.65; }
+  html[lang="ar"] .section-head p{ line-height: 2; }
+  html[lang="ar"] .about-copy p{ line-height: 2.05; }
+  html[lang="ar"] .about-foot{ line-height: 1.95; }
+  html[lang="ar"] .industry-card p,
+  html[lang="ar"] .service-card p,
+  html[lang="ar"] .expertise-card p,
+  html[lang="ar"] .expertise-row p,
+  html[lang="ar"] .challenge-answer,
+  html[lang="ar"] .understand-item p,
+  html[lang="ar"] .why-item p,
+  html[lang="ar"] .proc-item p{ line-height: 2; }
+  html[lang="ar"] .industry-card h3,
+  html[lang="ar"] .service-card h3{ line-height: 1.5; }
+  html[lang="ar"] .cta-final h2{ line-height: 1.55; }
+  html[lang="ar"] .cta-final p{ line-height: 2; }
+  html[lang="ar"] .eyebrow{ letter-spacing: 0.06em; }
+  html[lang="ar"] .btn{ padding-inline: 36px; letter-spacing: 0; }
+  html[lang="ar"] nav ul li a{ letter-spacing: 0; }
+  html[lang="ar"] .hero-meta .label{ line-height: 1.7; }
+  html[lang="ar"] .trust-label{ line-height: 1.8; }
+
+  /* ================= INTRO / BRAND OPENING ================= */
+  html.intro-lock, html.intro-lock body{ overflow:hidden; height:100%; }
+  #introScreen{
+    position:fixed; inset:0; z-index:3000;
+    background: var(--black-navy);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    overflow:hidden;
+    transition: opacity .7s ease, transform .8s cubic-bezier(.6,0,.2,1);
+  }
+  #introScreen.intro-hide{ opacity:0; transform: translateY(-6%); pointer-events:none; }
+  .intro-glow{
+    position:absolute; width:560px; height:560px; border-radius:50%;
+    background: radial-gradient(circle, rgba(198,149,80,0.24) 0%, rgba(198,149,80,0) 68%);
+    opacity:0; animation: introGlow 2.6s ease forwards;
+  }
+  @keyframes introGlow{ 0%{ opacity:0; } 35%{ opacity:1; } 100%{ opacity:.55; } }
+  .intro-logo{
+    width:104px; height:auto; position:relative; z-index:2;
+    opacity:0; transform: translateY(14px) scale(0.94);
+    animation: introLogo 1.05s cubic-bezier(.2,.8,.2,1) forwards;
+    animation-delay:.3s;
+  }
+  @keyframes introLogo{ to{ opacity:1; transform: translateY(0) scale(1); } }
+  .intro-word{
+    position:relative; z-index:2; margin-top:22px;
+    color: var(--off-white); font-family: var(--font);
+    font-size:14px; letter-spacing:0.32em; font-weight:700;
+    opacity:0; animation: introFade .7s ease forwards; animation-delay:1.0s;
+  }
+  .intro-statement{
+    position:relative; z-index:2; margin-top:16px; padding:0 24px;
+    color: rgba(235,233,232,0.68); font-size:14.5px; line-height:1.9;
+    max-width:380px; text-align:center;
+    opacity:0; animation: introFade .7s ease forwards; animation-delay:1.3s;
+  }
+  @keyframes introFade{ to{ opacity:1; } }
+  .intro-skip{
+    position:absolute; bottom:30px; inset-inline-end:30px; z-index:3;
+    background:none; border:1px solid rgba(235,233,232,0.22); color: rgba(235,233,232,0.5);
+    font-family: var(--font); font-size:12px; letter-spacing:0.06em;
+    padding:9px 20px; border-radius:20px; cursor:pointer;
+    opacity:0; animation: introFade .6s ease forwards; animation-delay:1.5s;
+    transition: border-color .3s ease, color .3s ease;
+  }
+  .intro-skip:hover{ border-color: var(--gold); color: var(--gold); }
+  @media (prefers-reduced-motion: reduce){
+    #introScreen{ transition:none; }
+    .intro-glow, .intro-logo, .intro-word, .intro-statement, .intro-skip{
+      animation:none !important; opacity:1 !important; transform:none !important;
+    }
+  }
+  @media (max-width:560px){
+    .intro-logo{ width:84px; }
+    .intro-glow{ width:420px; height:420px; }
+  }
+
+  /* portfolio-hub quick links inside the hero */
+  .hero-hub{ display:flex; flex-wrap:wrap; gap: 8px 24px; margin-top:34px; padding-top:0; }
+  .hero-hub a{
+    font-size:12.5px; letter-spacing:0.03em; color: rgba(235,233,232,0.52);
+    position:relative; padding-bottom:4px;
+    transition: color .3s ease, transform .3s ease;
+  }
+  .hero-hub a::after{
+    content:""; position:absolute; inset-inline-start:0; bottom:0;
+    width:0%; height:1px; background: var(--gold); transition: width .3s ease;
+  }
+  .hero-hub a:hover{ color: var(--off-white); transform: translateY(-2px); }
+  .hero-hub a:hover::after{ width:100%; }
+
+  nav ul li a{ transition: color .3s ease, transform .3s ease; }
+  nav ul li a:hover{ transform: translateY(-1px); }
+
+  :focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; }
+</style>
+</head>
+<body>
+
+<div id="introScreen" aria-hidden="true">
+  <div class="intro-glow"></div>
+  <img class="intro-logo" src="assets/logo.png" alt="M H Balance">
+  <div class="intro-word">M H BALANCE</div>
+  <p class="intro-statement" data-i18n="intro.statement">نفهم العمل قبل أن نقرأ أرقامه.</p>
+  <button class="intro-skip" id="introSkip" data-i18n="intro.skip" type="button">تخطي</button>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="menu-close" id="menuClose" aria-label="Close menu">&times;</button>
+  <ul>
+    <li><a href="#home" class="mnav">الرئيسية</a></li>
+    <li><a href="#who-we-are" class="mnav" data-i18n="nav.who">من نحن</a></li>
+    <li><a href="#industries" class="mnav" data-i18n="nav.industries">القطاعات</a></li>
+    <li><a href="#expertise" class="mnav" data-i18n="nav.expertise">خبراتنا</a></li>
+    <li><a href="#services" class="mnav" data-i18n="nav.services">خدماتنا</a></li>
+    <li><a href="#contact" class="mnav" data-i18n="nav.contact">تواصل معنا</a></li>
+  </ul>
+  <a href="https://wa.me/201041930453" target="_blank" rel="noopener noreferrer" class="btn btn-gold" style="width:100%; margin-bottom:28px;" data-i18n="nav.whatsapp">تواصل معنا</a>
+  <div class="mobile-lang">
+    <button data-lang-btn="ar" class="active">AR</button>
+    <button data-lang-btn="en">EN</button>
+  </div>
+</div>
+
+<header id="siteHeader">
+  <div class="nav-inner">
+    <a href="#home" class="brand" aria-label="M H Balance">
+      <img src="assets/logo.png" alt="M H Balance logo">
+      <span class="brand-text">M H BALANCE<span data-i18n="brand.tagline">التوازن يقود النمو</span></span>
+    </a>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#who-we-are" data-i18n="nav.who">من نحن</a></li>
+        <li><a href="#industries" data-i18n="nav.industries">القطاعات</a></li>
+        <li><a href="#expertise" data-i18n="nav.expertise">خبراتنا</a></li>
+        <li><a href="#services" data-i18n="nav.services">خدماتنا</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">تواصل معنا</a></li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <div class="lang-switch">
+        <button data-lang-btn="ar" class="active">العربية</button>
+        <button data-lang-btn="en">EN</button>
+      </div>
+      <a href="https://wa.me/201041930453" target="_blank" rel="noopener noreferrer" class="btn btn-gold nav-cta" data-i18n="nav.whatsapp">تواصل معنا</a>
+      <button class="burger" id="burgerBtn" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="home">
+  <svg class="hero-grid" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g stroke="#C69550" stroke-opacity="0.16">
+      <line x1="0" y1="120" x2="1200" y2="120"></line>
+      <line x1="0" y1="280" x2="1200" y2="280"></line>
+      <line x1="0" y1="440" x2="1200" y2="440"></line>
+      <line x1="0" y1="600" x2="1200" y2="600"></line>
+    </g>
+    <g fill="#152840">
+      <rect x="880" y="560" width="26" height="90"></rect>
+      <rect x="920" y="500" width="26" height="150"></rect>
+      <rect x="960" y="430" width="26" height="220"></rect>
+      <rect x="1000" y="360" width="26" height="290"></rect>
+      <rect x="1040" y="280" width="26" height="370"></rect>
+    </g>
+    <line x1="870" y1="655" x2="1085" y2="255" stroke="#C69550" stroke-width="1.5" stroke-opacity="0.55"></line>
+    <polygon points="1085,255 1060,262 1078,280" fill="#C69550" fill-opacity="0.55"></polygon>
+  </svg>
+
+  <div class="wrap hero-content">
+    <p class="eyebrow reveal is-visible" data-i18n="hero.eyebrow">M H BALANCE · محاسبة واستشارات مالية</p>
+    <h1 class="reveal is-visible reveal-delay-1" data-i18n="hero.h1">نفهم العمل قبل أن نقرأ <em>أرقامه.</em></h1>
+    <p class="lead reveal is-visible reveal-delay-2" data-i18n="hero.lead">تقدّم M H Balance خدمات المحاسبة والتقارير المالية استنادًا إلى خبرة عملية ممتدة عبر قطاعات المقاولات، والتصنيع، والتجزئة عالية القيمة، والسلع الاستهلاكية — لأن لكل نشاط تجاري بنية مالية مختلفة، ولا تكتسب الأرقام معناها الحقيقي إلا حين تُفهم هذه البنية أولًا.</p>
+    <div class="hero-actions reveal is-visible reveal-delay-3">
+      <a href="https://wa.me/201041930453" target="_blank" rel="noopener noreferrer" class="btn btn-gold" data-i18n="hero.btn1">تواصل معنا عبر واتساب</a>
+      <a href="tel:01041930453" class="btn btn-outline" data-i18n="hero.btn2">اتصل بنا</a>
+    </div>
+    <div class="hero-meta reveal is-visible reveal-delay-3">
+      <div>
+        <div class="num">+4</div>
+        <div class="label" data-i18n="hero.meta1">سنوات من الخبرة العملية المتراكمة</div>
+      </div>
+      <div>
+        <div class="num">4</div>
+        <div class="label" data-i18n="hero.meta2">قطاعات نفهمها جيدًا</div>
+      </div>
+      <div>
+        <div class="num">2</div>
+        <div class="label" data-i18n="hero.meta3">أنظمة ERP — Dynamics 365 و Odoo</div>
+      </div>
+      <div>
+        <div class="num">IFRS</div>
+        <div class="label" data-i18n="hero.meta4">إعداد قوائم مالية متوافقة مع IFRS</div>
+      </div>
+    </div>
+    <nav class="hero-hub reveal is-visible reveal-delay-3" aria-label="Quick section links">
+      <a href="#who-we-are" data-i18n="nav.who">من نحن</a>
+      <a href="#experience" data-i18n="hub.experience">خبرتنا</a>
+      <a href="#industries" data-i18n="nav.industries">القطاعات</a>
+      <a href="#expertise" data-i18n="nav.expertise">خبراتنا</a>
+      <a href="#services" data-i18n="nav.services">خدماتنا</a>
+      <a href="#approach" data-i18n="hub.approach">منهجية العمل</a>
+      <a href="#why-section" data-i18n="hub.why">لماذا M H Balance</a>
+      <a href="#contact" data-i18n="nav.contact">تواصل معنا</a>
+    </nav>
+  </div>
+
+  <div class="scroll-cue"><span class="line"></span> <span data-i18n="hero.scroll">مرّر للأسفل</span></div>
+</section>
+
+<section class="section-pad section-light" id="who-we-are">
+  <div class="wrap about-grid">
+    <div class="about-copy">
+      <p class="eyebrow reveal" data-i18n="about.eyebrow">من نحن</p>
+      <h2 class="reveal" style="margin-bottom:28px;" data-i18n="about.h2">دفاتر تبقى صادقة، لتتحرك أعمالكم بثقة.</h2>
+      <p class="reveal reveal-delay-1" data-i18n="about.p1">تقوم <strong>M H Balance</strong> على مبدأ عمل بسيط: لا تفيد الأرقام إلا حين تكون دقيقة، وحديثة، ومفهومة. نتعامل مع كل عملية تسوية باعتبارها فرصة لاكتشاف مشكلة قبل أن تكبر، ومع كل دفتر أستاذ باعتباره شيئًا يجب أن يثق فيه صاحب القرار دون الحاجة لمراجعته مرتين.</p>
+      <p class="reveal reveal-delay-2" data-i18n="about.p2">تشكّلت خبرتنا العملية عبر بيئات عمل مختلفة تمامًا — مواقع مقاولات تُدار بنظام المشاريع، عمليات تصنيع وتجارة، شبكة تجزئة متعددة الفروع لسلع عالية القيمة، ومبيعات سلع استهلاكية. وقد فرض كل نشاط الانضباط ذاته: دفتر أستاذ عام نظيف، وميزان مراجعة متوازن فعليًا، وتقارير تصمد أمام أي مراجعة دقيقة.</p>
+      <p class="reveal reveal-delay-3" data-i18n="about.p3">هذا الأساس متعدد القطاعات هو ما نقدّمه في كل تكليف — ليس أسلوبًا واحدًا يُطبَّق على الجميع في مسك الدفاتر، بل فهم حقيقي لاختلاف احتياجات شركات المقاولات، والتجزئة، والتصنيع.</p>
+      <p class="about-foot reveal reveal-delay-3" data-i18n="about.foot">M H Balance ممارسة محاسبية حديثة النشأة — أما الخبرة العملية التي تقوم عليها فليست كذلك. نهجنا مبني على تعامل مباشر مع القطاعات التي نخدمها، لا على نموذج مكتبي جاهز.</p>
+    </div>
+    <div class="balance-figure reveal reveal-delay-2">
+      <div class="stand"></div>
+      <div class="base"></div>
+      <div class="beam"></div>
+      <div class="pivot"></div>
+      <div class="plate pstart"><div class="fig" data-i18n="about.plate1">الفهم<small data-i18n="about.plate1s">طبيعة النشاط</small></div></div>
+      <div class="plate pend"><div class="fig" data-i18n="about.plate2">التقرير<small data-i18n="about.plate2s">الأرقام</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad section-navy" id="experience">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow reveal" data-i18n="understand.eyebrow">أساس فهمنا</p>
+      <h2 class="reveal reveal-delay-1" data-i18n="understand.h2">البيانات المالية مرتبطة بعمليات حقيقية</h2>
+      <p class="reveal reveal-delay-2" data-i18n="understand.p">قبل أن يصل أي رقم إلى تقرير، يكون قد بدأ من مكان ما — أمر شراء، وردية على أرض المصنع، حساب عميل، أو جرد فرع. نحن نفهم هذه السلسلة كاملة، لا نهايتها فقط.</p>
+    </div>
+    <div class="understand-grid">
+      <div class="understand-item reveal">
+        <div class="num">01</div>
+        <h4 data-i18n="understand.i1h">التكاليف والمشتريات</h4>
+        <p data-i18n="understand.i1p">كيف تنتقل تكاليف المشاريع والمواد من الشراء إلى الدفاتر، وأين يجب أن تكون الرقابة.</p>
+      </div>
+      <div class="understand-item reveal reveal-delay-1">
+        <div class="num">02</div>
+        <h4 data-i18n="understand.i2h">المخزون والتقييم</h4>
+        <p data-i18n="understand.i2p">كيف يُتابع المخزون ويُجرد ويُسوّى بدقة — من المواد الخام إلى المنتجات عالية القيمة.</p>
+      </div>
+      <div class="understand-item reveal reveal-delay-2">
+        <div class="num">03</div>
+        <h4 data-i18n="understand.i3h">الإيرادات والتحصيل</h4>
+        <p data-i18n="understand.i3p">كيف تتحول حسابات العملاء وتحصيلات الفروع المتعددة والذمم المدينة إلى صورة إيراد يمكن الوثوق بها.</p>
+      </div>
+      <div class="understand-item reveal reveal-delay-3">
+        <div class="num">04</div>
+        <h4 data-i18n="understand.i4h">الأفراد والأجور</h4>
+        <p data-i18n="understand.i4p">كيف تُسوّى الأجور والسُلف وتكاليف العمالة بشكل صحيح وتنعكس في الدفاتر.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad section-off" id="industries">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow reveal" data-i18n="ind.eyebrow">خبرات عبر قطاعات متنوعة</p>
+      <h2 class="reveal reveal-delay-1" data-i18n="ind.h2">أنشطة مختلفة. تحديات مختلفة. حاجة واحدة للوضوح المالي.</h2>
+      <p class="reveal reveal-delay-2" data-i18n="ind.p">لا يصلح منظور مالي واحد لكل نشاط تجاري. تمتد خبرتنا العملية عبر القطاعات التالية — ولكل منها بنية تكلفة، ونموذج إيراد، وتحديات مالية خاصة به.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="industries-grid reveal">
+      <div class="industry-card">
+        <div class="industry-mark">1</div>
+        <span class="tag" data-i18n="ind.c1tag">المقاولات والإنشاءات</span>
+        <h3 data-i18n="ind.c1h">عمليات قائمة على المشاريع</h3>
+        <p data-i18n="ind.c1p">فهم عملي لتكاليف المشاريع، والمشتريات، وسجلات تكاليف العمالة، واستخدام المواد، وإعداد مستخلصات العملاء ومقاولي الباطن المرتبطة بالتقدم الفعلي للمشروع.</p>
+      </div>
+      <div class="industry-card">
+        <div class="industry-mark">2</div>
+        <span class="tag" data-i18n="ind.c2tag">الذهب والتجزئة عالية القيمة</span>
+        <h3 data-i18n="ind.c2h">مخزون عالي القيمة</h3>
+        <p data-i18n="ind.c2p">خبرة في تحصيلات متعددة الفروع، وتسوية الحسابات، ومراجعة الورش، والجرد الفعلي للمخزون الخام والمُصنّع عالي القيمة — حيث لا هامش للخطأ في الدقة.</p>
+      </div>
+      <div class="industry-card">
+        <div class="industry-mark">3</div>
+        <span class="tag" data-i18n="ind.c3tag">التصنيع والتجارة</span>
+        <h3 data-i18n="ind.c3h">عمليات كثيفة المخزون</h3>
+        <p data-i18n="ind.c3p">عمل عملي مع بطاقات الأصناف، وتتبع حركة المخزون، وتسوية حسابات الموردين والعملاء في بيئة تصنيع وتجارة — حيث تقود دقة المخزون الدفاتر.</p>
+      </div>
+      <div class="industry-card">
+        <div class="industry-mark">4</div>
+        <span class="tag" data-i18n="ind.c4tag">السلع الاستهلاكية والتجزئة</span>
+        <h3 data-i18n="ind.c4h">خبرة تجارية مباشرة</h3>
+        <p data-i18n="ind.c4p">خبرة مباشرة في بناء علاقات العملاء والتفاوض على المبيعات في قطاع التجزئة الاستهلاكية — منظور تجاري ينعكس في قراءتنا للإيرادات وحسابات العملاء.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="big-statement">
+  <div class="wrap">
+    <div class="rule"></div>
+    <p class="reveal" data-i18n="statement.line">الأرقام وحدها لا تحل المشكلة. <em>فهم العمل الذي وراءها هو ما يحلها.</em></p>
+  </div>
+</div>
+
+<section class="section-pad section-off" id="challenges">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow reveal" data-i18n="chal.eyebrow">مشكلات نفهمها</p>
+      <h2 class="reveal reveal-delay-1" data-i18n="chal.h2">قبل الحل، لا بد أن نفهم أين تكمن المشكلة فعليًا</h2>
+      <p class="reveal reveal-delay-2" data-i18n="chal.p">هذه أمثلة من مشكلات واجهناها مباشرة في عملنا اليومي، وما تعلمناه من التعامل معها.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="challenges-list reveal">
+      <div class="challenge-row">
+        <div class="challenge-num">01</div>
+        <div>
+          <div class="challenge-problem" data-i18n="chal.p1label">المشكلة</div>
+          <div class="challenge-problem-text" data-i18n="chal.p1problem">فروقات بين المخزون الدفتري والمخزون الفعلي.</div>
+        </div>
+        <div>
+          <div class="challenge-answer-label" data-i18n="chal.answerLabel">فهمنا</div>
+          <div class="challenge-answer" data-i18n="chal.p1answer">خبرة عملية في الجرد الفعلي والتسوية الدورية للمخزون عبر فروع وأنشطة متعددة، من المواد الخام إلى المنتجات عالية القيمة.</div>
+        </div>
+      </div>
+      <div class="challenge-row">
+        <div class="challenge-num">02</div>
+        <div>
+          <div class="challenge-problem" data-i18n="chal.p1label">المشكلة</div>
+          <div class="challenge-problem-text" data-i18n="chal.p2problem">صعوبة تحصيل وتسوية حسابات العملاء عبر فروع متعددة.</div>
+        </div>
+        <div>
+          <div class="challenge-answer-label" data-i18n="chal.answerLabel">فهمنا</div>
+          <div class="challenge-answer" data-i18n="chal.p2answer">خبرة في تنسيق التحصيل وتسوية الحسابات عبر ثلاثة فروع في آنٍ واحد، وحل الفروقات من مصدرها.</div>
+        </div>
+      </div>
+      <div class="challenge-row">
+        <div class="challenge-num">03</div>
+        <div>
+          <div class="challenge-problem" data-i18n="chal.p1label">المشكلة</div>
+          <div class="challenge-problem-text" data-i18n="chal.p3problem">غياب رؤية واضحة لتكلفة المشروع الفعلية في أعمال المقاولات.</div>
+        </div>
+        <div>
+          <div class="challenge-answer-label" data-i18n="chal.answerLabel">فهمنا</div>
+          <div class="challenge-answer" data-i18n="chal.p3answer">خبرة في ربط تكاليف المواد والعمالة والمشتريات بمستخلصات المشروع الفعلية.</div>
+        </div>
+      </div>
+      <div class="challenge-row">
+        <div class="challenge-num">04</div>
+        <div>
+          <div class="challenge-problem" data-i18n="chal.p1label">المشكلة</div>
+          <div class="challenge-problem-text" data-i18n="chal.p4problem">تعقيد حساب الأجور والسلف والالتزامات.</div>
+        </div>
+        <div>
+          <div class="challenge-answer-label" data-i18n="chal.answerLabel">فهمنا</div>
+          <div class="challenge-answer" data-i18n="chal.p4answer">خبرة في تسوية أجور العمالة وسلف الموظفين والالتزامات بدقة على مستوى الدفاتر.</div>
+        </div>
+      </div>
+      <div class="challenge-row">
+        <div class="challenge-num">05</div>
+        <div>
+          <div class="challenge-problem" data-i18n="chal.p1label">المشكلة</div>
+          <div class="challenge-problem-text" data-i18n="chal.p5problem">فروقات متكررة في حسابات الموردين والعملاء.</div>
+        </div>
+        <div>
+          <div class="challenge-answer-label" data-i18n="chal.answerLabel">فهمنا</div>
+          <div class="challenge-answer" data-i18n="chal.p5answer">خبرة في تسوية حسابات الموردين والعملاء واكتشاف الفروقات ومعالجتها من مصدرها مباشرة.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad section-light" id="expertise">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow reveal" data-i18n="exp.eyebrow">خبراتنا</p>
+      <h2 class="reveal reveal-delay-1" data-i18n="exp.h2">الانضباط الذي يقوم عليه كل تكليف</h2>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="expertise-list reveal">
+      <div class="expertise-row">
+        <div class="exnum">01</div>
+        <div>
+          <h4 data-i18n="exp.c1h">المحاسبة والتقارير المالية</h4>
+          <p data-i18n="exp.c1p">دفتر الأستاذ العام، وميزان المراجعة، وقوائم الدخل، وإقفال نهاية المدة المتوافق مع IFRS.</p>
+        </div>
+      </div>
+      <div class="expertise-row">
+        <div class="exnum">02</div>
+        <div>
+          <h4 data-i18n="exp.c2h">الرقابة على التكاليف والمخزون</h4>
+          <p data-i18n="exp.c2p">بطاقات الأصناف، وتتبع حركة المخزون، والجرد الفعلي، والتسوية عبر القطاعات.</p>
+        </div>
+      </div>
+      <div class="expertise-row">
+        <div class="exnum">03</div>
+        <div>
+          <h4 data-i18n="exp.c3h">إدارة الأجور والرواتب</h4>
+          <p data-i18n="exp.c3p">معالجة الأجور، وتسوية سلف الموظفين والالتزامات بانضباط على مستوى الدفاتر.</p>
+        </div>
+      </div>
+      <div class="expertise-row">
+        <div class="exnum">04</div>
+        <div>
+          <h4 data-i18n="exp.c4h">تسوية الحسابات والتحصيل</h4>
+          <p data-i18n="exp.c4p">تسوية حسابات العملاء والموردين، وتنسيق التحصيل عبر الفروع المتعددة.</p>
+        </div>
+      </div>
+      <div class="expertise-row">
+        <div class="exnum">05</div>
+        <div>
+          <h4 data-i18n="exp.c5h">أنظمة ERP ودعم العمليات</h4>
+          <p data-i18n="exp.c5p">تشغيل عملي داخل Microsoft Dynamics 365 و Odoo للمحاسبة اليومية.</p>
+        </div>
+      </div>
+      <div class="expertise-row">
+        <div class="exnum">06</div>
+        <div>
+          <h4 data-i18n="exp.c6h">الرقابة الداخلية وحماية الأصول</h4>
+          <p data-i18n="exp.c6p">ممارسات رقابية متوافقة مع معايير حماية الأصول المعترف بها.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad section-off" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow reveal" data-i18n="svc.eyebrow">خدماتنا</p>
+      <h2 class="reveal reveal-delay-1" data-i18n="svc.h2">ما نقدّمه لعملائنا</h2>
+      <p class="reveal reveal-delay-2" data-i18n="svc.p">إذا كانت الخبرة تشرح ما نفهمه، فإن هذه هي الخدمات التي نقدّمها مباشرة.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <h3 data-i18n="svc.c1h">التقارير والقوائم المالية</h3>
+        <p data-i18n="svc.c1p">إعداد دفتر الأستاذ العام وميزان المراجعة وقوائم الدخل — وإقفالها وفق معيار متوافق مع IFRS.</p>
+        <div class="service-benefit" data-i18n="svc.c1b">أرقام واضحة وجاهزة للمراجعة في كل فترة</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <h3 data-i18n="svc.c2h">مراقبة المخزون وتسويته</h3>
+        <p data-i18n="svc.c2p">بطاقات الأصناف، وتتبع حركة المخزون، والجرد الفعلي — من المواد الخام إلى المنتجات النهائية عالية القيمة.</p>
+        <div class="service-benefit" data-i18n="svc.c2b">سجلات مخزون تطابق ما هو موجود فعليًا</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <h3 data-i18n="svc.c3h">محاسبة الأجور والرواتب</h3>
+        <p data-i18n="svc.c3p">معالجة الأجور وتسوية سلف الموظفين والالتزامات بانضباط على مستوى الدفاتر.</p>
+        <div class="service-benefit" data-i18n="svc.c3b">رواتب دقيقة لا تكون مصدر نزاع</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">04</div>
+        <h3 data-i18n="svc.c4h">تسوية الحسابات والتحصيل</h3>
+        <p data-i18n="svc.c4p">تسوية حسابات العملاء والموردين وإدارة التحصيل، بما في ذلك التنسيق عبر عدة فروع.</p>
+        <div class="service-benefit" data-i18n="svc.c4b">تسوية الفروقات فور ظهورها، لا ترحيلها</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">05</div>
+        <h3 data-i18n="svc.c5h">محاسبة المقاولات والمشاريع</h3>
+        <p data-i18n="svc.c5p">إعداد مستخلصات العملاء ومقاولي الباطن لمشاريع المقاولات والإنشاءات، مرتبطة بالدفاتر الأساسية.</p>
+        <div class="service-benefit" data-i18n="svc.c5b">فوترة مشاريع تعكس التقدم والتكلفة الفعليين</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">06</div>
+        <h3 data-i18n="svc.c6h">أنظمة ERP ودعم العمليات</h3>
+        <p data-i18n="svc.c6p">تشغيل العمليات المحاسبية اليومية داخل Microsoft Dynamics 365 و Odoo، إضافة إلى ممارسات رقابة داخلية متوافقة مع معايير حماية الأصول.</p>
+        <div class="service-benefit" data-i18n="svc.c6b">محاسبة تتوافق مع الأنظمة التي تعملون بها بالفعل</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad section-light" id="approach">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow reveal" data-i18n="app.eyebrow">نهجنا</p>
+      <h2 class="reveal reveal-delay-1" data-i18n="app.h2">الدورة التي يقوم عليها كل تكليف</h2>
+    </div>
+    <div class="process-row">
+      <div class="proc-item reveal">
+        <div class="proc-num">01</div>
+        <h4 data-i18n="app.s1h">القيد</h4>
+        <p data-i18n="app.s1p">تسجيل كل عملية بدقة، من المستند المصدر إلى الدفتر.</p>
+      </div>
+      <div class="proc-item reveal reveal-delay-1">
+        <div class="proc-num">02</div>
+        <h4 data-i18n="app.s2h">التسوية</h4>
+        <p data-i18n="app.s2p">مراجعة حسابات العملاء والموردين والمخزون على أرض الواقع، وحل الفروقات من مصدرها.</p>
+      </div>
+      <div class="proc-item reveal reveal-delay-2">
+        <div class="proc-num">03</div>
+        <h4 data-i18n="app.s3h">الإقفال</h4>
+        <p data-i18n="app.s3p">إقفال نهاية المدة وفق معيار متوافق مع IFRS.</p>
+      </div>
+      <div class="proc-item reveal reveal-delay-3">
+        <div class="proc-num">04</div>
+        <h4 data-i18n="app.s4h">التقرير</h4>
+        <p data-i18n="app.s4p">تسليم دفتر الأستاذ العام وميزان المراجعة وقوائم الدخل بوضوح.</p>
+      </div>
+      <div class="proc-item reveal">
+        <div class="proc-num">05</div>
+        <h4 data-i18n="app.s5h">المتابعة</h4>
+        <p data-i18n="app.s5p">مراجعة مستمرة ودعم للرقابة الداخلية، بحيث تظهر المشكلات مبكرًا.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad section-navy" id="why-section">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow reveal" data-i18n="why.eyebrow">لماذا M H Balance</p>
+      <h2 class="reveal reveal-delay-1" data-i18n="why.h2">فهم عملي، لا نموذج جاهز</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-item reveal">
+        <div class="why-mark">1</div>
+        <div>
+          <h4 data-i18n="why.i1h">خبرة عابرة للقطاعات</h4>
+          <p data-i18n="why.i1p">تمتد خبرتنا عبر المقاولات، والتصنيع، والتجزئة عالية القيمة، والسلع الاستهلاكية — قراءة أوسع لكيفية عمل الأنشطة التجارية فعليًا.</p>
+        </div>
+      </div>
+      <div class="why-item reveal reveal-delay-1">
+        <div class="why-mark">2</div>
+        <div>
+          <h4 data-i18n="why.i2h">إتقان أنظمة ERP لا الاعتماد عليها فقط</h4>
+          <p data-i18n="why.i2p">نعمل بارتياح داخل Microsoft Dynamics 365 و Odoo على حد سواء، بحيث تتكيف محاسبتنا مع أنظمتكم الحالية.</p>
+        </div>
+      </div>
+      <div class="why-item reveal reveal-delay-2">
+        <div class="why-mark">3</div>
+        <div>
+          <h4 data-i18n="why.i3h">فهم عملي للأعمال</h4>
+          <p data-i18n="why.i3p">نفهم أن البيانات المالية مرتبطة بعمليات حقيقية — لا بما يتسع فقط لخانة في جدول بيانات.</p>
+        </div>
+      </div>
+      <div class="why-item reveal reveal-delay-3">
+        <div class="why-mark">4</div>
+        <div>
+          <h4 data-i18n="why.i4h">وضوح مالي</h4>
+          <p data-i18n="why.i4p">نحوّل المعلومات المالية إلى ما يمكن لصاحب القرار استخدامه فعليًا — واضح، ومحدث، ومفهوم.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-black">
+  <div class="wrap" style="padding:0;">
+    <div class="trust-grid reveal">
+      <div class="trust-card">
+        <div class="trust-num" data-count="4" data-suffix="+">0</div>
+        <div class="trust-label" data-i18n="trust.l1">سنوات من الخبرة العملية المتراكمة</div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-num" data-count="4">0</div>
+        <div class="trust-label" data-i18n="trust.l2">قطاعات نفهمها جيدًا</div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-num" data-count="3">0</div>
+        <div class="trust-label" data-i18n="trust.l3">فروع تم تنسيقها ضمن تكليف واحد</div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-num" data-count="2">0</div>
+        <div class="trust-label" data-i18n="trust.l4">أنظمة ERP — Dynamics 365 و Odoo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-black cta-final">
+  <div class="wrap">
+    <p class="eyebrow reveal" style="justify-content:center;" data-i18n="cta.eyebrow">ابدأ الآن</p>
+    <h2 class="reveal reveal-delay-1" data-i18n="cta.h2">فلنُضف <em>وضوحًا</em> إلى أرقامكم.</h2>
+    <p class="reveal reveal-delay-2" data-i18n="cta.p">محادثة قصيرة تكفي لمعرفة أين تقف دفاتركم — وكيف يبدو شكل دفتر أستاذ مُسوّى بشكل صحيح.</p>
+    <div class="cta-actions reveal reveal-delay-3">
+      <a href="https://wa.me/201041930453" target="_blank" rel="noopener noreferrer" class="btn btn-gold" data-i18n="hero.btn1">تواصل معنا عبر واتساب</a>
+      <a href="tel:01041930453" class="btn btn-outline" data-i18n="hero.btn2">اتصل بنا</a>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad section-light" id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow reveal" data-i18n="contact.eyebrow">تواصل معنا</p>
+      <h2 class="reveal reveal-delay-1" data-i18n="contact.h2">تواصل مع M H Balance مباشرة</h2>
+      <p class="reveal reveal-delay-2" data-i18n="contact.p">بلا نماذج وسيطة — تصل كل استفسار إلى فريقنا مباشرة.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="contact-grid reveal">
+      <div class="contact-card">
+        <p class="eyebrow" data-i18n="contact.phoneLabel">الهاتف وواتساب</p>
+        <a class="contact-link" href="tel:01041930453">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>01041930453</span>
+        </a>
+      </div>
+      <div class="contact-card">
+        <p class="eyebrow" data-i18n="contact.emailLabel">البريد الإلكتروني</p>
+        <a class="contact-link" href="mailto:mhbalance52@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M3 6.5 12 13l9-6.5"/><rect x="3" y="5" width="18" height="14" rx="1.5"/></svg>
+          <span>mhbalance52@gmail.com</span>
+        </a>
+      </div>
+      <div class="contact-card">
+        <p class="eyebrow" data-i18n="contact.socialLabel">تواصل اجتماعي</p>
+        <div class="social-row">
+          <a class="social-btn" href="https://www.facebook.com/share/19KBx1fXyg/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a class="social-btn" href="https://www.instagram.com/m.h.balance?igsh=MXM2MTI1ZW1yaXpjdA==" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<a class="whatsapp-fab" href="https://wa.me/201041930453" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.85 9.85 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.32-1.93 1.4-.5.08-1.12.11-1.8-.11-.42-.13-.95-.31-1.64-.6-2.88-1.24-4.76-4.15-4.9-4.34-.14-.19-1.17-1.56-1.17-2.97 0-1.41.74-2.1 1-2.39.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.41-.07.64.49.24.58.81 2 .88 2.14.07.15.12.32.02.51-.09.19-.14.31-.28.48-.14.16-.29.36-.42.49-.14.13-.28.28-.12.55.16.28.7 1.16 1.51 1.88 1.04.93 1.91 1.22 2.19 1.36.28.14.44.12.6-.07.16-.19.68-.79.86-1.06.18-.28.36-.23.6-.14.24.09 1.53.72 1.79.85.26.13.43.19.5.3.06.11.06.63-.18 1.31z" fill="var(--black-navy)"/></svg>
+</a>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <a href="#home" class="footer-brand">
+        <img src="assets/logo.png" alt="M H Balance logo">
+        <span class="footer-brand-text">M H BALANCE</span>
+      </a>
+      <ul class="footer-nav">
+        <li><a href="#who-we-are" data-i18n="nav.who">من نحن</a></li>
+        <li><a href="#industries" data-i18n="nav.industries">القطاعات</a></li>
+        <li><a href="#expertise" data-i18n="nav.expertise">خبراتنا</a></li>
+        <li><a href="#services" data-i18n="nav.services">خدماتنا</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">تواصل معنا</a></li>
+      </ul>
+    </div>
+    <div class="footer-bottom" style="flex-direction:column; align-items:stretch; gap:22px;">
+      <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;">
+        <div style="display:flex; gap:22px; flex-wrap:wrap; align-items:center;">
+          <a href="tel:01041930453" style="direction:ltr; unicode-bidi:isolate;">01041930453</a>
+          <a href="mailto:mhbalance52@gmail.com" style="direction:ltr; unicode-bidi:isolate;">mhbalance52@gmail.com</a>
+        </div>
+        <div style="display:flex; gap:16px;">
+          <a class="social-btn" style="width:38px; height:38px; border-color: rgba(235,233,232,0.22); color: rgba(235,233,232,0.7);" href="https://wa.me/201041930453" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.85 9.85 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2z"/></svg>
+          </a>
+          <a class="social-btn" style="width:38px; height:38px; border-color: rgba(235,233,232,0.22); color: rgba(235,233,232,0.7);" href="https://www.facebook.com/share/19KBx1fXyg/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a class="social-btn" style="width:38px; height:38px; border-color: rgba(235,233,232,0.22); color: rgba(235,233,232,0.7);" href="https://www.instagram.com/m.h.balance?igsh=MXM2MTI1ZW1yaXpjdA==" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg>
+          </a>
+        </div>
+      </div>
+      <span data-i18n="footer.copy">© 2026 M H Balance. جميع الحقوق محفوظة.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const translations = {
+    ar: {
+      "brand.tagline": "التوازن يقود النمو",
+      "nav.who": "من نحن", "nav.industries": "القطاعات", "nav.expertise": "خبراتنا",
+      "nav.services": "خدماتنا", "nav.contact": "تواصل معنا", "nav.whatsapp": "تواصل معنا",
+      "hero.eyebrow": "M H BALANCE · محاسبة واستشارات مالية",
+      "hero.h1": "نفهم العمل قبل أن نقرأ <em>أرقامه.</em>",
+      "hero.lead": "تقدّم M H Balance خدمات المحاسبة والتقارير المالية استنادًا إلى خبرة عملية ممتدة عبر قطاعات المقاولات، والتصنيع، والتجزئة عالية القيمة، والسلع الاستهلاكية — لأن لكل نشاط تجاري بنية مالية مختلفة، ولا تكتسب الأرقام معناها الحقيقي إلا حين تُفهم هذه البنية أولًا.",
+      "hero.btn1": "تواصل معنا عبر واتساب", "hero.btn2": "اتصل بنا", "hero.scroll": "مرّر للأسفل",
+      "hero.meta1": "سنوات من الخبرة العملية المتراكمة", "hero.meta2": "قطاعات نفهمها جيدًا",
+      "hero.meta3": "أنظمة ERP — Dynamics 365 و Odoo", "hero.meta4": "إعداد قوائم مالية متوافقة مع IFRS",
+      "intro.statement": "نفهم العمل قبل أن نقرأ أرقامه.", "intro.skip": "تخطي",
+      "hub.experience": "خبرتنا", "hub.approach": "منهجية العمل", "hub.why": "لماذا M H Balance",
+      "about.eyebrow": "من نحن", "about.h2": "دفاتر تبقى صادقة، لتتحرك أعمالكم بثقة.",
+      "about.p1": "تقوم <strong>M H Balance</strong> على مبدأ عمل بسيط: لا تفيد الأرقام إلا حين تكون دقيقة، وحديثة، ومفهومة. نتعامل مع كل عملية تسوية باعتبارها فرصة لاكتشاف مشكلة قبل أن تكبر، ومع كل دفتر أستاذ باعتباره شيئًا يجب أن يثق فيه صاحب القرار دون الحاجة لمراجعته مرتين.",
+      "about.p2": "تشكّلت خبرتنا العملية عبر بيئات عمل مختلفة تمامًا — مواقع مقاولات تُدار بنظام المشاريع، عمليات تصنيع وتجارة، شبكة تجزئة متعددة الفروع لسلع عالية القيمة، ومبيعات سلع استهلاكية. وقد فرض كل نشاط الانضباط ذاته: دفتر أستاذ عام نظيف، وميزان مراجعة متوازن فعليًا، وتقارير تصمد أمام أي مراجعة دقيقة.",
+      "about.p3": "هذا الأساس متعدد القطاعات هو ما نقدّمه في كل تكليف — ليس أسلوبًا واحدًا يُطبَّق على الجميع في مسك الدفاتر، بل فهم حقيقي لاختلاف احتياجات شركات المقاولات، والتجزئة، والتصنيع.",
+      "about.foot": "M H Balance ممارسة محاسبية حديثة النشأة — أما الخبرة العملية التي تقوم عليها فليست كذلك. نهجنا مبني على تعامل مباشر مع القطاعات التي نخدمها، لا على نموذج مكتبي جاهز.",
+      "about.plate1": "الفهم", "about.plate1s": "طبيعة النشاط", "about.plate2": "التقرير", "about.plate2s": "الأرقام",
+      "understand.eyebrow": "أساس فهمنا", "understand.h2": "البيانات المالية مرتبطة بعمليات حقيقية",
+      "understand.p": "قبل أن يصل أي رقم إلى تقرير، يكون قد بدأ من مكان ما — أمر شراء، وردية على أرض المصنع، حساب عميل، أو جرد فرع. نحن نفهم هذه السلسلة كاملة، لا نهايتها فقط.",
+      "understand.i1h": "التكاليف والمشتريات", "understand.i1p": "كيف تنتقل تكاليف المشاريع والمواد من الشراء إلى الدفاتر، وأين يجب أن تكون الرقابة.",
+      "understand.i2h": "المخزون والتقييم", "understand.i2p": "كيف يُتابع المخزون ويُجرد ويُسوّى بدقة — من المواد الخام إلى المنتجات عالية القيمة.",
+      "understand.i3h": "الإيرادات والتحصيل", "understand.i3p": "كيف تتحول حسابات العملاء وتحصيلات الفروع المتعددة والذمم المدينة إلى صورة إيراد يمكن الوثوق بها.",
+      "understand.i4h": "الأفراد والأجور", "understand.i4p": "كيف تُسوّى الأجور والسُلف وتكاليف العمالة بشكل صحيح وتنعكس في الدفاتر.",
+      "ind.eyebrow": "خبرات عبر قطاعات متنوعة", "ind.h2": "أنشطة مختلفة. تحديات مختلفة. حاجة واحدة للوضوح المالي.",
+      "ind.p": "لا يصلح منظور مالي واحد لكل نشاط تجاري. تمتد خبرتنا العملية عبر القطاعات التالية — ولكل منها بنية تكلفة، ونموذج إيراد، وتحديات مالية خاصة به.",
+      "ind.c1tag": "المقاولات والإنشاءات", "ind.c1h": "عمليات قائمة على المشاريع",
+      "ind.c1p": "فهم عملي لتكاليف المشاريع، والمشتريات، وسجلات تكاليف العمالة، واستخدام المواد، وإعداد مستخلصات العملاء ومقاولي الباطن المرتبطة بالتقدم الفعلي للمشروع.",
+      "ind.c2tag": "الذهب والتجزئة عالية القيمة", "ind.c2h": "مخزون عالي القيمة",
+      "ind.c2p": "خبرة في تحصيلات متعددة الفروع، وتسوية الحسابات، ومراجعة الورش، والجرد الفعلي للمخزون الخام والمُصنّع عالي القيمة — حيث لا هامش للخطأ في الدقة.",
+      "ind.c3tag": "التصنيع والتجارة", "ind.c3h": "عمليات كثيفة المخزون",
+      "ind.c3p": "عمل عملي مع بطاقات الأصناف، وتتبع حركة المخزون، وتسوية حسابات الموردين والعملاء في بيئة تصنيع وتجارة — حيث تقود دقة المخزون الدفاتر.",
+      "ind.c4tag": "السلع الاستهلاكية والتجزئة", "ind.c4h": "خبرة تجارية مباشرة",
+      "ind.c4p": "خبرة مباشرة في بناء علاقات العملاء والتفاوض على المبيعات في قطاع التجزئة الاستهلاكية — منظور تجاري ينعكس في قراءتنا للإيرادات وحسابات العملاء.",
+      "statement.line": "الأرقام وحدها لا تحل المشكلة. <em>فهم العمل الذي وراءها هو ما يحلها.</em>",
+      "chal.eyebrow": "مشكلات نفهمها", "chal.h2": "قبل الحل، لا بد أن نفهم أين تكمن المشكلة فعليًا",
+      "chal.p": "هذه أمثلة من مشكلات واجهناها مباشرة في عملنا اليومي، وما تعلمناه من التعامل معها.",
+      "chal.p1label": "المشكلة", "chal.answerLabel": "فهمنا",
+      "chal.p1problem": "فروقات بين المخزون الدفتري والمخزون الفعلي.",
+      "chal.p1answer": "خبرة عملية في الجرد الفعلي والتسوية الدورية للمخزون عبر فروع وأنشطة متعددة، من المواد الخام إلى المنتجات عالية القيمة.",
+      "chal.p2problem": "صعوبة تحصيل وتسوية حسابات العملاء عبر فروع متعددة.",
+      "chal.p2answer": "خبرة في تنسيق التحصيل وتسوية الحسابات عبر ثلاثة فروع في آنٍ واحد، وحل الفروقات من مصدرها.",
+      "chal.p3problem": "غياب رؤية واضحة لتكلفة المشروع الفعلية في أعمال المقاولات.",
+      "chal.p3answer": "خبرة في ربط تكاليف المواد والعمالة والمشتريات بمستخلصات المشروع الفعلية.",
+      "chal.p4problem": "تعقيد حساب الأجور والسلف والالتزامات.",
+      "chal.p4answer": "خبرة في تسوية أجور العمالة وسلف الموظفين والالتزامات بدقة على مستوى الدفاتر.",
+      "chal.p5problem": "فروقات متكررة في حسابات الموردين والعملاء.",
+      "chal.p5answer": "خبرة في تسوية حسابات الموردين والعملاء واكتشاف الفروقات ومعالجتها من مصدرها مباشرة.",
+      "exp.eyebrow": "خبراتنا", "exp.h2": "الانضباط الذي يقوم عليه كل تكليف",
+      "exp.c1h": "المحاسبة والتقارير المالية", "exp.c1p": "دفتر الأستاذ العام، وميزان المراجعة، وقوائم الدخل، وإقفال نهاية المدة المتوافق مع IFRS.",
+      "exp.c2h": "الرقابة على التكاليف والمخزون", "exp.c2p": "بطاقات الأصناف، وتتبع حركة المخزون، والجرد الفعلي، والتسوية عبر القطاعات.",
+      "exp.c3h": "إدارة الأجور والرواتب", "exp.c3p": "معالجة الأجور، وتسوية سلف الموظفين والالتزامات بانضباط على مستوى الدفاتر.",
+      "exp.c4h": "تسوية الحسابات والتحصيل", "exp.c4p": "تسوية حسابات العملاء والموردين، وتنسيق التحصيل عبر الفروع المتعددة.",
+      "exp.c5h": "أنظمة ERP ودعم العمليات", "exp.c5p": "تشغيل عملي داخل Microsoft Dynamics 365 و Odoo للمحاسبة اليومية.",
+      "exp.c6h": "الرقابة الداخلية وحماية الأصول", "exp.c6p": "ممارسات رقابية متوافقة مع معايير حماية الأصول المعترف بها.",
+      "svc.eyebrow": "خدماتنا", "svc.h2": "ما نقدّمه لعملائنا", "svc.p": "إذا كانت الخبرة تشرح ما نفهمه، فإن هذه هي الخدمات التي نقدّمها مباشرة.",
+      "svc.c1h": "التقارير والقوائم المالية", "svc.c1p": "إعداد دفتر الأستاذ العام وميزان المراجعة وقوائم الدخل — وإقفالها وفق معيار متوافق مع IFRS.", "svc.c1b": "أرقام واضحة وجاهزة للمراجعة في كل فترة",
+      "svc.c2h": "مراقبة المخزون وتسويته", "svc.c2p": "بطاقات الأصناف، وتتبع حركة المخزون، والجرد الفعلي — من المواد الخام إلى المنتجات النهائية عالية القيمة.", "svc.c2b": "سجلات مخزون تطابق ما هو موجود فعليًا",
+      "svc.c3h": "محاسبة الأجور والرواتب", "svc.c3p": "معالجة الأجور وتسوية سلف الموظفين والالتزامات بانضباط على مستوى الدفاتر.", "svc.c3b": "رواتب دقيقة لا تكون مصدر نزاع",
+      "svc.c4h": "تسوية الحسابات والتحصيل", "svc.c4p": "تسوية حسابات العملاء والموردين وإدارة التحصيل، بما في ذلك التنسيق عبر عدة فروع.", "svc.c4b": "تسوية الفروقات فور ظهورها، لا ترحيلها",
+      "svc.c5h": "محاسبة المقاولات والمشاريع", "svc.c5p": "إعداد مستخلصات العملاء ومقاولي الباطن لمشاريع المقاولات والإنشاءات، مرتبطة بالدفاتر الأساسية.", "svc.c5b": "فوترة مشاريع تعكس التقدم والتكلفة الفعليين",
+      "svc.c6h": "أنظمة ERP ودعم العمليات", "svc.c6p": "تشغيل العمليات المحاسبية اليومية داخل Microsoft Dynamics 365 و Odoo، إضافة إلى ممارسات رقابة داخلية متوافقة مع معايير حماية الأصول.", "svc.c6b": "محاسبة تتوافق مع الأنظمة التي تعملون بها بالفعل",
+      "app.eyebrow": "نهجنا", "app.h2": "الدورة التي يقوم عليها كل تكليف",
+      "app.s1h": "القيد", "app.s1p": "تسجيل كل عملية بدقة، من المستند المصدر إلى الدفتر.",
+      "app.s2h": "التسوية", "app.s2p": "مراجعة حسابات العملاء والموردين والمخزون على أرض الواقع، وحل الفروقات من مصدرها.",
+      "app.s3h": "الإقفال", "app.s3p": "إقفال نهاية المدة وفق معيار متوافق مع IFRS.",
+      "app.s4h": "التقرير", "app.s4p": "تسليم دفتر الأستاذ العام وميزان المراجعة وقوائم الدخل بوضوح.",
+      "app.s5h": "المتابعة", "app.s5p": "مراجعة مستمرة ودعم للرقابة الداخلية، بحيث تظهر المشكلات مبكرًا.",
+      "why.eyebrow": "لماذا M H Balance", "why.h2": "فهم عملي، لا نموذج جاهز",
+      "why.i1h": "خبرة عابرة للقطاعات", "why.i1p": "تمتد خبرتنا عبر المقاولات، والتصنيع، والتجزئة عالية القيمة، والسلع الاستهلاكية — قراءة أوسع لكيفية عمل الأنشطة التجارية فعليًا.",
+      "why.i2h": "إتقان أنظمة ERP لا الاعتماد عليها فقط", "why.i2p": "نعمل بارتياح داخل Microsoft Dynamics 365 و Odoo على حد سواء، بحيث تتكيف محاسبتنا مع أنظمتكم الحالية.",
+      "why.i3h": "فهم عملي للأعمال", "why.i3p": "نفهم أن البيانات المالية مرتبطة بعمليات حقيقية — لا بما يتسع فقط لخانة في جدول بيانات.",
+      "why.i4h": "وضوح مالي", "why.i4p": "نحوّل المعلومات المالية إلى ما يمكن لصاحب القرار استخدامه فعليًا — واضح، ومحدث، ومفهوم.",
+      "trust.l1": "سنوات من الخبرة العملية المتراكمة", "trust.l2": "قطاعات نفهمها جيدًا",
+      "trust.l3": "فروع تم تنسيقها ضمن تكليف واحد", "trust.l4": "أنظمة ERP — Dynamics 365 و Odoo",
+      "cta.eyebrow": "ابدأ الآن", "cta.h2": "فلنُضف <em>وضوحًا</em> إلى أرقامكم.",
+      "cta.p": "محادثة قصيرة تكفي لمعرفة أين تقف دفاتركم — وكيف يبدو شكل دفتر أستاذ مُسوّى بشكل صحيح.",
+      "contact.eyebrow": "تواصل معنا", "contact.h2": "تواصل مع M H Balance مباشرة",
+      "contact.p": "بلا نماذج وسيطة — تصل كل استفسار إلى فريقنا مباشرة.",
+      "contact.emailLabel": "البريد الإلكتروني", "contact.phoneLabel": "الهاتف وواتساب",
+      "contact.socialLabel": "تواصل اجتماعي",
+      "footer.copy": "© 2026 M H Balance. جميع الحقوق محفوظة.",
+      "meta.title": "M H Balance — نفهم العمل خلف الأرقام",
+      "meta.desc": "M H Balance تقدّم خدمات المحاسبة والتقارير المالية استنادًا إلى خبرة عملية عبر قطاعات المقاولات والتصنيع والتجزئة عالية القيمة والسلع الاستهلاكية."
+    },
+    en: {
+      "brand.tagline": "Balance Leads to Growth",
+      "nav.who": "Who We Are", "nav.industries": "Industries", "nav.expertise": "Expertise",
+      "nav.services": "Services", "nav.contact": "Contact", "nav.whatsapp": "WhatsApp Us",
+      "hero.eyebrow": "M H BALANCE · ACCOUNTING &amp; FINANCIAL ADVISORY",
+      "hero.h1": "Understanding the business <em>behind the numbers.</em>",
+      "hero.lead": "M H Balance provides financial accounting and reporting built on practical experience across contracting, manufacturing, high-value retail and consumer goods — because every business has a different financial structure, and the numbers only mean something once that structure is understood.",
+      "hero.btn1": "WhatsApp Us", "hero.btn2": "Call Us", "hero.scroll": "Scroll",
+      "hero.meta1": "Years of Combined Practical Experience", "hero.meta2": "Industries We Understand",
+      "hero.meta3": "ERP Platforms — Dynamics 365 &amp; Odoo", "hero.meta4": "IFRS-Compliant Financial Statements",
+      "intro.statement": "Understanding the business before we read its numbers.", "intro.skip": "Skip",
+      "hub.experience": "Experience", "hub.approach": "Our Approach", "hub.why": "Why M H Balance",
+      "about.eyebrow": "Who We Are", "about.h2": "A ledger that stays honest, so the business can move with confidence.",
+      "about.p1": "<strong>M H Balance</strong> is built around a simple working principle: numbers only help a business when they are accurate, current, and understood. We treat every reconciliation as a chance to catch a problem before it grows, and every ledger as something a decision-maker should be able to trust without a second look.",
+      "about.p2": "Our practical experience has been developed across very different business environments — project-based contracting sites, a manufacturing and trading operation, a multi-branch high-value retailer, and consumer goods sales. Each one demanded the same discipline: a clean general ledger, a trial balance that actually balances, and reporting that stands up to scrutiny.",
+      "about.p3": "That cross-industry grounding is what we bring to every engagement — not a one-size-fits-all approach to bookkeeping, but a real understanding that construction, retail and manufacturing businesses need to be read differently.",
+      "about.foot": "M H Balance is a newly established practice — the practical experience behind it is not. Our approach is grounded in direct, hands-on exposure to the sectors we serve, not a back-office template.",
+      "about.plate1": "Understand", "about.plate1s": "The Business", "about.plate2": "Report", "about.plate2s": "The Numbers",
+      "understand.eyebrow": "The Foundation of Our Understanding", "understand.h2": "Financial data is connected to real operations",
+      "understand.p": "Before a number reaches a report, it started somewhere — a purchase order, a shift on a factory floor, a customer account, a branch count. We understand that chain, not just its endpoint.",
+      "understand.i1h": "Costs &amp; Procurement", "understand.i1p": "How project and material costs move from purchase to ledger, and where control needs to sit.",
+      "understand.i2h": "Inventory &amp; Valuation", "understand.i2p": "How stock — from raw materials to high-value finished goods — is tracked, counted and reconciled accurately.",
+      "understand.i3h": "Revenue &amp; Collections", "understand.i3p": "How customer accounts, multi-branch collections and receivables translate into a reliable revenue picture.",
+      "understand.i4h": "People &amp; Payroll", "understand.i4p": "How wages, advances and workforce costs are settled correctly and reflected in the books.",
+      "ind.eyebrow": "Experience Across Diverse Industries", "ind.h2": "Different businesses. Different challenges. One need for financial clarity.",
+      "ind.p": "One financial perspective does not fit every business. Our practical exposure spans the following sectors — each with its own cost structure, revenue model and financial challenges.",
+      "ind.c1tag": "Construction &amp; Contracting", "ind.c1h": "Project-Based Operations",
+      "ind.c1p": "Practical understanding of project costs, procurement, labor cost records, material usage, and the preparation of client and subcontractor extracts tied to real project progress.",
+      "ind.c2tag": "Gold &amp; High-Value Retail", "ind.c2h": "High-Value Inventory",
+      "ind.c2p": "Experience across multi-branch collections, account reconciliation, workshop audits, and physical counts of raw and finished high-value inventory — where accuracy has no margin for error.",
+      "ind.c3tag": "Manufacturing &amp; Trade", "ind.c3h": "Inventory-Intensive Operations",
+      "ind.c3p": "Practical work with item cards, stock movement tracking, and supplier/customer reconciliation in a manufacturing and trading environment — where inventory accuracy drives the ledger.",
+      "ind.c4tag": "Consumer Goods &amp; Retail", "ind.c4h": "Direct Commercial Exposure",
+      "ind.c4p": "Direct experience in client relationships and sales negotiation within consumer retail — a commercial perspective that informs how we read revenue and customer accounts.",
+      "statement.line": "Numbers alone don't solve a problem. <em>Understanding the business behind them does.</em>",
+      "chal.eyebrow": "Problems We Understand", "chal.h2": "Before the fix, we need to know where the problem actually sits",
+      "chal.p": "These are examples of problems we've encountered directly in day-to-day work, and what handling them taught us.",
+      "chal.p1label": "The Problem", "chal.answerLabel": "Our Understanding",
+      "chal.p1problem": "Gaps between recorded and actual inventory.",
+      "chal.p1answer": "Practical experience in physical counts and periodic reconciliation across multiple branches and business types, from raw materials to high-value finished goods.",
+      "chal.p2problem": "Difficulty collecting and reconciling customer accounts across branches.",
+      "chal.p2answer": "Experience coordinating collections and account reconciliation across three branches at once, resolving discrepancies at the source.",
+      "chal.p3problem": "Limited visibility into the real cost of a contracting project.",
+      "chal.p3answer": "Experience linking material, labor and procurement costs to actual project extracts.",
+      "chal.p4problem": "Complex wage, advance and settlement calculations.",
+      "chal.p4answer": "Experience settling wages, employee advances and covenants with ledger-level accuracy.",
+      "chal.p5problem": "Recurring mismatches in supplier and customer accounts.",
+      "chal.p5answer": "Experience reconciling supplier and customer accounts and resolving discrepancies directly at the source.",
+      "exp.eyebrow": "Our Expertise", "exp.h2": "The disciplines behind every engagement",
+      "exp.c1h": "Financial Accounting &amp; Reporting", "exp.c1p": "General ledger, trial balance, income statements and IFRS-aligned period-end closing.",
+      "exp.c2h": "Inventory &amp; Cost Control", "exp.c2p": "Item cards, stock movement tracking, physical counts and reconciliation across industries.",
+      "exp.c3h": "Payroll &amp; Wages Management", "exp.c3p": "Wage processing and employee advance and covenant settlements with ledger-level discipline.",
+      "exp.c4h": "Accounts Reconciliation &amp; Collections", "exp.c4p": "Customer and supplier reconciliation and multi-branch collections coordination.",
+      "exp.c5h": "ERP Systems &amp; Process Support", "exp.c5p": "Hands-on operation within Microsoft Dynamics 365 and Odoo for day-to-day accounting.",
+      "exp.c6h": "Internal Controls &amp; Asset Safeguarding", "exp.c6p": "Control practices aligned with recognized asset-safeguarding standards.",
+      "svc.eyebrow": "Our Services", "svc.h2": "What we provide to clients", "svc.p": "Where expertise explains what we understand, these are the services we deliver directly.",
+      "svc.c1h": "Financial Reporting &amp; Statements", "svc.c1p": "General ledger maintenance, trial balance preparation, and income statements — closed to an IFRS-aligned standard.", "svc.c1b": "Clear, audit-ready numbers every period",
+      "svc.c2h": "Inventory Control &amp; Reconciliation", "svc.c2p": "Item cards, stock movement tracking, and physical counts — from raw materials to high-value finished goods.", "svc.c2b": "Stock records that match what's actually on the shelf",
+      "svc.c3h": "Payroll &amp; Wages Accounting", "svc.c3p": "Wage processing and the settlement of employee advances and covenants, handled with ledger-level discipline.", "svc.c3b": "Payroll that's accurate and never a source of disputes",
+      "svc.c4h": "Accounts Reconciliation &amp; Collections", "svc.c4p": "Customer and supplier account reconciliation and collections management, including coordination across multiple branches.", "svc.c4b": "Discrepancies caught and resolved, not carried forward",
+      "svc.c5h": "Contracting &amp; Project Accounting", "svc.c5p": "Preparation of client and subcontractor extracts for contracting and construction projects, tied to the underlying ledger.", "svc.c5b": "Project billing that reflects real progress and cost",
+      "svc.c6h": "ERP Systems &amp; Process Support", "svc.c6p": "Day-to-day accounting operations inside Microsoft Dynamics 365 and Odoo, plus internal-control practices aligned with asset-safeguarding standards.", "svc.c6b": "Accounting that fits the systems you already run on",
+      "app.eyebrow": "Our Approach", "app.h2": "The cycle behind every engagement",
+      "app.s1h": "Record", "app.s1p": "Every transaction entered accurately, from source documents to the ledger.",
+      "app.s2h": "Reconcile", "app.s2p": "Customer, supplier and inventory accounts checked against reality, discrepancies resolved at the source.",
+      "app.s3h": "Close", "app.s3p": "Period-end closing carried out to an IFRS-aligned standard.",
+      "app.s4h": "Report", "app.s4p": "General ledger, trial balance and income statements delivered clearly.",
+      "app.s5h": "Support", "app.s5p": "Ongoing review and internal-control support, so issues surface early.",
+      "why.eyebrow": "Why M H Balance", "why.h2": "Practical understanding, not a generic template",
+      "why.i1h": "Cross-industry exposure", "why.i1p": "Our experience spans contracting, manufacturing, high-value retail and consumer goods — a broader read on how businesses actually work.",
+      "why.i2h": "ERP-native, not ERP-dependent", "why.i2p": "Comfortable inside Microsoft Dynamics 365 and Odoo alike, so our accounting adapts to your existing systems.",
+      "why.i3h": "Practical business understanding", "why.i3p": "We understand that financial data is connected to real operations — not just what fits in a spreadsheet cell.",
+      "why.i4h": "Financial clarity", "why.i4p": "We turn financial information into something decision-makers can actually use — clear, current, and understood.",
+      "trust.l1": "Years Combined Practical Experience", "trust.l2": "Industries Understood",
+      "trust.l3": "Branches Coordinated in a Single Engagement", "trust.l4": "ERP Platforms — Dynamics 365 &amp; Odoo",
+      "cta.eyebrow": "Get Started", "cta.h2": "Let's bring <em>clarity</em> to your numbers.",
+      "cta.p": "A short conversation is enough to see where your books stand — and what a properly reconciled ledger could look like.",
+      "contact.eyebrow": "Contact", "contact.h2": "Reach M H Balance directly",
+      "contact.p": "No forms, no intermediaries — every enquiry goes straight to our team.",
+      "contact.emailLabel": "Email", "contact.phoneLabel": "Phone &amp; WhatsApp",
+      "contact.socialLabel": "Social",
+      "footer.copy": "© 2026 M H Balance. All rights reserved.",
+      "meta.title": "M H Balance — Understanding the Business Behind the Numbers",
+      "meta.desc": "M H Balance provides financial accounting and reporting built on practical experience across contracting, manufacturing, high-value retail and consumer goods."
+    }
+  };
+
+  function setLang(lang){
+    const dict = translations[lang];
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] !== undefined) el.innerHTML = dict[key];
+    });
+    document.title = dict['meta.title'];
+    const metaDesc = document.getElementById('metaDesc');
+    if (metaDesc) metaDesc.setAttribute('content', dict['meta.desc']);
+    const ogTitle = document.getElementById('ogTitle');
+    if (ogTitle) ogTitle.setAttribute('content', dict['meta.title']);
+    const ogDesc = document.getElementById('ogDesc');
+    if (ogDesc) ogDesc.setAttribute('content', dict['meta.desc']);
+    document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-lang-btn') === lang);
+    });
+    try { localStorage.setItem('mhb-lang', lang); } catch(e) {}
+  }
+
+  let savedLang = 'ar';
+  try { savedLang = localStorage.getItem('mhb-lang') || 'ar'; } catch(e) {}
+  setLang(savedLang);
+
+  document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.getAttribute('data-lang-btn')));
+  });
+
+  // ---- Premium opening / intro screen ----
+  (function initIntro(){
+    const intro = document.getElementById('introScreen');
+    const skipBtn = document.getElementById('introSkip');
+    if (!intro) return;
+
+    const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let alreadySeen = false;
+    try { alreadySeen = sessionStorage.getItem('mhb-intro-seen') === '1'; } catch(e) {}
+
+    if (alreadySeen || reducedMotion) {
+      intro.style.display = 'none';
+      return;
+    }
+
+    document.documentElement.classList.add('intro-lock');
+
+    function dismiss(){
+      intro.classList.add('intro-hide');
+      document.documentElement.classList.remove('intro-lock');
+      try { sessionStorage.setItem('mhb-intro-seen', '1'); } catch(e) {}
+      window.setTimeout(() => { intro.style.display = 'none'; }, 850);
+    }
+
+    const autoTimer = window.setTimeout(dismiss, 2300);
+    skipBtn.addEventListener('click', () => { window.clearTimeout(autoTimer); dismiss(); });
+    intro.addEventListener('click', (e) => {
+      if (e.target === intro) { window.clearTimeout(autoTimer); dismiss(); }
+    });
+  })();
+
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
+  }, { passive: true });
+
+  const burger = document.getElementById('burgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const menuClose = document.getElementById('menuClose');
+  const scrim = document.getElementById('scrim');
+  function openMenu(){ mobileMenu.classList.add('open'); scrim.classList.add('open'); }
+  function closeMenu(){ mobileMenu.classList.remove('open'); scrim.classList.remove('open'); }
+  burger.addEventListener('click', openMenu);
+  menuClose.addEventListener('click', closeMenu);
+  scrim.addEventListener('click', closeMenu);
+  document.querySelectorAll('.mnav').forEach(a => a.addEventListener('click', closeMenu));
+
+  const revealEls = document.querySelectorAll('.reveal:not(.is-visible)');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+
+  const counters = document.querySelectorAll('.trust-num');
+  const counterIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        const el = entry.target;
+        const target = parseInt(el.dataset.count, 10);
+        const suffix = el.dataset.suffix || '';
+        let current = 0;
+        const step = Math.max(1, Math.ceil(target / 40));
+        const tick = () => {
+          current += step;
+          if (current >= target){ el.textContent = target + suffix; return; }
+          el.textContent = current + suffix;
+          requestAnimationFrame(tick);
+        };
+        tick();
+        counterIO.unobserve(el);
+      }
+    });
+  }, { threshold: 0.4 });
+  counters.forEach(el => counterIO.observe(el));
+</script>
+
+</body>
+</html>
