@@ -237,22 +237,55 @@
   @media (max-width: 900px){ .understand-grid{ grid-template-columns: 1fr 1fr; } }
   @media (max-width: 560px){ .understand-grid{ grid-template-columns: 1fr; } }
 
-  .industry-index{ border-top: 1px solid rgba(3,25,52,0.14); }
-  .industry-row{ border-bottom: 1px solid rgba(3,25,52,0.14); }
-  .industry-row summary{
-    list-style:none; cursor:pointer; display:flex; align-items:center; gap:22px;
-    padding: 30px 4px; -webkit-tap-highlight-color: transparent;
+  /* ---- Industries: interactive explorer — click a sector, the stage
+     morphs: gold geometry rotates, a soft light shifts position, and
+     the panel crossfades. Distinct in feel from Expertise (scroll-pinned
+     counter) and Services (clean tab panel) — this one's signature is
+     the moving gold geometry that echoes the logo's circle+arrow motif. ---- */
+  .industry-explorer{ display:grid; grid-template-columns: 0.85fr 1.3fr; gap: 60px; align-items:start; }
+  .industry-list{ display:flex; flex-direction:column; border-top: 1px solid rgba(3,25,52,0.14); }
+  .industry-item{
+    all:unset; cursor:pointer; display:flex; align-items:baseline; gap:20px;
+    padding: 26px 6px; border-bottom: 1px solid rgba(3,25,52,0.14);
+    -webkit-tap-highlight-color: transparent; position:relative;
   }
-  .industry-row summary::-webkit-details-marker{ display:none; }
-  .industry-num{ font-size:13px; color: var(--gold-dark); font-weight:700; min-width:26px; }
-  .industry-tag{ flex:1; font-size: clamp(18px, 2.4vw, 22px); color: var(--navy); font-weight:700; transition: color .3s ease; }
-  .industry-row summary:hover .industry-tag{ color: var(--gold-dark); }
-  .industry-toggle{ font-size:22px; font-weight:300; color: var(--gold-dark); line-height:1; transition: transform .35s cubic-bezier(.4,0,.2,1); }
-  .industry-row[open] .industry-toggle{ transform: rotate(45deg); }
-  .industry-body{ padding: 0 4px 34px 50px; max-width:680px; }
-  html[dir="rtl"] .industry-body{ padding: 0 50px 34px 4px; }
-  .industry-body h3{ font-size:18px; color: var(--navy); margin-bottom:10px; }
-  .industry-body p{ font-size:14.5px; color: var(--slate); line-height:1.9; }
+  .industry-item-num{ font-size:13px; color: var(--gold-dark); font-weight:700; min-width:26px; }
+  .industry-item-tag{ font-size: clamp(18px, 2.2vw, 21px); color: var(--navy); font-weight:700; transition: color .3s ease, transform .3s ease; }
+  .industry-item:hover .industry-item-tag{ color: var(--gold-dark); }
+  .industry-item.is-active .industry-item-tag{ color: var(--gold-dark); transform: translateX(6px); }
+  html[dir="rtl"] .industry-item.is-active .industry-item-tag{ transform: translateX(-6px); }
+  .industry-item.is-active::before{
+    content:""; position:absolute; inset-inline-start:-1px; top:14%; bottom:14%; width:2px; background: var(--gold);
+  }
+
+  .industry-stage{
+    position:sticky; top:110px; min-height:320px; padding: 48px 46px;
+    background: var(--off-white); border: 1px solid rgba(3,25,52,0.1); overflow:hidden;
+  }
+  .industry-stage::before{
+    content:""; position:absolute; inset:0;
+    background: radial-gradient(circle at var(--tint-x,80%) var(--tint-y,10%), rgba(198,149,80,0.10), transparent 58%);
+    transition: background .7s cubic-bezier(.2,.7,.2,1); pointer-events:none;
+  }
+  .industry-geo{
+    position:absolute; top:-36px; inset-inline-end:-30px; width:150px; height:150px;
+    pointer-events:none; opacity:.9; transition: transform .7s cubic-bezier(.2,.7,.2,1);
+  }
+  .industry-panel{ position:relative; display:none; }
+  .industry-panel.is-active{ display:block; animation: panelIn .55s cubic-bezier(.2,.7,.2,1); }
+  .industry-panel-tag{ font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color: var(--gold-dark); font-weight:700; margin-bottom:16px; display:block; }
+  .industry-panel h3{ font-size: clamp(22px, 2.6vw, 27px); color: var(--navy); margin-bottom:16px; max-width:420px; }
+  .industry-panel p{ font-size: 15.5px; color: var(--slate); line-height:1.9; max-width:480px; position:relative; z-index:1; }
+
+  @media (max-width: 860px){
+    .industry-explorer{ grid-template-columns: 1fr; gap:0; }
+    .industry-stage{ position:static; margin-top:22px; padding: 36px 26px; }
+    .industry-geo{ width:100px; height:100px; top:-20px; inset-inline-end:-16px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .industry-panel.is-active{ animation:none; }
+    .industry-geo{ transition:none; }
+  }
 
   /* ===== Expertise — sticky editorial "pinned" storytelling =====
      Uses native position:sticky (not JS scroll-hijacking) so it stays
@@ -434,14 +467,14 @@
   html[lang="ar"] .section-head p{ line-height: 2; }
   html[lang="ar"] .about-copy p{ line-height: 2.05; }
   html[lang="ar"] .about-foot{ line-height: 1.95; }
-  html[lang="ar"] .industry-body p,
+  html[lang="ar"] .industry-panel p,
   html[lang="ar"] .service-panel p,
   html[lang="ar"] .expertise-item p,
   html[lang="ar"] .challenge-answer,
   html[lang="ar"] .understand-item p,
   html[lang="ar"] .why-item p,
   html[lang="ar"] .proc-item p{ line-height: 2; }
-  html[lang="ar"] .industry-body h3,
+  html[lang="ar"] .industry-panel h3,
   html[lang="ar"] .service-panel h3,
   html[lang="ar"] .expertise-sticky-title,
   html[lang="ar"] .expertise-item h4{ line-height: 1.5; }
@@ -598,14 +631,41 @@
   .btn-gold{ box-shadow: 0 0 0 rgba(198,149,80,0); transition: all .35s cubic-bezier(.4,0,.2,1); }
   .btn-gold:hover{ box-shadow: 0 6px 24px rgba(198,149,80,0.35); }
 
+  /* ---- connecting gold thread: a slim scroll-progress line running the
+     full height of the page, tying every section together as one thread ---- */
+  .scroll-thread{
+    position:fixed; top:0; bottom:0; inset-inline-start:0; width:3px; z-index:850;
+    background: rgba(198,149,80,0.09); pointer-events:none;
+  }
+  .scroll-thread-fill{
+    position:absolute; top:0; inset-inline-start:0; width:100%; height:0%;
+    background: linear-gradient(to bottom, var(--gold), var(--gold-dark));
+  }
+  html.intro-lock .scroll-thread{ opacity:0; }
+  @media (max-width:760px){ .scroll-thread{ width:2px; } }
+  @media (prefers-reduced-motion: reduce){ .scroll-thread-fill{ transition:none; } }
+
+  /* ---- intro logo → nav logo handoff: a cloned element FLIPs from the
+     intro's screen position to the nav's, so the mark itself becomes
+     part of the navigation rather than just fading and reappearing ---- */
+  .logo-flight{
+    position:fixed; z-index:3001; pointer-events:none; will-change:transform;
+    transition: transform .95s cubic-bezier(.16,.84,.24,1);
+  }
+  .logo-flight img{ width:100%; height:100%; display:block; filter: drop-shadow(0 2px 12px rgba(0,0,0,0.35)); }
+  .brand .logo-halo.nav-logo-pending{ opacity:0; }
+  .brand .logo-halo{ transition: opacity .25s ease; }
+
   :focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; }
 </style>
 </head>
 <body>
 
+<div class="scroll-thread" aria-hidden="true"><div class="scroll-thread-fill" id="scrollThreadFill"></div></div>
+
 <div id="introScreen" aria-hidden="true">
   <div class="intro-glow"></div>
-  <span class="logo-halo logo-halo-lg"><img class="intro-logo" src="assets/logo-light.png" alt="M H Balance"></span>
+  <span class="logo-halo logo-halo-lg"><img class="intro-logo" id="introLogoImg" src="assets/logo-light.png" alt="M H Balance"></span>
   <div class="intro-word">M H BALANCE</div>
   <p class="intro-statement" data-i18n="intro.statement">بنحول الحسابات من مجرد أرقام إلي رؤية تساعدك تاخد قرار صح.</p>
   <button class="intro-skip" id="introSkip" data-i18n="intro.skip" type="button">تخطي</button>
@@ -635,7 +695,7 @@
 <header id="siteHeader">
   <div class="nav-inner">
     <a href="#home" class="brand" aria-label="M H Balance">
-      <span class="logo-halo"><img src="assets/logo-light.png" alt="M H Balance logo"></span>
+      <span class="logo-halo nav-logo-pending" id="navLogoHalo"><img id="navLogoImg" src="assets/logo-light.png" alt="M H Balance logo"></span>
       <span class="brand-text">M H BALANCE<span data-i18n="brand.tagline">التوازن يقود النمو</span></span>
     </a>
     <div class="nav-right">
@@ -783,51 +843,52 @@
     </div>
   </div>
   <div class="wrap">
-    <div class="industry-index reveal">
-      <details class="industry-row" open>
-        <summary>
-          <span class="industry-num">01</span>
-          <span class="industry-tag" data-i18n="ind.c1tag">المقاولات والإنشاءات</span>
-          <span class="industry-toggle" aria-hidden="true">+</span>
-        </summary>
-        <div class="industry-body">
+    <div class="industry-explorer reveal">
+      <div class="industry-list" id="industryList" role="tablist" aria-label="Industries">
+        <button class="industry-item is-active" data-industry="0" role="tab" aria-selected="true" type="button">
+          <span class="industry-item-num">01</span>
+          <span class="industry-item-tag" data-i18n="ind.c1tag">المقاولات والإنشاءات</span>
+        </button>
+        <button class="industry-item" data-industry="1" role="tab" aria-selected="false" type="button">
+          <span class="industry-item-num">02</span>
+          <span class="industry-item-tag" data-i18n="ind.c2tag">الذهب والتجزئة عالية القيمة</span>
+        </button>
+        <button class="industry-item" data-industry="2" role="tab" aria-selected="false" type="button">
+          <span class="industry-item-num">03</span>
+          <span class="industry-item-tag" data-i18n="ind.c3tag">التصنيع والتجارة</span>
+        </button>
+        <button class="industry-item" data-industry="3" role="tab" aria-selected="false" type="button">
+          <span class="industry-item-num">04</span>
+          <span class="industry-item-tag" data-i18n="ind.c4tag">السلع الاستهلاكية والتجزئة</span>
+        </button>
+      </div>
+      <div class="industry-stage" id="industryStage">
+        <svg class="industry-geo" id="industryGeo" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="75" cy="75" r="46" fill="none" stroke="#C69550" stroke-opacity="0.4" stroke-width="1.3"></circle>
+          <line x1="40" y1="105" x2="112" y2="42" stroke="#C69550" stroke-opacity="0.55" stroke-width="1.5"></line>
+          <polygon points="112,42 96,46 108,58" fill="#C69550" fill-opacity="0.55"></polygon>
+        </svg>
+        <div class="industry-panel is-active" data-industry-panel="0">
+          <span class="industry-panel-tag" data-i18n="ind.c1tag">المقاولات والإنشاءات</span>
           <h3 data-i18n="ind.c1h">عمليات قائمة على المشاريع</h3>
           <p data-i18n="ind.c1p">فهم عملي لتكاليف المشاريع، والمشتريات، وسجلات تكاليف العمالة، واستخدام المواد، وإعداد مستخلصات العملاء ومقاولي الباطن المرتبطة بالتقدم الفعلي للمشروع.</p>
         </div>
-      </details>
-      <details class="industry-row">
-        <summary>
-          <span class="industry-num">02</span>
-          <span class="industry-tag" data-i18n="ind.c2tag">الذهب والتجزئة عالية القيمة</span>
-          <span class="industry-toggle" aria-hidden="true">+</span>
-        </summary>
-        <div class="industry-body">
+        <div class="industry-panel" data-industry-panel="1">
+          <span class="industry-panel-tag" data-i18n="ind.c2tag">الذهب والتجزئة عالية القيمة</span>
           <h3 data-i18n="ind.c2h">مخزون عالي القيمة</h3>
           <p data-i18n="ind.c2p">خبرة في تحصيلات متعددة الفروع، وتسوية الحسابات، ومراجعة الورش، والجرد الفعلي للمخزون الخام والمُصنّع عالي القيمة — حيث لا هامش للخطأ في الدقة.</p>
         </div>
-      </details>
-      <details class="industry-row">
-        <summary>
-          <span class="industry-num">03</span>
-          <span class="industry-tag" data-i18n="ind.c3tag">التصنيع والتجارة</span>
-          <span class="industry-toggle" aria-hidden="true">+</span>
-        </summary>
-        <div class="industry-body">
+        <div class="industry-panel" data-industry-panel="2">
+          <span class="industry-panel-tag" data-i18n="ind.c3tag">التصنيع والتجارة</span>
           <h3 data-i18n="ind.c3h">عمليات كثيفة المخزون</h3>
           <p data-i18n="ind.c3p">عمل عملي مع بطاقات الأصناف، وتتبع حركة المخزون، وتسوية حسابات الموردين والعملاء في بيئة تصنيع وتجارة — حيث تقود دقة المخزون الدفاتر.</p>
         </div>
-      </details>
-      <details class="industry-row">
-        <summary>
-          <span class="industry-num">04</span>
-          <span class="industry-tag" data-i18n="ind.c4tag">السلع الاستهلاكية والتجزئة</span>
-          <span class="industry-toggle" aria-hidden="true">+</span>
-        </summary>
-        <div class="industry-body">
+        <div class="industry-panel" data-industry-panel="3">
+          <span class="industry-panel-tag" data-i18n="ind.c4tag">السلع الاستهلاكية والتجزئة</span>
           <h3 data-i18n="ind.c4h">خبرة تجارية مباشرة</h3>
           <p data-i18n="ind.c4p">خبرة مباشرة في بناء علاقات العملاء والتفاوض على المبيعات في قطاع التجزئة الاستهلاكية — منظور تجاري ينعكس في قراءتنا للإيرادات وحسابات العملاء.</p>
         </div>
-      </details>
+      </div>
     </div>
   </div>
 </section>
@@ -1440,20 +1501,70 @@
   (function initIntro(){
     const intro = document.getElementById('introScreen');
     const skipBtn = document.getElementById('introSkip');
+    const navLogoHalo = document.getElementById('navLogoHalo');
     if (!intro) return;
 
     const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    function showNavLogoInstantly(){
+      if (navLogoHalo) navLogoHalo.classList.remove('nav-logo-pending');
+    }
+
     if (reducedMotion) {
       intro.style.display = 'none';
+      showNavLogoInstantly();
       return;
     }
 
     document.documentElement.classList.add('intro-lock');
 
+    // FLIP the intro logo from its screen position into the nav logo's
+    // slot, so the mark itself becomes part of the navigation rather
+    // than the two logos fading independently.
+    function flyLogoToNav(){
+      const introImg = document.getElementById('introLogoImg');
+      const navImg = document.getElementById('navLogoImg');
+      if (!introImg || !navImg || !navLogoHalo) return;
+
+      const startRect = introImg.getBoundingClientRect();
+      const endRect = navImg.getBoundingClientRect();
+      if (!endRect.width || !startRect.width) { showNavLogoInstantly(); return; }
+
+      const clone = document.createElement('div');
+      clone.className = 'logo-flight';
+      clone.style.left = startRect.left + 'px';
+      clone.style.top = startRect.top + 'px';
+      clone.style.width = startRect.width + 'px';
+      clone.style.height = startRect.height + 'px';
+      clone.innerHTML = '<img src="assets/logo-light.png" alt="">';
+      document.body.appendChild(clone);
+
+      // force layout so the browser registers the start position
+      // before we animate to the end position
+      clone.getBoundingClientRect();
+
+      requestAnimationFrame(() => {
+        const dx = endRect.left - startRect.left;
+        const dy = endRect.top - startRect.top;
+        const scale = endRect.width / startRect.width;
+        clone.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;
+      });
+
+      let settled = false;
+      function settle(){
+        if (settled) return;
+        settled = true;
+        clone.remove();
+        showNavLogoInstantly();
+      }
+      clone.addEventListener('transitionend', settle, { once: true });
+      window.setTimeout(settle, 1200); // safety net if transitionend never fires
+    }
+
     function dismiss(){
       intro.classList.add('intro-hide');
       document.documentElement.classList.remove('intro-lock');
+      flyLogoToNav();
       window.setTimeout(() => { intro.style.display = 'none'; }, 850);
     }
 
@@ -1462,6 +1573,29 @@
     intro.addEventListener('click', (e) => {
       if (e.target === intro) { window.clearTimeout(autoTimer); dismiss(); }
     });
+  })();
+
+  // ---- Connecting gold thread: page-wide scroll progress ----
+  (function initScrollThread(){
+    const fill = document.getElementById('scrollThreadFill');
+    if (!fill) return;
+    const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let ticking = false;
+    function update(){
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      const pct = max > 0 ? Math.min(100, Math.max(0, (window.scrollY / max) * 100)) : 0;
+      fill.style.height = pct + '%';
+      ticking = false;
+    }
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    }, { passive: true });
+    window.addEventListener('resize', update);
+    if (!reducedMotion) fill.style.transition = 'height .1s linear';
+    update();
   })();
 
   // ---- Subtle desktop mouse parallax on hero ambient elements ----
@@ -1578,6 +1712,40 @@
     }, { threshold: 0, rootMargin: '-45% 0px -45% 0px' });
 
     items.forEach(item => io.observe(item));
+  })();
+
+  // ---- Industries: interactive explorer — click a sector, the stage
+  // morphs (gold geometry rotates, ambient light shifts, panel crossfades) ----
+  (function initIndustryExplorer(){
+    const buttons = document.querySelectorAll('.industry-item');
+    const panels = document.querySelectorAll('.industry-panel');
+    const stage = document.getElementById('industryStage');
+    const geo = document.getElementById('industryGeo');
+    if (!buttons.length || !panels.length || !stage) return;
+
+    const stops = [
+      { rot: 0,   tx: '80%', ty: '10%' },
+      { rot: 90,  tx: '88%', ty: '85%' },
+      { rot: 180, tx: '15%', ty: '82%' },
+      { rot: 270, tx: '12%', ty: '12%' }
+    ];
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.getAttribute('data-industry'), 10);
+        buttons.forEach(b => { b.classList.remove('is-active'); b.setAttribute('aria-selected', 'false'); });
+        panels.forEach(p => p.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-selected', 'true');
+        const panel = document.querySelector(`.industry-panel[data-industry-panel="${idx}"]`);
+        if (panel) panel.classList.add('is-active');
+
+        const stop = stops[idx] || stops[0];
+        stage.style.setProperty('--tint-x', stop.tx);
+        stage.style.setProperty('--tint-y', stop.ty);
+        if (geo) geo.style.transform = `rotate(${stop.rot}deg)`;
+      });
+    });
   })();
 
   // ---- Services: interactive index + stage ----
