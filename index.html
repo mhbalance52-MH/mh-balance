@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#031934">
 <title id="metaTitle">M H Balance — نفهم العمل خلف الأرقام</title>
 <meta id="metaDesc" name="description" content="M H Balance تقدّم خدمات المحاسبة والتقارير المالية استنادًا إلى خبرة عملية عبر قطاعات المقاولات والتصنيع والتجزئة عالية القيمة والسلع الاستهلاكية.">
 <meta name="keywords" content="M H Balance, محاسبة مصر, تقارير مالية, معايير IFRS, تسوية المخزون, محاسبة ERP">
@@ -293,6 +294,14 @@
     .industry-explorer{ grid-template-columns: 1fr; gap:0; }
     .industry-stage{ position:static; margin-top:22px; padding: 36px 26px; }
     .industry-geo{ width:100px; height:100px; top:-20px; inset-inline-end:-16px; }
+    /* on desktop a 2px rule + color shift reads fine next to a cursor;
+       on a phone the selected industry needs to be unmistakable at a
+       glance, so it gets a real fill, not just an accent line */
+    .industry-item{ padding: 18px 16px; border-radius: 4px; }
+    .industry-item.is-active{ background: rgba(198,149,80,0.1); }
+    .industry-item.is-active::before{ top:8%; bottom:8%; width:3px; }
+    .industry-item.is-active .industry-item-tag{ transform:none; }
+    html[dir="rtl"] .industry-item.is-active .industry-item-tag{ transform:none; }
   }
   @media (prefers-reduced-motion: reduce){
     .industry-panel.is-active{ animation:none; }
@@ -352,8 +361,8 @@
   .challenge-answer-label{ font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color: var(--slate); font-weight:700; margin-bottom:10px; }
   .challenge-answer{ font-size:14.5px; color: var(--slate); line-height:1.9; }
   @media (max-width: 760px){
-    .challenge-row{ grid-template-columns: 1fr; gap:12px; }
-    .challenge-num{ display:none; }
+    .challenge-row{ grid-template-columns: 1fr; gap:8px; }
+    .challenge-num{ font-size:13px; }
   }
 
   /* ===== Services — interactive index + stage =====
@@ -398,7 +407,21 @@
   .proc-num{ width: 44px; height:44px; background: var(--bg-light); border: 1px solid var(--gold); color: var(--gold-dark); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; margin-bottom: 22px; position:relative; z-index:2; }
   .proc-item h4{ font-size:16px; margin-bottom:10px; color: var(--navy); }
   .proc-item p{ font-size:13.5px; color: var(--slate); line-height:1.8; }
-  @media (max-width: 900px){ .process-row{ grid-template-columns: 1fr; gap: 40px; } .process-row::before{ display:none; } }
+  @media (max-width: 900px){
+    .process-row{ grid-template-columns: 1fr; gap: 0; }
+    .process-row::before{ display:none; }
+    /* the horizontal connector doesn't fit a phone — replaced with a
+       vertical one, so this still reads as a sequence, not a list */
+    .proc-item{ display:flex; gap:20px; align-items:flex-start; padding-bottom:34px; position:relative; }
+    .proc-item:last-child{ padding-bottom:0; }
+    .proc-item::after{
+      content:""; position:absolute; top:44px; bottom:-34px; inset-inline-start:21px;
+      width:1px; background: rgba(198,149,80,0.32);
+    }
+    .proc-item:last-child::after{ display:none; }
+    .proc-num{ margin-bottom:0; flex-shrink:0; }
+    .proc-item h4{ margin-bottom:6px; }
+  }
 
   .why-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 60px 70px; }
   .why-item{ display:flex; gap: 22px; }
@@ -487,6 +510,15 @@
     .hero-actions .btn{ width:100%; padding: 15px 26px; }
     .hero-meta{ display:none; }
     .hero-hub{ display:none; }
+
+    /* ---- Who We Are: three full paragraphs back-to-back reads as a
+       wall of text on a phone. Give the opening statement real weight
+       so it can be skimmed on its own, let the explanation stay at
+       normal weight, and let the closing context recede — same words,
+       a reading rhythm instead of one dense block. ---- */
+    .about-copy .reveal-delay-1{ font-size: 17.5px; color: var(--navy); font-weight:500; }
+    .about-copy .reveal-delay-3{ font-size: 15px; }
+    .about-foot{ font-size: 13.5px; margin-top:24px; padding-top:20px; }
     .scroll-cue{ bottom: 18px; }
 
     /* ---- Section headings: powerful but not screen-filling ---- */
@@ -508,7 +540,9 @@
     .industry-panel p{ font-size: 14.5px; }
 
     /* ---- Services: full-width tap rows, stage directly beneath ---- */
-    .service-index-item{ padding: 18px 4px; }
+    .service-index-item{ padding: 16px 14px; border-radius:4px; }
+    .service-index-item.active{ background: rgba(198,149,80,0.1); }
+    .service-index-item.active::before{ width:3px; }
     .service-index-name{ font-size: 16px; }
     .services-stage{ padding: 30px 22px; }
     .service-panel h3{ font-size: 19px; }
@@ -780,7 +814,7 @@
   <div class="thread-node" id="threadNodeContact"></div>
 </div>
 
-<div id="introScreen" aria-hidden="true">
+<div id="introScreen">
   <div class="intro-glow"></div>
   <span class="logo-halo logo-halo-lg"><img class="intro-logo" id="introLogoImg" src="assets/logo-light.png" alt="M H Balance"></span>
   <div class="intro-word">M H BALANCE</div>
@@ -821,7 +855,7 @@
         <button data-lang-btn="en">EN</button>
       </div>
       <a href="https://wa.me/201041930453" target="_blank" rel="noopener noreferrer" class="btn btn-gold nav-cta" data-i18n="nav.whatsapp">تواصل معنا</a>
-      <button class="menu-trigger" id="burgerBtn" aria-label="Open menu">
+      <button class="menu-trigger" id="burgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
         <span class="menu-trigger-lines"><span></span><span></span></span>
         <span class="menu-trigger-label" data-i18n="menu.label">القائمة</span>
       </button>
@@ -962,19 +996,19 @@
   <div class="wrap">
     <div class="industry-explorer reveal">
       <div class="industry-list" id="industryList" role="tablist" aria-label="Industries">
-        <button class="industry-item is-active" data-industry="0" role="tab" aria-selected="true" type="button">
+        <button class="industry-item is-active" data-industry="0" id="industryTab0" role="tab" aria-selected="true" aria-controls="industryPanel0" type="button">
           <span class="industry-item-num">01</span>
           <span class="industry-item-tag" data-i18n="ind.c1tag">المقاولات والإنشاءات</span>
         </button>
-        <button class="industry-item" data-industry="1" role="tab" aria-selected="false" type="button">
+        <button class="industry-item" data-industry="1" id="industryTab1" role="tab" aria-selected="false" aria-controls="industryPanel1" type="button">
           <span class="industry-item-num">02</span>
           <span class="industry-item-tag" data-i18n="ind.c2tag">الذهب والتجزئة عالية القيمة</span>
         </button>
-        <button class="industry-item" data-industry="2" role="tab" aria-selected="false" type="button">
+        <button class="industry-item" data-industry="2" id="industryTab2" role="tab" aria-selected="false" aria-controls="industryPanel2" type="button">
           <span class="industry-item-num">03</span>
           <span class="industry-item-tag" data-i18n="ind.c3tag">التصنيع والتجارة</span>
         </button>
-        <button class="industry-item" data-industry="3" role="tab" aria-selected="false" type="button">
+        <button class="industry-item" data-industry="3" id="industryTab3" role="tab" aria-selected="false" aria-controls="industryPanel3" type="button">
           <span class="industry-item-num">04</span>
           <span class="industry-item-tag" data-i18n="ind.c4tag">السلع الاستهلاكية والتجزئة</span>
         </button>
@@ -985,22 +1019,22 @@
           <line x1="40" y1="105" x2="112" y2="42" stroke="#C69550" stroke-opacity="0.55" stroke-width="1.5"></line>
           <polygon points="112,42 96,46 108,58" fill="#C69550" fill-opacity="0.55"></polygon>
         </svg>
-        <div class="industry-panel is-active" data-industry-panel="0">
+        <div class="industry-panel is-active" data-industry-panel="0" id="industryPanel0" role="tabpanel" aria-labelledby="industryTab0" tabindex="0">
           <span class="industry-panel-tag" data-i18n="ind.c1tag">المقاولات والإنشاءات</span>
           <h3 data-i18n="ind.c1h">عمليات قائمة على المشاريع</h3>
           <p data-i18n="ind.c1p">فهم عملي لتكاليف المشاريع، والمشتريات، وسجلات تكاليف العمالة، واستخدام المواد، وإعداد مستخلصات العملاء ومقاولي الباطن المرتبطة بالتقدم الفعلي للمشروع.</p>
         </div>
-        <div class="industry-panel" data-industry-panel="1">
+        <div class="industry-panel" data-industry-panel="1" id="industryPanel1" role="tabpanel" aria-labelledby="industryTab1" tabindex="0">
           <span class="industry-panel-tag" data-i18n="ind.c2tag">الذهب والتجزئة عالية القيمة</span>
           <h3 data-i18n="ind.c2h">مخزون عالي القيمة</h3>
           <p data-i18n="ind.c2p">خبرة في تحصيلات متعددة الفروع، وتسوية الحسابات، ومراجعة الورش، والجرد الفعلي للمخزون الخام والمُصنّع عالي القيمة — حيث لا هامش للخطأ في الدقة.</p>
         </div>
-        <div class="industry-panel" data-industry-panel="2">
+        <div class="industry-panel" data-industry-panel="2" id="industryPanel2" role="tabpanel" aria-labelledby="industryTab2" tabindex="0">
           <span class="industry-panel-tag" data-i18n="ind.c3tag">التصنيع والتجارة</span>
           <h3 data-i18n="ind.c3h">عمليات كثيفة المخزون</h3>
           <p data-i18n="ind.c3p">عمل عملي مع بطاقات الأصناف، وتتبع حركة المخزون، وتسوية حسابات الموردين والعملاء في بيئة تصنيع وتجارة — حيث تقود دقة المخزون الدفاتر.</p>
         </div>
-        <div class="industry-panel" data-industry-panel="3">
+        <div class="industry-panel" data-industry-panel="3" id="industryPanel3" role="tabpanel" aria-labelledby="industryTab3" tabindex="0">
           <span class="industry-panel-tag" data-i18n="ind.c4tag">السلع الاستهلاكية والتجزئة</span>
           <h3 data-i18n="ind.c4h">خبرة تجارية مباشرة</h3>
           <p data-i18n="ind.c4p">خبرة مباشرة في بناء علاقات العملاء والتفاوض على المبيعات في قطاع التجزئة الاستهلاكية — منظور تجاري ينعكس في قراءتنا للإيرادات وحسابات العملاء.</p>
@@ -1153,63 +1187,63 @@
   <div class="wrap">
     <div class="services-interactive">
       <div class="services-index" id="servicesIndex" role="tablist" aria-label="Services">
-        <button class="service-index-item active" data-service="0" role="tab" aria-selected="true" type="button">
+        <button class="service-index-item active" data-service="0" id="serviceTab0" role="tab" aria-selected="true" aria-controls="servicePanel0" type="button">
           <span class="service-index-num">01</span>
           <span class="service-index-name" data-i18n="svc.c1h">التقارير والقوائم المالية</span>
         </button>
-        <button class="service-index-item" data-service="1" role="tab" aria-selected="false" type="button">
+        <button class="service-index-item" data-service="1" id="serviceTab1" role="tab" aria-selected="false" aria-controls="servicePanel1" type="button">
           <span class="service-index-num">02</span>
           <span class="service-index-name" data-i18n="svc.c2h">مراقبة المخزون وتسويته</span>
         </button>
-        <button class="service-index-item" data-service="2" role="tab" aria-selected="false" type="button">
+        <button class="service-index-item" data-service="2" id="serviceTab2" role="tab" aria-selected="false" aria-controls="servicePanel2" type="button">
           <span class="service-index-num">03</span>
           <span class="service-index-name" data-i18n="svc.c3h">محاسبة الأجور والرواتب</span>
         </button>
-        <button class="service-index-item" data-service="3" role="tab" aria-selected="false" type="button">
+        <button class="service-index-item" data-service="3" id="serviceTab3" role="tab" aria-selected="false" aria-controls="servicePanel3" type="button">
           <span class="service-index-num">04</span>
           <span class="service-index-name" data-i18n="svc.c4h">تسوية الحسابات والتحصيل</span>
         </button>
-        <button class="service-index-item" data-service="4" role="tab" aria-selected="false" type="button">
+        <button class="service-index-item" data-service="4" id="serviceTab4" role="tab" aria-selected="false" aria-controls="servicePanel4" type="button">
           <span class="service-index-num">05</span>
           <span class="service-index-name" data-i18n="svc.c5h">محاسبة المقاولات والمشاريع</span>
         </button>
-        <button class="service-index-item" data-service="5" role="tab" aria-selected="false" type="button">
+        <button class="service-index-item" data-service="5" id="serviceTab5" role="tab" aria-selected="false" aria-controls="servicePanel5" type="button">
           <span class="service-index-num">06</span>
           <span class="service-index-name" data-i18n="svc.c6h">أنظمة ERP ودعم العمليات</span>
         </button>
       </div>
       <div class="services-stage" id="servicesStage">
-        <div class="service-panel active" data-service-panel="0">
+        <div class="service-panel active" data-service-panel="0" id="servicePanel0" role="tabpanel" aria-labelledby="serviceTab0" tabindex="0">
           <div class="service-panel-num">01</div>
           <h3 data-i18n="svc.c1h">التقارير والقوائم المالية</h3>
           <p data-i18n="svc.c1p">إعداد دفتر الأستاذ العام وميزان المراجعة وقوائم الدخل — وإقفالها وفق معيار متوافق مع IFRS.</p>
           <div class="service-panel-benefit" data-i18n="svc.c1b">أرقام واضحة وجاهزة للمراجعة في كل فترة</div>
         </div>
-        <div class="service-panel" data-service-panel="1">
+        <div class="service-panel" data-service-panel="1" id="servicePanel1" role="tabpanel" aria-labelledby="serviceTab1" tabindex="0">
           <div class="service-panel-num">02</div>
           <h3 data-i18n="svc.c2h">مراقبة المخزون وتسويته</h3>
           <p data-i18n="svc.c2p">بطاقات الأصناف، وتتبع حركة المخزون، والجرد الفعلي — من المواد الخام إلى المنتجات النهائية عالية القيمة.</p>
           <div class="service-panel-benefit" data-i18n="svc.c2b">سجلات مخزون تطابق ما هو موجود فعليًا</div>
         </div>
-        <div class="service-panel" data-service-panel="2">
+        <div class="service-panel" data-service-panel="2" id="servicePanel2" role="tabpanel" aria-labelledby="serviceTab2" tabindex="0">
           <div class="service-panel-num">03</div>
           <h3 data-i18n="svc.c3h">محاسبة الأجور والرواتب</h3>
           <p data-i18n="svc.c3p">معالجة الأجور وتسوية سلف الموظفين والالتزامات بانضباط على مستوى الدفاتر.</p>
           <div class="service-panel-benefit" data-i18n="svc.c3b">رواتب دقيقة لا تكون مصدر نزاع</div>
         </div>
-        <div class="service-panel" data-service-panel="3">
+        <div class="service-panel" data-service-panel="3" id="servicePanel3" role="tabpanel" aria-labelledby="serviceTab3" tabindex="0">
           <div class="service-panel-num">04</div>
           <h3 data-i18n="svc.c4h">تسوية الحسابات والتحصيل</h3>
           <p data-i18n="svc.c4p">تسوية حسابات العملاء والموردين وإدارة التحصيل، بما في ذلك التنسيق عبر عدة فروع.</p>
           <div class="service-panel-benefit" data-i18n="svc.c4b">تسوية الفروقات فور ظهورها، لا ترحيلها</div>
         </div>
-        <div class="service-panel" data-service-panel="4">
+        <div class="service-panel" data-service-panel="4" id="servicePanel4" role="tabpanel" aria-labelledby="serviceTab4" tabindex="0">
           <div class="service-panel-num">05</div>
           <h3 data-i18n="svc.c5h">محاسبة المقاولات والمشاريع</h3>
           <p data-i18n="svc.c5p">إعداد مستخلصات العملاء ومقاولي الباطن لمشاريع المقاولات والإنشاءات، مرتبطة بالدفاتر الأساسية.</p>
           <div class="service-panel-benefit" data-i18n="svc.c5b">فوترة مشاريع تعكس التقدم والتكلفة الفعليين</div>
         </div>
-        <div class="service-panel" data-service-panel="5">
+        <div class="service-panel" data-service-panel="5" id="servicePanel5" role="tabpanel" aria-labelledby="serviceTab5" tabindex="0">
           <div class="service-panel-num">06</div>
           <h3 data-i18n="svc.c6h">أنظمة ERP ودعم العمليات</h3>
           <p data-i18n="svc.c6p">تشغيل العمليات المحاسبية اليومية داخل Microsoft Dynamics 365 و Odoo، إضافة إلى ممارسات رقابة داخلية متوافقة مع معايير حماية الأصول.</p>
@@ -1352,14 +1386,14 @@
       <div class="contact-card">
         <p class="eyebrow" data-i18n="contact.phoneLabel">الهاتف وواتساب</p>
         <a class="contact-link" href="tel:01041930453">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           <span>01041930453</span>
         </a>
       </div>
       <div class="contact-card">
         <p class="eyebrow" data-i18n="contact.emailLabel">البريد الإلكتروني</p>
         <a class="contact-link" href="mailto:mhbalance52@gmail.com">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M3 6.5 12 13l9-6.5"/><rect x="3" y="5" width="18" height="14" rx="1.5"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z" opacity="0"/><path d="M3 6.5 12 13l9-6.5"/><rect x="3" y="5" width="18" height="14" rx="1.5"/></svg>
           <span>mhbalance52@gmail.com</span>
         </a>
       </div>
@@ -1367,10 +1401,10 @@
         <p class="eyebrow" data-i18n="contact.socialLabel">تواصل اجتماعي</p>
         <div class="social-row">
           <a class="social-btn" href="https://www.facebook.com/share/19KBx1fXyg/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
           </a>
           <a class="social-btn" href="https://www.instagram.com/m.h.balance?igsh=MXM2MTI1ZW1yaXpjdA==" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
           </a>
         </div>
       </div>
@@ -1379,7 +1413,7 @@
 </section>
 
 <a class="whatsapp-fab" href="https://wa.me/201041930453" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-  <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.85 9.85 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.32-1.93 1.4-.5.08-1.12.11-1.8-.11-.42-.13-.95-.31-1.64-.6-2.88-1.24-4.76-4.15-4.9-4.34-.14-.19-1.17-1.56-1.17-2.97 0-1.41.74-2.1 1-2.39.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.41-.07.64.49.24.58.81 2 .88 2.14.07.15.12.32.02.51-.09.19-.14.31-.28.48-.14.16-.29.36-.42.49-.14.13-.28.28-.12.55.16.28.7 1.16 1.51 1.88 1.04.93 1.91 1.22 2.19 1.36.28.14.44.12.6-.07.16-.19.68-.79.86-1.06.18-.28.36-.23.6-.14.24.09 1.53.72 1.79.85.26.13.43.19.5.3.06.11.06.63-.18 1.31z" fill="var(--black-navy)"/></svg>
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.85 9.85 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.32-1.93 1.4-.5.08-1.12.11-1.8-.11-.42-.13-.95-.31-1.64-.6-2.88-1.24-4.76-4.15-4.9-4.34-.14-.19-1.17-1.56-1.17-2.97 0-1.41.74-2.1 1-2.39.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.41-.07.64.49.24.58.81 2 .88 2.14.07.15.12.32.02.51-.09.19-.14.31-.28.48-.14.16-.29.36-.42.49-.14.13-.28.28-.12.55.16.28.7 1.16 1.51 1.88 1.04.93 1.91 1.22 2.19 1.36.28.14.44.12.6-.07.16-.19.68-.79.86-1.06.18-.28.36-.23.6-.14.24.09 1.53.72 1.79.85.26.13.43.19.5.3.06.11.06.63-.18 1.31z" fill="var(--black-navy)"/></svg>
 </a>
 
 <footer>
@@ -1405,13 +1439,13 @@
         </div>
         <div style="display:flex; gap:16px;">
           <a class="social-btn" style="width:38px; height:38px; border-color: rgba(235,233,232,0.22); color: rgba(235,233,232,0.7);" href="https://wa.me/201041930453" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.85 9.85 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2z"/></svg>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.85 9.85 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2z"/></svg>
           </a>
           <a class="social-btn" style="width:38px; height:38px; border-color: rgba(235,233,232,0.22); color: rgba(235,233,232,0.7);" href="https://www.facebook.com/share/19KBx1fXyg/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
           </a>
           <a class="social-btn" style="width:38px; height:38px; border-color: rgba(235,233,232,0.22); color: rgba(235,233,232,0.7);" href="https://www.instagram.com/m.h.balance?igsh=MXM2MTI1ZW1yaXpjdA==" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg>
           </a>
         </div>
       </div>
@@ -1803,8 +1837,16 @@
   const mobileMenu = document.getElementById('mobileMenu');
   const menuClose = document.getElementById('menuClose');
   const scrim = document.getElementById('scrim');
-  function openMenu(){ mobileMenu.classList.add('open'); scrim.classList.add('open'); }
-  function closeMenu(){ mobileMenu.classList.remove('open'); scrim.classList.remove('open'); }
+  function openMenu(){
+    mobileMenu.classList.add('open');
+    scrim.classList.add('open');
+    burger.setAttribute('aria-expanded', 'true');
+  }
+  function closeMenu(){
+    mobileMenu.classList.remove('open');
+    scrim.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+  }
   burger.addEventListener('click', openMenu);
   menuClose.addEventListener('click', closeMenu);
   scrim.addEventListener('click', closeMenu);
