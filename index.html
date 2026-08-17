@@ -200,7 +200,7 @@
     .hero-thread{ animation:none; width:64px; }
     .hero-headline{ animation:none; clip-path:none; }
   }
-  .hero p.lead{ font-size: 18px; color: rgba(235,233,232,0.78); max-width: 600px; margin-bottom: 42px; line-height:1.9; }
+  .hero p.lead{ font-size: 19px; color: rgba(235,233,232,0.78); max-width: 620px; margin-bottom: 42px; line-height:1.9; }
   .hero-actions{ display:flex; gap:18px; flex-wrap:wrap; margin-bottom: 64px; }
 
   .hero-meta{ display:flex; gap: 46px; flex-wrap:wrap; border-top: 1px solid rgba(198,149,80,0.22); padding-top: 28px; }
@@ -208,8 +208,12 @@
   .hero-meta .num{ font-size: 26px; color: var(--gold); font-weight:700; margin-bottom:6px; }
   .hero-meta .label{ font-size: 12.5px; letter-spacing:0.02em; color: rgba(235,233,232,0.62); line-height:1.5; }
 
-  .scroll-cue{ position:absolute; bottom: 34px; inset-inline-start: 32px; display:flex; align-items:center; gap:12px; color: rgba(235,233,232,0.5); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; z-index:2; }
-  .scroll-cue .line{ width:1px; height:40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollLine 2.2s ease-in-out infinite; }
+  .scroll-cue{
+    position:absolute; bottom: 34px; left:50%; transform:translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    color: rgba(235,233,232,0.42); font-size:10px; letter-spacing:0.16em; text-transform:uppercase; z-index:2;
+  }
+  .scroll-cue .line{ order:-1; width:1px; height:40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollLine 2.2s ease-in-out infinite; }
   @keyframes scrollLine{ 0%{ transform: scaleY(0); transform-origin: top; } 50%{ transform: scaleY(1); transform-origin: top; } 51%{ transform-origin: bottom; } 100%{ transform: scaleY(0); transform-origin: bottom; } }
 
   section{ position:relative; }
@@ -220,13 +224,13 @@
   .section-black{ background: var(--black-navy); color: var(--off-white); }
 
   .section-head{ max-width: 680px; margin-bottom: 70px; }
-  .section-head h2{ font-size: clamp(28px, 3.6vw, 42px); line-height:1.3; }
+  .section-head h2{ font-size: clamp(30px, 3.8vw, 46px); line-height:1.3; }
   .section-navy .section-head h2, .section-black .section-head h2{ color: var(--off-white); }
-  .section-head p{ margin-top: 20px; font-size: 16.5px; color: var(--slate); line-height:1.9; }
+  .section-head p{ margin-top: 20px; font-size: 17.5px; color: var(--slate); line-height:1.9; }
   .section-navy .section-head p, .section-black .section-head p{ color: rgba(235,233,232,0.68); }
 
   .about-grid{ display:grid; grid-template-columns: 1.15fr 0.85fr; gap: 90px; align-items:center; }
-  .about-copy p{ font-size: 16.5px; color: var(--slate); margin-bottom: 20px; line-height:1.95; }
+  .about-copy p{ font-size: 17.5px; color: var(--slate); margin-bottom: 20px; line-height:1.95; }
   .about-copy strong{ color: var(--navy); }
   .about-foot{ margin-top: 30px; padding-top: 26px; border-top: 1px solid rgba(3,25,52,0.12); font-size: 14.5px; color: var(--slate); font-style:italic; }
 
@@ -246,7 +250,7 @@
   .understand-grid{ display:grid; grid-template-columns: repeat(4,1fr); gap: 46px; }
   .understand-item .num{ font-size:13px; color: var(--gold); font-weight:700; letter-spacing:0.05em; margin-bottom:16px; }
   .understand-item h4{ font-size:17px; color: var(--off-white); margin-bottom:12px; }
-  .understand-item p{ font-size:14px; color: rgba(235,233,232,0.66); line-height:1.85; }
+  .understand-item p{ font-size:15px; color: rgba(235,233,232,0.66); line-height:1.85; }
   @media (max-width: 900px){ .understand-grid{ grid-template-columns: 1fr 1fr; } }
   @media (max-width: 560px){ .understand-grid{ grid-template-columns: 1fr; } }
 
@@ -288,7 +292,7 @@
   .industry-panel.is-active{ display:block; animation: panelIn .55s cubic-bezier(.2,.7,.2,1); }
   .industry-panel-tag{ font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color: var(--gold-dark); font-weight:700; margin-bottom:16px; display:block; }
   .industry-panel h3{ font-size: clamp(22px, 2.6vw, 27px); color: var(--navy); margin-bottom:16px; max-width:420px; }
-  .industry-panel p{ font-size: 15.5px; color: var(--slate); line-height:1.9; max-width:480px; position:relative; z-index:1; }
+  .industry-panel p{ font-size: 16.5px; color: var(--slate); line-height:1.9; max-width:500px; position:relative; z-index:1; }
 
   @media (max-width: 860px){
     .industry-explorer{ grid-template-columns: 1fr; gap:0; }
@@ -327,7 +331,7 @@
   .expertise-item.active{ opacity:1; }
   .expertise-item-num{ display:block; font-size:12px; color: var(--gold-dark); font-weight:700; margin-bottom:14px; }
   .expertise-item h4{ font-size:20px; color: var(--navy); margin-bottom:12px; }
-  .expertise-item p{ font-size:15px; color: var(--slate); line-height:1.9; max-width:540px; }
+  .expertise-item p{ font-size:16px; color: var(--slate); line-height:1.9; max-width:560px; }
   @media (max-width: 860px){
     .expertise-pin{ display:block; }
     .expertise-sticky{ display:none; }
@@ -393,7 +397,7 @@
   @keyframes panelIn{ from{ opacity:0; transform: translateY(10px); } to{ opacity:1; transform: translateY(0); } }
   .service-panel-num{ font-size:13px; color: var(--gold-dark); font-weight:700; margin-bottom:18px; }
   .service-panel h3{ font-size:23px; color: var(--navy); margin-bottom:16px; }
-  .service-panel p{ font-size:15.5px; color: var(--slate); line-height:1.9; margin-bottom:22px; max-width:560px; }
+  .service-panel p{ font-size:16.5px; color: var(--slate); line-height:1.9; margin-bottom:22px; max-width:580px; }
   .service-panel-benefit{ font-size:13px; color: var(--gold-dark); padding-top:18px; border-top: 1px solid rgba(3,25,52,0.12); display:inline-block; }
   @media (prefers-reduced-motion: reduce){ .service-panel.active{ animation:none; } }
   @media (max-width: 860px){
@@ -427,7 +431,7 @@
   .why-item{ display:flex; gap: 22px; }
   .why-mark{ flex-shrink:0; width: 38px; height:38px; border: 1px solid var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; color: var(--gold); font-size:14px; }
   .why-item h4{ font-size:16.5px; margin-bottom:8px; color: var(--off-white); }
-  .why-item p{ font-size:14.5px; color: rgba(235,233,232,0.65); line-height:1.85; }
+  .why-item p{ font-size:15.5px; color: rgba(235,233,232,0.65); line-height:1.85; }
   @media (max-width: 980px){ .why-grid{ grid-template-columns: 1fr; } }
 
   .trust-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(235,233,232,0.14); border: 1px solid rgba(235,233,232,0.14); }
@@ -613,27 +617,27 @@
   .intro-glow{
     position:absolute; width:560px; height:560px; border-radius:50%;
     background: radial-gradient(circle, rgba(198,149,80,0.24) 0%, rgba(198,149,80,0) 68%);
-    opacity:0; animation: introGlow 2.6s ease forwards;
+    opacity:0; animation: introGlow 2.9s ease forwards;
   }
   @keyframes introGlow{ 0%{ opacity:0; } 35%{ opacity:1; } 100%{ opacity:.55; } }
   .intro-logo{
     width:104px; height:auto; position:relative; z-index:2;
     opacity:0; transform: translateY(14px) scale(0.94);
-    animation: introLogo 1.05s cubic-bezier(.2,.8,.2,1) forwards;
-    animation-delay:.3s;
+    animation: introLogo 1.25s cubic-bezier(.2,.8,.2,1) forwards;
+    animation-delay:.4s;
   }
   @keyframes introLogo{ to{ opacity:1; transform: translateY(0) scale(1); } }
   .intro-word{
     position:relative; z-index:2; margin-top:22px;
     color: var(--off-white); font-family: var(--font);
     font-size:14px; letter-spacing:0.32em; font-weight:700;
-    opacity:0; animation: introFade .7s ease forwards; animation-delay:1.0s;
+    opacity:0; animation: introFade .8s ease forwards; animation-delay:1.3s;
   }
   .intro-statement{
     position:relative; z-index:2; margin-top:16px; padding:0 24px;
     color: rgba(235,233,232,0.68); font-size:14.5px; line-height:1.9;
     max-width:380px; text-align:center;
-    opacity:0; animation: introFade .7s ease forwards; animation-delay:1.3s;
+    opacity:0; animation: introFade .8s ease forwards; animation-delay:1.7s;
   }
   @keyframes introFade{ to{ opacity:1; } }
   .intro-skip{
@@ -641,7 +645,7 @@
     background:none; border:1px solid rgba(235,233,232,0.22); color: rgba(235,233,232,0.5);
     font-family: var(--font); font-size:12px; letter-spacing:0.06em;
     padding:9px 20px; border-radius:20px; cursor:pointer;
-    opacity:0; animation: introFade .6s ease forwards; animation-delay:1.5s;
+    opacity:0; animation: introFade .6s ease forwards; animation-delay:1.9s;
     transition: border-color .3s ease, color .3s ease;
   }
   .intro-skip:hover{ border-color: var(--gold); color: var(--gold); }
@@ -800,6 +804,29 @@
   .brand-geo-echo.on-dark{ opacity:.09; }
   @media (prefers-reduced-motion: reduce){ .brand-geo-echo{ transition:none; } }
 
+  /* ---- section continuity: soften the navy↔off-white boundaries so
+     the page reads as one composition instead of stacked blocks. Only
+     applied at the actual hard-cut points in the section sequence —
+     same-tone neighbors (e.g. two off-white sections in a row) don't
+     need one. Purely decorative, sits behind real content. ---- */
+  #who-we-are::before,
+  #experience::before,
+  #industries::before,
+  #why-section::before,
+  #contact::before{
+    content:""; position:absolute; top:0; inset-inline-start:0; inset-inline-end:0;
+    height:150px; pointer-events:none; z-index:0;
+  }
+  #who-we-are::before{ background: linear-gradient(to bottom, rgba(3,25,52,0.45), transparent); }
+  #experience::before{ background: linear-gradient(to bottom, rgba(240,240,239,0.35), transparent); }
+  #industries::before{ background: linear-gradient(to bottom, rgba(21,40,64,0.3), transparent); }
+  #why-section::before{ background: linear-gradient(to bottom, rgba(240,240,239,0.35), transparent); }
+  #contact::before{ background: linear-gradient(to bottom, rgba(21,40,64,0.3), transparent); }
+  @media (max-width: 640px){
+    #who-we-are::before, #experience::before, #industries::before,
+    #why-section::before, #contact::before{ height:80px; }
+  }
+
   :focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; }
 </style>
 </head>
@@ -847,7 +874,7 @@
   <div class="nav-inner">
     <a href="#home" class="brand" aria-label="M H Balance">
       <img id="navLogoImg" class="nav-logo-img" src="assets/logo-light.png" alt="M H Balance logo">
-      <span class="brand-text">M H BALANCE<span data-i18n="brand.tagline">التوازن يقود النمو</span></span>
+      <span class="brand-text">M H BALANCE<span data-i18n="brand.tagline">اتزان يقود للنمو</span></span>
     </a>
     <div class="nav-right">
       <div class="lang-switch">
@@ -870,27 +897,33 @@
     <div class="hero-sweep"></div>
   </div>
   <svg class="hero-grid" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <g stroke="#C69550" stroke-opacity="0.16">
+    <g stroke="#C69550" stroke-opacity="0.13">
       <line x1="0" y1="120" x2="1200" y2="120"></line>
       <line x1="0" y1="280" x2="1200" y2="280"></line>
       <line x1="0" y1="440" x2="1200" y2="440"></line>
       <line x1="0" y1="600" x2="1200" y2="600"></line>
     </g>
-    <g fill="#152840">
-      <rect x="880" y="560" width="26" height="90"></rect>
-      <rect x="920" y="500" width="26" height="150"></rect>
-      <rect x="960" y="430" width="26" height="220"></rect>
-      <rect x="1000" y="360" width="26" height="290"></rect>
-      <rect x="1040" y="280" width="26" height="370"></rect>
+    <!-- abstract brand geometry — the same circle-and-line language used
+         throughout the site (Industries explorer, section echoes),
+         not a literal chart -->
+    <g fill="none" stroke="#C69550">
+      <circle cx="980" cy="340" r="58" stroke-opacity="0.24" stroke-width="1"></circle>
+      <circle cx="980" cy="340" r="118" stroke-opacity="0.15" stroke-width="1"></circle>
+      <circle cx="980" cy="340" r="190" stroke-opacity="0.08" stroke-width="1"></circle>
     </g>
-    <line x1="870" y1="655" x2="1085" y2="255" stroke="#C69550" stroke-width="1.5" stroke-opacity="0.55"></line>
-    <polygon points="1085,255 1060,262 1078,280" fill="#C69550" fill-opacity="0.55"></polygon>
+    <g stroke="#C69550" stroke-opacity="0.32" stroke-width="1">
+      <line x1="850" y1="470" x2="1095" y2="220"></line>
+      <line x1="895" y1="510" x2="1155" y2="245"></line>
+    </g>
+    <g stroke="#152840" stroke-opacity="0.5" stroke-width="1">
+      <line x1="805" y1="425" x2="1050" y2="175"></line>
+    </g>
   </svg>
 
   <div class="wrap hero-content">
     <p class="eyebrow reveal is-visible" data-i18n="hero.eyebrow">M H BALANCE · محاسبة واستشارات مالية</p>
     <div class="hero-thread" aria-hidden="true"></div>
-    <h1 class="hero-headline" data-i18n="hero.h1">نفهم العمل قبل أن نقرأ <em>أرقامه.</em></h1>
+    <h1 class="hero-headline" data-i18n="hero.h1">نحوّل حساباتكم من أرقام إلى <em>قرارات واضحة.</em></h1>
     <p class="lead reveal is-visible reveal-delay-2" data-i18n="hero.lead">تقدّم M H Balance خدمات المحاسبة والتقارير المالية استنادًا إلى خبرة عملية ممتدة عبر قطاعات المقاولات، والتصنيع، والتجزئة عالية القيمة، والسلع الاستهلاكية — لأن لكل نشاط تجاري بنية مالية مختلفة، ولا تكتسب الأرقام معناها الحقيقي إلا حين تُفهم هذه البنية أولًا.</p>
     <div class="hero-actions reveal is-visible reveal-delay-3">
       <a href="https://wa.me/201041930453" target="_blank" rel="noopener noreferrer" class="btn btn-gold">
@@ -906,11 +939,7 @@
       </div>
       <div>
         <div class="num">4</div>
-        <div class="label" data-i18n="hero.meta2">قطاعات نفهمها جيدًا</div>
-      </div>
-      <div>
-        <div class="num">2</div>
-        <div class="label" data-i18n="hero.meta3">أنظمة ERP — Dynamics 365 و Odoo</div>
+        <div class="label" data-i18n="hero.meta2">قطاعات نفهم طبيعة عملها من الداخل</div>
       </div>
       <div>
         <div class="num">IFRS</div>
@@ -936,9 +965,8 @@
   <div class="wrap about-grid">
     <div class="about-copy">
       <p class="eyebrow reveal" data-i18n="about.eyebrow">من نحن</p>
-      <h2 class="reveal" style="margin-bottom:28px;" data-i18n="about.h2">دفاتر تبقى صادقة، لتتحرك أعمالكم بثقة.</h2>
-      <p class="reveal reveal-delay-1" data-i18n="about.p1">تقوم <strong>M H Balance</strong> على مبدأ عمل بسيط: لا تفيد الأرقام إلا حين تكون دقيقة، وحديثة، ومفهومة. نتعامل مع كل عملية تسوية باعتبارها فرصة لاكتشاف مشكلة قبل أن تكبر، ومع كل دفتر أستاذ باعتباره شيئًا يجب أن يثق فيه صاحب القرار دون الحاجة لمراجعته مرتين.</p>
-      <p class="reveal reveal-delay-2" data-i18n="about.p2">تشكّلت خبرتنا العملية عبر بيئات عمل مختلفة تمامًا — مواقع مقاولات تُدار بنظام المشاريع، عمليات تصنيع وتجارة، شبكة تجزئة متعددة الفروع لسلع عالية القيمة، ومبيعات سلع استهلاكية. وقد فرض كل نشاط الانضباط ذاته: دفتر أستاذ عام نظيف، وميزان مراجعة متوازن فعليًا، وتقارير تصمد أمام أي مراجعة دقيقة.</p>
+      <h2 class="reveal" style="margin-bottom:28px;" data-i18n="about.h2">أرقام صادقة تُحرّك أعمالكم بثقة.</h2>
+      <p class="reveal reveal-delay-1" data-i18n="about.p1">تشكّلت خبراتنا العملية عبر بيئات عمل مختلفة تمامًا — مواقع مقاولات تُدار بنظام المشاريع، عمليات تصنيع وتجارة، شبكة تجزئة متعددة الفروع لسلع عالية القيمة، ومبيعات سلع استهلاكية. وقد فرض كل نشاط الانضباط ذاته: دفتر أستاذ عام نظيف، وميزان مراجعة متوازن فعليًا، وأرقام واضحة تقودكم لقرار سليم.</p>
       <p class="reveal reveal-delay-3" data-i18n="about.p3">هذا الأساس متعدد القطاعات هو ما نقدّمه في كل تكليف — ليس أسلوبًا واحدًا يُطبَّق على الجميع في مسك الدفاتر، بل فهم حقيقي لاختلاف احتياجات شركات المقاولات، والتجزئة، والتصنيع.</p>
       <p class="about-foot reveal reveal-delay-3" data-i18n="about.foot">M H Balance ممارسة محاسبية حديثة النشأة — أما الخبرة العملية التي تقوم عليها فليست كذلك. نهجنا مبني على تعامل مباشر مع القطاعات التي نخدمها، لا على نموذج مكتبي جاهز.</p>
     </div>
@@ -958,7 +986,7 @@
     <div class="section-head">
       <p class="eyebrow reveal" data-i18n="understand.eyebrow">أساس فهمنا</p>
       <h2 class="reveal reveal-delay-1" data-i18n="understand.h2">البيانات المالية مرتبطة بعمليات حقيقية</h2>
-      <p class="reveal reveal-delay-2" data-i18n="understand.p">قبل أن يصل أي رقم إلى تقرير، يكون قد بدأ من مكان ما — أمر شراء، وردية على أرض المصنع، حساب عميل، أو جرد فرع. نحن نفهم هذه السلسلة كاملة، لا نهايتها فقط.</p>
+      <p class="reveal reveal-delay-2" data-i18n="understand.p">المحاسبة ليست منفصلة عن نشاط العمل — هي انعكاس له. دورة القيد والتقرير مبنية على دورة التشغيل الفعلية: شراء، بيع، مخزون، تحصيل، وسداد، أيًا كانت طبيعة النشاط: مقاولات، تجزئة، تصنيع، أو تجارة. نفهم العملية أولًا، ثم نفهم كيف تُسجَّل وتُقرأ ماليًا.</p>
     </div>
     <div class="understand-grid">
       <div class="understand-item reveal">
@@ -1047,7 +1075,7 @@
 <div class="big-statement">
   <div class="wrap">
     <div class="rule"></div>
-    <p class="reveal" data-i18n="statement.line">الأرقام وحدها لا تحل المشكلة. <em>فهم العمل الذي وراءها هو ما يحلها.</em></p>
+    <p class="reveal" data-i18n="statement.line">الأرقام وحدها لا تكفي. <em>فهم العمل الذي وراءها، وشرح ما تعنيه، هو ما يقود النمو.</em></p>
   </div>
 </div>
 
@@ -1065,22 +1093,22 @@
         <div class="challenge-num">01</div>
         <div>
           <div class="challenge-problem" data-i18n="chal.p1label">المشكلة</div>
-          <div class="challenge-problem-text" data-i18n="chal.p1problem">فروقات بين المخزون الدفتري والمخزون الفعلي.</div>
+          <div class="challenge-problem-text" data-i18n="chal.p1problem">الجرد الدوري أم المستمر؟ ولو عندكم أكثر من مخزن، هل تعرفون بدقة ما يوجد في كل واحد؟</div>
         </div>
         <div>
           <div class="challenge-answer-label" data-i18n="chal.answerLabel">فهمنا</div>
-          <div class="challenge-answer" data-i18n="chal.p1answer">خبرة عملية في الجرد الفعلي والتسوية الدورية للمخزون عبر فروع وأنشطة متعددة، من المواد الخام إلى المنتجات عالية القيمة.</div>
+          <div class="challenge-answer" data-i18n="chal.p1answer">نساعدكم في تحديد نظام الجرد المناسب لطبيعة نشاطكم، ونربط بيانات المخزون عبر عدة مخازن لمعرفة الموجود، ومكانه، وكميته.</div>
         </div>
       </div>
       <div class="challenge-row">
         <div class="challenge-num">02</div>
         <div>
           <div class="challenge-problem" data-i18n="chal.p1label">المشكلة</div>
-          <div class="challenge-problem-text" data-i18n="chal.p2problem">صعوبة تحصيل وتسوية حسابات العملاء عبر فروع متعددة.</div>
+          <div class="challenge-problem-text" data-i18n="chal.p2problem">تحصيل وتسوية حسابات متفرقة عبر أكثر من فرع.</div>
         </div>
         <div>
           <div class="challenge-answer-label" data-i18n="chal.answerLabel">فهمنا</div>
-          <div class="challenge-answer" data-i18n="chal.p2answer">خبرة في تنسيق التحصيل وتسوية الحسابات عبر ثلاثة فروع في آنٍ واحد، وحل الفروقات من مصدرها.</div>
+          <div class="challenge-answer" data-i18n="chal.p2answer">خبرة مباشرة في تنسيق التحصيل وتسوية الحسابات عبر ثلاثة فروع في وقت واحد، وحل الفروقات من مصدرها.</div>
         </div>
       </div>
       <div class="challenge-row">
@@ -1109,11 +1137,11 @@
         <div class="challenge-num">05</div>
         <div>
           <div class="challenge-problem" data-i18n="chal.p1label">المشكلة</div>
-          <div class="challenge-problem-text" data-i18n="chal.p5problem">فروقات متكررة في حسابات الموردين والعملاء.</div>
+          <div class="challenge-problem-text" data-i18n="chal.p5problem">ميزان المراجعة لا يتزن، أو القوائم المالية لا تروي قصة منطقية عن أداء النشاط.</div>
         </div>
         <div>
           <div class="challenge-answer-label" data-i18n="chal.answerLabel">فهمنا</div>
-          <div class="challenge-answer" data-i18n="chal.p5answer">خبرة في تسوية حسابات الموردين والعملاء واكتشاف الفروقات ومعالجتها من مصدرها مباشرة.</div>
+          <div class="challenge-answer" data-i18n="chal.p5answer">نراجع الهيكل المحاسبي من جذوره — لا نكتفي بتصحيح القيد الأخير — لنفهم أين انكسرت الصورة، ونعيدها متماسكة.</div>
         </div>
       </div>
     </div>
@@ -1157,12 +1185,12 @@
         </div>
         <div class="expertise-item" data-index="4">
           <span class="expertise-item-num">05</span>
-          <h4 data-i18n="exp.c5h">أنظمة ERP ودعم العمليات</h4>
-          <p data-i18n="exp.c5p">تشغيل عملي داخل Microsoft Dynamics 365 و Odoo للمحاسبة اليومية.</p>
+          <h4 data-i18n="exp.c5h">المرونة مع نظامكم المحاسبي</h4>
+          <p data-i18n="exp.c5p">نعمل داخل نظامكم الحالي مباشرة — من خبرة عملية مع Microsoft Dynamics 365 و Odoo.</p>
         </div>
         <div class="expertise-item" data-index="5">
           <span class="expertise-item-num">06</span>
-          <h4 data-i18n="exp.c6h">الرقابة الداخلية وحماية الأصول</h4>
+          <h4 data-i18n="exp.c6h">الرقابة الداخلية وحماية الأصول — Corporate Governance</h4>
           <p data-i18n="exp.c6p">ممارسات رقابية متوافقة مع معايير حماية الأصول المعترف بها.</p>
         </div>
       </div>
@@ -1209,7 +1237,7 @@
         </button>
         <button class="service-index-item" data-service="5" id="serviceTab5" role="tab" aria-selected="false" aria-controls="servicePanel5" type="button">
           <span class="service-index-num">06</span>
-          <span class="service-index-name" data-i18n="svc.c6h">أنظمة ERP ودعم العمليات</span>
+          <span class="service-index-name" data-i18n="svc.c6h">التوافق مع نظامكم المحاسبي</span>
         </button>
       </div>
       <div class="services-stage" id="servicesStage">
@@ -1245,8 +1273,8 @@
         </div>
         <div class="service-panel" data-service-panel="5" id="servicePanel5" role="tabpanel" aria-labelledby="serviceTab5" tabindex="0">
           <div class="service-panel-num">06</div>
-          <h3 data-i18n="svc.c6h">أنظمة ERP ودعم العمليات</h3>
-          <p data-i18n="svc.c6p">تشغيل العمليات المحاسبية اليومية داخل Microsoft Dynamics 365 و Odoo، إضافة إلى ممارسات رقابة داخلية متوافقة مع معايير حماية الأصول.</p>
+          <h3 data-i18n="svc.c6h">التوافق مع نظامكم المحاسبي</h3>
+          <p data-i18n="svc.c6p">ندير العمليات المحاسبية اليومية داخل نظامكم الحالي، إضافة إلى ممارسات رقابة داخلية متوافقة مع معايير حماية الأصول.</p>
           <div class="service-panel-benefit" data-i18n="svc.c6b">محاسبة تتوافق مع الأنظمة التي تعملون بها بالفعل</div>
         </div>
       </div>
@@ -1307,8 +1335,8 @@
       <div class="why-item reveal reveal-delay-1">
         <div class="why-mark">2</div>
         <div>
-          <h4 data-i18n="why.i2h">إتقان أنظمة ERP لا الاعتماد عليها فقط</h4>
-          <p data-i18n="why.i2p">نعمل بارتياح داخل Microsoft Dynamics 365 و Odoo على حد سواء، بحيث تتكيف محاسبتنا مع أنظمتكم الحالية.</p>
+          <h4 data-i18n="why.i2h">نتكيف مع نظامكم، لا العكس</h4>
+          <p data-i18n="why.i2p">نعمل داخل نظامكم المحاسبي الحالي مباشرة، من خبرة عملية مع Microsoft Dynamics 365 و Odoo.</p>
         </div>
       </div>
       <div class="why-item reveal reveal-delay-2">
@@ -1362,7 +1390,7 @@
   <div class="wrap">
     <p class="eyebrow reveal" style="justify-content:center;" data-i18n="cta.eyebrow">ابدأ الآن</p>
     <h2 class="reveal reveal-delay-1" data-i18n="cta.h2">فلنُضف <em>وضوحًا</em> إلى أرقامكم.</h2>
-    <p class="reveal reveal-delay-2" data-i18n="cta.p">محادثة قصيرة تكفي لمعرفة أين تقف دفاتركم — وكيف يبدو شكل دفتر أستاذ مُسوّى بشكل صحيح.</p>
+    <p class="reveal reveal-delay-2" data-i18n="cta.p">محادثة قصيرة تكفي لنفهم موقع أعمالكم الآن، ونوضح لكم الخطوة التالية.</p>
     <div class="cta-actions reveal reveal-delay-3">
       <a href="https://wa.me/201041930453" target="_blank" rel="noopener noreferrer" class="btn btn-gold">
         <span data-i18n="hero.btn1">تواصل معنا عبر واتساب</span>
@@ -1457,26 +1485,25 @@
 <script>
   const translations = {
     ar: {
-      "brand.tagline": "التوازن يقود النمو",
+      "brand.tagline": "اتزان يقود للنمو",
       "nav.who": "من نحن", "nav.industries": "القطاعات", "nav.expertise": "خبراتنا",
       "nav.services": "خدماتنا", "nav.contact": "تواصل معنا", "nav.whatsapp": "تواصل معنا",
       "menu.label": "القائمة",
       "hero.eyebrow": "M H BALANCE · محاسبة واستشارات مالية",
-      "hero.h1": "نفهم العمل قبل أن نقرأ <em>أرقامه.</em>",
+      "hero.h1": "نحوّل حساباتكم من أرقام إلى <em>قرارات واضحة.</em>",
       "hero.lead": "تقدّم M H Balance خدمات المحاسبة والتقارير المالية استنادًا إلى خبرة عملية ممتدة عبر قطاعات المقاولات، والتصنيع، والتجزئة عالية القيمة، والسلع الاستهلاكية — لأن لكل نشاط تجاري بنية مالية مختلفة، ولا تكتسب الأرقام معناها الحقيقي إلا حين تُفهم هذه البنية أولًا.",
       "hero.btn1": "تواصل معنا عبر واتساب", "hero.btn2": "اتصل بنا", "hero.scroll": "مرّر للأسفل",
-      "hero.meta1": "سنوات من الخبرة العملية المتراكمة", "hero.meta2": "قطاعات نفهمها جيدًا",
-      "hero.meta3": "أنظمة ERP — Dynamics 365 و Odoo", "hero.meta4": "إعداد قوائم مالية متوافقة مع IFRS",
+      "hero.meta1": "سنوات من الخبرة العملية المتراكمة", "hero.meta2": "قطاعات نفهم طبيعة عملها من الداخل",
+      "hero.meta4": "إعداد قوائم مالية متوافقة مع IFRS",
       "intro.statement": "بنحول الحسابات من مجرد أرقام إلي رؤية تساعدك تاخد قرار صح.", "intro.skip": "تخطي",
       "hub.experience": "خبرتنا", "hub.approach": "منهجية العمل", "hub.why": "لماذا M H Balance",
-      "about.eyebrow": "من نحن", "about.h2": "دفاتر تبقى صادقة، لتتحرك أعمالكم بثقة.",
-      "about.p1": "تقوم <strong>M H Balance</strong> على مبدأ عمل بسيط: لا تفيد الأرقام إلا حين تكون دقيقة، وحديثة، ومفهومة. نتعامل مع كل عملية تسوية باعتبارها فرصة لاكتشاف مشكلة قبل أن تكبر، ومع كل دفتر أستاذ باعتباره شيئًا يجب أن يثق فيه صاحب القرار دون الحاجة لمراجعته مرتين.",
-      "about.p2": "تشكّلت خبرتنا العملية عبر بيئات عمل مختلفة تمامًا — مواقع مقاولات تُدار بنظام المشاريع، عمليات تصنيع وتجارة، شبكة تجزئة متعددة الفروع لسلع عالية القيمة، ومبيعات سلع استهلاكية. وقد فرض كل نشاط الانضباط ذاته: دفتر أستاذ عام نظيف، وميزان مراجعة متوازن فعليًا، وتقارير تصمد أمام أي مراجعة دقيقة.",
+      "about.eyebrow": "من نحن", "about.h2": "أرقام صادقة تُحرّك أعمالكم بثقة.",
+      "about.p1": "تشكّلت خبراتنا العملية عبر بيئات عمل مختلفة تمامًا — مواقع مقاولات تُدار بنظام المشاريع، عمليات تصنيع وتجارة، شبكة تجزئة متعددة الفروع لسلع عالية القيمة، ومبيعات سلع استهلاكية. وقد فرض كل نشاط الانضباط ذاته: دفتر أستاذ عام نظيف، وميزان مراجعة متوازن فعليًا، وأرقام واضحة تقودكم لقرار سليم.",
       "about.p3": "هذا الأساس متعدد القطاعات هو ما نقدّمه في كل تكليف — ليس أسلوبًا واحدًا يُطبَّق على الجميع في مسك الدفاتر، بل فهم حقيقي لاختلاف احتياجات شركات المقاولات، والتجزئة، والتصنيع.",
       "about.foot": "M H Balance ممارسة محاسبية حديثة النشأة — أما الخبرة العملية التي تقوم عليها فليست كذلك. نهجنا مبني على تعامل مباشر مع القطاعات التي نخدمها، لا على نموذج مكتبي جاهز.",
       "about.plate1": "الفهم", "about.plate1s": "طبيعة النشاط", "about.plate2": "التقرير", "about.plate2s": "الأرقام",
       "understand.eyebrow": "أساس فهمنا", "understand.h2": "البيانات المالية مرتبطة بعمليات حقيقية",
-      "understand.p": "قبل أن يصل أي رقم إلى تقرير، يكون قد بدأ من مكان ما — أمر شراء، وردية على أرض المصنع، حساب عميل، أو جرد فرع. نحن نفهم هذه السلسلة كاملة، لا نهايتها فقط.",
+      "understand.p": "المحاسبة ليست منفصلة عن نشاط العمل — هي انعكاس له. دورة القيد والتقرير مبنية على دورة التشغيل الفعلية: شراء، بيع، مخزون، تحصيل، وسداد، أيًا كانت طبيعة النشاط: مقاولات، تجزئة، تصنيع، أو تجارة. نفهم العملية أولًا، ثم نفهم كيف تُسجَّل وتُقرأ ماليًا.",
       "understand.i1h": "التكاليف والمشتريات", "understand.i1p": "كيف تنتقل تكاليف المشاريع والمواد من الشراء إلى الدفاتر، وأين يجب أن تكون الرقابة.",
       "understand.i2h": "المخزون والتقييم", "understand.i2p": "كيف يُتابع المخزون ويُجرد ويُسوّى بدقة — من المواد الخام إلى المنتجات عالية القيمة.",
       "understand.i3h": "الإيرادات والتحصيل", "understand.i3p": "كيف تتحول حسابات العملاء وتحصيلات الفروع المتعددة والذمم المدينة إلى صورة إيراد يمكن الوثوق بها.",
@@ -1491,34 +1518,34 @@
       "ind.c3p": "عمل عملي مع بطاقات الأصناف، وتتبع حركة المخزون، وتسوية حسابات الموردين والعملاء في بيئة تصنيع وتجارة — حيث تقود دقة المخزون الدفاتر.",
       "ind.c4tag": "السلع الاستهلاكية والتجزئة", "ind.c4h": "خبرة تجارية مباشرة",
       "ind.c4p": "خبرة مباشرة في بناء علاقات العملاء والتفاوض على المبيعات في قطاع التجزئة الاستهلاكية — منظور تجاري ينعكس في قراءتنا للإيرادات وحسابات العملاء.",
-      "statement.line": "الأرقام وحدها لا تحل المشكلة. <em>فهم العمل الذي وراءها هو ما يحلها.</em>",
+      "statement.line": "الأرقام وحدها لا تكفي. <em>فهم العمل الذي وراءها، وشرح ما تعنيه، هو ما يقود النمو.</em>",
       "chal.eyebrow": "مشكلات نفهمها", "chal.h2": "قبل الحل، لا بد أن نفهم أين تكمن المشكلة فعليًا",
       "chal.p": "هذه أمثلة من مشكلات واجهناها مباشرة في عملنا اليومي، وما تعلمناه من التعامل معها.",
       "chal.p1label": "المشكلة", "chal.answerLabel": "فهمنا",
-      "chal.p1problem": "فروقات بين المخزون الدفتري والمخزون الفعلي.",
-      "chal.p1answer": "خبرة عملية في الجرد الفعلي والتسوية الدورية للمخزون عبر فروع وأنشطة متعددة، من المواد الخام إلى المنتجات عالية القيمة.",
-      "chal.p2problem": "صعوبة تحصيل وتسوية حسابات العملاء عبر فروع متعددة.",
-      "chal.p2answer": "خبرة في تنسيق التحصيل وتسوية الحسابات عبر ثلاثة فروع في آنٍ واحد، وحل الفروقات من مصدرها.",
+      "chal.p1problem": "الجرد الدوري أم المستمر؟ ولو عندكم أكثر من مخزن، هل تعرفون بدقة ما يوجد في كل واحد؟",
+      "chal.p1answer": "نساعدكم في تحديد نظام الجرد المناسب لطبيعة نشاطكم، ونربط بيانات المخزون عبر عدة مخازن لمعرفة الموجود، ومكانه، وكميته.",
+      "chal.p2problem": "تحصيل وتسوية حسابات متفرقة عبر أكثر من فرع.",
+      "chal.p2answer": "خبرة مباشرة في تنسيق التحصيل وتسوية الحسابات عبر ثلاثة فروع في وقت واحد، وحل الفروقات من مصدرها.",
       "chal.p3problem": "غياب رؤية واضحة لتكلفة المشروع الفعلية في أعمال المقاولات.",
       "chal.p3answer": "خبرة في ربط تكاليف المواد والعمالة والمشتريات بمستخلصات المشروع الفعلية.",
       "chal.p4problem": "تعقيد حساب الأجور والسلف والالتزامات.",
       "chal.p4answer": "خبرة في تسوية أجور العمالة وسلف الموظفين والالتزامات بدقة على مستوى الدفاتر.",
-      "chal.p5problem": "فروقات متكررة في حسابات الموردين والعملاء.",
-      "chal.p5answer": "خبرة في تسوية حسابات الموردين والعملاء واكتشاف الفروقات ومعالجتها من مصدرها مباشرة.",
+      "chal.p5problem": "ميزان المراجعة لا يتزن، أو القوائم المالية لا تروي قصة منطقية عن أداء النشاط.",
+      "chal.p5answer": "نراجع الهيكل المحاسبي من جذوره — لا نكتفي بتصحيح القيد الأخير — لنفهم أين انكسرت الصورة، ونعيدها متماسكة.",
       "exp.eyebrow": "خبراتنا", "exp.h2": "الانضباط الذي يقوم عليه كل تكليف",
       "exp.c1h": "المحاسبة والتقارير المالية", "exp.c1p": "دفتر الأستاذ العام، وميزان المراجعة، وقوائم الدخل، وإقفال نهاية المدة المتوافق مع IFRS.",
       "exp.c2h": "الرقابة على التكاليف والمخزون", "exp.c2p": "بطاقات الأصناف، وتتبع حركة المخزون، والجرد الفعلي، والتسوية عبر القطاعات.",
       "exp.c3h": "إدارة الأجور والرواتب", "exp.c3p": "معالجة الأجور، وتسوية سلف الموظفين والالتزامات بانضباط على مستوى الدفاتر.",
       "exp.c4h": "تسوية الحسابات والتحصيل", "exp.c4p": "تسوية حسابات العملاء والموردين، وتنسيق التحصيل عبر الفروع المتعددة.",
-      "exp.c5h": "أنظمة ERP ودعم العمليات", "exp.c5p": "تشغيل عملي داخل Microsoft Dynamics 365 و Odoo للمحاسبة اليومية.",
-      "exp.c6h": "الرقابة الداخلية وحماية الأصول", "exp.c6p": "ممارسات رقابية متوافقة مع معايير حماية الأصول المعترف بها.",
+      "exp.c5h": "المرونة مع نظامكم المحاسبي", "exp.c5p": "نعمل داخل نظامكم الحالي مباشرة — من خبرة عملية مع Microsoft Dynamics 365 و Odoo.",
+      "exp.c6h": "الرقابة الداخلية وحماية الأصول — Corporate Governance", "exp.c6p": "ممارسات رقابية متوافقة مع معايير حماية الأصول المعترف بها.",
       "svc.eyebrow": "خدماتنا", "svc.h2": "ما نقدّمه لعملائنا", "svc.p": "إذا كانت الخبرة تشرح ما نفهمه، فإن هذه هي الخدمات التي نقدّمها مباشرة.",
       "svc.c1h": "التقارير والقوائم المالية", "svc.c1p": "إعداد دفتر الأستاذ العام وميزان المراجعة وقوائم الدخل — وإقفالها وفق معيار متوافق مع IFRS.", "svc.c1b": "أرقام واضحة وجاهزة للمراجعة في كل فترة",
       "svc.c2h": "مراقبة المخزون وتسويته", "svc.c2p": "بطاقات الأصناف، وتتبع حركة المخزون، والجرد الفعلي — من المواد الخام إلى المنتجات النهائية عالية القيمة.", "svc.c2b": "سجلات مخزون تطابق ما هو موجود فعليًا",
       "svc.c3h": "محاسبة الأجور والرواتب", "svc.c3p": "معالجة الأجور وتسوية سلف الموظفين والالتزامات بانضباط على مستوى الدفاتر.", "svc.c3b": "رواتب دقيقة لا تكون مصدر نزاع",
       "svc.c4h": "تسوية الحسابات والتحصيل", "svc.c4p": "تسوية حسابات العملاء والموردين وإدارة التحصيل، بما في ذلك التنسيق عبر عدة فروع.", "svc.c4b": "تسوية الفروقات فور ظهورها، لا ترحيلها",
       "svc.c5h": "محاسبة المقاولات والمشاريع", "svc.c5p": "إعداد مستخلصات العملاء ومقاولي الباطن لمشاريع المقاولات والإنشاءات، مرتبطة بالدفاتر الأساسية.", "svc.c5b": "فوترة مشاريع تعكس التقدم والتكلفة الفعليين",
-      "svc.c6h": "أنظمة ERP ودعم العمليات", "svc.c6p": "تشغيل العمليات المحاسبية اليومية داخل Microsoft Dynamics 365 و Odoo، إضافة إلى ممارسات رقابة داخلية متوافقة مع معايير حماية الأصول.", "svc.c6b": "محاسبة تتوافق مع الأنظمة التي تعملون بها بالفعل",
+      "svc.c6h": "التوافق مع نظامكم المحاسبي", "svc.c6p": "ندير العمليات المحاسبية اليومية داخل نظامكم الحالي، إضافة إلى ممارسات رقابة داخلية متوافقة مع معايير حماية الأصول.", "svc.c6b": "محاسبة تتوافق مع الأنظمة التي تعملون بها بالفعل",
       "app.eyebrow": "نهجنا", "app.h2": "الدورة التي يقوم عليها كل تكليف",
       "app.s1h": "القيد", "app.s1p": "تسجيل كل عملية بدقة، من المستند المصدر إلى الدفتر.",
       "app.s2h": "التسوية", "app.s2p": "مراجعة حسابات العملاء والموردين والمخزون على أرض الواقع، وحل الفروقات من مصدرها.",
@@ -1527,13 +1554,13 @@
       "app.s5h": "المتابعة", "app.s5p": "مراجعة مستمرة ودعم للرقابة الداخلية، بحيث تظهر المشكلات مبكرًا.",
       "why.eyebrow": "لماذا M H Balance", "why.h2": "فهم عملي، لا نموذج جاهز",
       "why.i1h": "خبرة عابرة للقطاعات", "why.i1p": "تمتد خبرتنا عبر المقاولات، والتصنيع، والتجزئة عالية القيمة، والسلع الاستهلاكية — قراءة أوسع لكيفية عمل الأنشطة التجارية فعليًا.",
-      "why.i2h": "إتقان أنظمة ERP لا الاعتماد عليها فقط", "why.i2p": "نعمل بارتياح داخل Microsoft Dynamics 365 و Odoo على حد سواء، بحيث تتكيف محاسبتنا مع أنظمتكم الحالية.",
+      "why.i2h": "نتكيف مع نظامكم، لا العكس", "why.i2p": "نعمل داخل نظامكم المحاسبي الحالي مباشرة، من خبرة عملية مع Microsoft Dynamics 365 و Odoo.",
       "why.i3h": "فهم عملي للأعمال", "why.i3p": "نفهم أن البيانات المالية مرتبطة بعمليات حقيقية — لا بما يتسع فقط لخانة في جدول بيانات.",
       "why.i4h": "وضوح مالي", "why.i4p": "نحوّل المعلومات المالية إلى ما يمكن لصاحب القرار استخدامه فعليًا — واضح، ومحدث، ومفهوم.",
       "trust.l1": "سنوات من الخبرة العملية المتراكمة", "trust.l2": "قطاعات نفهمها جيدًا",
       "trust.l3": "فروع تم تنسيقها ضمن تكليف واحد", "trust.l4": "أنظمة ERP — Dynamics 365 و Odoo",
       "cta.eyebrow": "ابدأ الآن", "cta.h2": "فلنُضف <em>وضوحًا</em> إلى أرقامكم.",
-      "cta.p": "محادثة قصيرة تكفي لمعرفة أين تقف دفاتركم — وكيف يبدو شكل دفتر أستاذ مُسوّى بشكل صحيح.",
+      "cta.p": "محادثة قصيرة تكفي لنفهم موقع أعمالكم الآن، ونوضح لكم الخطوة التالية.",
       "contact.eyebrow": "تواصل معنا", "contact.h2": "تواصل مع M H Balance مباشرة",
       "contact.p": "بلا نماذج وسيطة — تصل كل استفسار إلى فريقنا مباشرة.",
       "contact.emailLabel": "البريد الإلكتروني", "contact.phoneLabel": "الهاتف وواتساب",
@@ -1548,21 +1575,20 @@
       "nav.services": "Services", "nav.contact": "Contact", "nav.whatsapp": "WhatsApp Us",
       "menu.label": "Menu",
       "hero.eyebrow": "M H BALANCE · ACCOUNTING &amp; FINANCIAL ADVISORY",
-      "hero.h1": "Understanding the business <em>behind the numbers.</em>",
+      "hero.h1": "We turn your accounts into <em>clear decisions.</em>",
       "hero.lead": "M H Balance provides financial accounting and reporting built on practical experience across contracting, manufacturing, high-value retail and consumer goods — because every business has a different financial structure, and the numbers only mean something once that structure is understood.",
       "hero.btn1": "WhatsApp Us", "hero.btn2": "Call Us", "hero.scroll": "Scroll",
-      "hero.meta1": "Years of Combined Practical Experience", "hero.meta2": "Industries We Understand",
-      "hero.meta3": "ERP Platforms — Dynamics 365 &amp; Odoo", "hero.meta4": "IFRS-Compliant Financial Statements",
+      "hero.meta1": "Years of Combined Practical Experience", "hero.meta2": "Industries We Understand From Within",
+      "hero.meta4": "IFRS-Compliant Financial Statements",
       "intro.statement": "Understanding the business before we read its numbers.", "intro.skip": "Skip",
       "hub.experience": "Experience", "hub.approach": "Our Approach", "hub.why": "Why M H Balance",
-      "about.eyebrow": "Who We Are", "about.h2": "A ledger that stays honest, so the business can move with confidence.",
-      "about.p1": "<strong>M H Balance</strong> is built around a simple working principle: numbers only help a business when they are accurate, current, and understood. We treat every reconciliation as a chance to catch a problem before it grows, and every ledger as something a decision-maker should be able to trust without a second look.",
-      "about.p2": "Our practical experience has been developed across very different business environments — project-based contracting sites, a manufacturing and trading operation, a multi-branch high-value retailer, and consumer goods sales. Each one demanded the same discipline: a clean general ledger, a trial balance that actually balances, and reporting that stands up to scrutiny.",
+      "about.eyebrow": "Who We Are", "about.h2": "Honest numbers move your business with confidence.",
+      "about.p1": "Our practical experience has been shaped across very different business environments — project-based contracting sites, manufacturing and trading operations, a multi-branch high-value retail network, and consumer goods sales. Each one demanded the same discipline: a clean general ledger, a trial balance that actually balances, and numbers clear enough to lead to the right decision.",
       "about.p3": "That cross-industry grounding is what we bring to every engagement — not a one-size-fits-all approach to bookkeeping, but a real understanding that construction, retail and manufacturing businesses need to be read differently.",
       "about.foot": "M H Balance is a newly established practice — the practical experience behind it is not. Our approach is grounded in direct, hands-on exposure to the sectors we serve, not a back-office template.",
       "about.plate1": "Understand", "about.plate1s": "The Business", "about.plate2": "Report", "about.plate2s": "The Numbers",
       "understand.eyebrow": "The Foundation of Our Understanding", "understand.h2": "Financial data is connected to real operations",
-      "understand.p": "Before a number reaches a report, it started somewhere — a purchase order, a shift on a factory floor, a customer account, a branch count. We understand that chain, not just its endpoint.",
+      "understand.p": "Accounting isn't separate from the business — it's a reflection of it. The recording and reporting cycle is built on the real operating cycle: purchasing, selling, inventory, collections, and payments, whatever the activity: contracting, retail, manufacturing, or trade. We understand the operation first, then how it should be recorded and read financially.",
       "understand.i1h": "Costs &amp; Procurement", "understand.i1p": "How project and material costs move from purchase to ledger, and where control needs to sit.",
       "understand.i2h": "Inventory &amp; Valuation", "understand.i2p": "How stock — from raw materials to high-value finished goods — is tracked, counted and reconciled accurately.",
       "understand.i3h": "Revenue &amp; Collections", "understand.i3p": "How customer accounts, multi-branch collections and receivables translate into a reliable revenue picture.",
@@ -1577,34 +1603,34 @@
       "ind.c3p": "Practical work with item cards, stock movement tracking, and supplier/customer reconciliation in a manufacturing and trading environment — where inventory accuracy drives the ledger.",
       "ind.c4tag": "Consumer Goods &amp; Retail", "ind.c4h": "Direct Commercial Exposure",
       "ind.c4p": "Direct experience in client relationships and sales negotiation within consumer retail — a commercial perspective that informs how we read revenue and customer accounts.",
-      "statement.line": "Numbers alone don't solve a problem. <em>Understanding the business behind them does.</em>",
+      "statement.line": "Numbers alone aren't enough. <em>Understanding the business behind them — and explaining what they mean — is what drives growth.</em>",
       "chal.eyebrow": "Problems We Understand", "chal.h2": "Before the fix, we need to know where the problem actually sits",
       "chal.p": "These are examples of problems we've encountered directly in day-to-day work, and what handling them taught us.",
       "chal.p1label": "The Problem", "chal.answerLabel": "Our Understanding",
-      "chal.p1problem": "Gaps between recorded and actual inventory.",
-      "chal.p1answer": "Practical experience in physical counts and periodic reconciliation across multiple branches and business types, from raw materials to high-value finished goods.",
-      "chal.p2problem": "Difficulty collecting and reconciling customer accounts across branches.",
-      "chal.p2answer": "Experience coordinating collections and account reconciliation across three branches at once, resolving discrepancies at the source.",
+      "chal.p1problem": "Periodic or perpetual inventory? And if you run more than one warehouse, do you know exactly what's in each?",
+      "chal.p1answer": "We help determine the right inventory system for your activity, and connect inventory data across multiple warehouses to show what exists, where, and how much.",
+      "chal.p2problem": "Collecting and reconciling scattered accounts across more than one branch.",
+      "chal.p2answer": "Direct experience coordinating collections and account reconciliation across three branches at once, resolving discrepancies at the source.",
       "chal.p3problem": "Limited visibility into the real cost of a contracting project.",
       "chal.p3answer": "Experience linking material, labor and procurement costs to actual project extracts.",
       "chal.p4problem": "Complex wage, advance and settlement calculations.",
       "chal.p4answer": "Experience settling wages, employee advances and covenants with ledger-level accuracy.",
-      "chal.p5problem": "Recurring mismatches in supplier and customer accounts.",
-      "chal.p5answer": "Experience reconciling supplier and customer accounts and resolving discrepancies directly at the source.",
+      "chal.p5problem": "A trial balance that won't balance, or financial statements that don't tell a coherent story about how the business is performing.",
+      "chal.p5answer": "We go back to the accounting structure itself — not just patch the last entry — to find where the picture broke, and put it back together.",
       "exp.eyebrow": "Our Expertise", "exp.h2": "The disciplines behind every engagement",
       "exp.c1h": "Financial Accounting &amp; Reporting", "exp.c1p": "General ledger, trial balance, income statements and IFRS-aligned period-end closing.",
       "exp.c2h": "Inventory &amp; Cost Control", "exp.c2p": "Item cards, stock movement tracking, physical counts and reconciliation across industries.",
       "exp.c3h": "Payroll &amp; Wages Management", "exp.c3p": "Wage processing and employee advance and covenant settlements with ledger-level discipline.",
       "exp.c4h": "Accounts Reconciliation &amp; Collections", "exp.c4p": "Customer and supplier reconciliation and multi-branch collections coordination.",
-      "exp.c5h": "ERP Systems &amp; Process Support", "exp.c5p": "Hands-on operation within Microsoft Dynamics 365 and Odoo for day-to-day accounting.",
-      "exp.c6h": "Internal Controls &amp; Asset Safeguarding", "exp.c6p": "Control practices aligned with recognized asset-safeguarding standards.",
+      "exp.c5h": "Flexibility With Your Accounting System", "exp.c5p": "We work directly within your existing system — hands-on experience with Microsoft Dynamics 365 and Odoo.",
+      "exp.c6h": "Internal Controls &amp; Asset Safeguarding — Corporate Governance", "exp.c6p": "Control practices aligned with recognized asset-safeguarding standards.",
       "svc.eyebrow": "Our Services", "svc.h2": "What we provide to clients", "svc.p": "Where expertise explains what we understand, these are the services we deliver directly.",
       "svc.c1h": "Financial Reporting &amp; Statements", "svc.c1p": "General ledger maintenance, trial balance preparation, and income statements — closed to an IFRS-aligned standard.", "svc.c1b": "Clear, audit-ready numbers every period",
       "svc.c2h": "Inventory Control &amp; Reconciliation", "svc.c2p": "Item cards, stock movement tracking, and physical counts — from raw materials to high-value finished goods.", "svc.c2b": "Stock records that match what's actually on the shelf",
       "svc.c3h": "Payroll &amp; Wages Accounting", "svc.c3p": "Wage processing and the settlement of employee advances and covenants, handled with ledger-level discipline.", "svc.c3b": "Payroll that's accurate and never a source of disputes",
       "svc.c4h": "Accounts Reconciliation &amp; Collections", "svc.c4p": "Customer and supplier account reconciliation and collections management, including coordination across multiple branches.", "svc.c4b": "Discrepancies caught and resolved, not carried forward",
       "svc.c5h": "Contracting &amp; Project Accounting", "svc.c5p": "Preparation of client and subcontractor extracts for contracting and construction projects, tied to the underlying ledger.", "svc.c5b": "Project billing that reflects real progress and cost",
-      "svc.c6h": "ERP Systems &amp; Process Support", "svc.c6p": "Day-to-day accounting operations inside Microsoft Dynamics 365 and Odoo, plus internal-control practices aligned with asset-safeguarding standards.", "svc.c6b": "Accounting that fits the systems you already run on",
+      "svc.c6h": "Compatibility With Your Accounting System", "svc.c6p": "We run day-to-day accounting operations inside your existing system, plus internal-control practices aligned with asset-safeguarding standards.", "svc.c6b": "Accounting that fits the systems you already run on",
       "app.eyebrow": "Our Approach", "app.h2": "The cycle behind every engagement",
       "app.s1h": "Record", "app.s1p": "Every transaction entered accurately, from source documents to the ledger.",
       "app.s2h": "Reconcile", "app.s2p": "Customer, supplier and inventory accounts checked against reality, discrepancies resolved at the source.",
@@ -1613,13 +1639,13 @@
       "app.s5h": "Support", "app.s5p": "Ongoing review and internal-control support, so issues surface early.",
       "why.eyebrow": "Why M H Balance", "why.h2": "Practical understanding, not a generic template",
       "why.i1h": "Cross-industry exposure", "why.i1p": "Our experience spans contracting, manufacturing, high-value retail and consumer goods — a broader read on how businesses actually work.",
-      "why.i2h": "ERP-native, not ERP-dependent", "why.i2p": "Comfortable inside Microsoft Dynamics 365 and Odoo alike, so our accounting adapts to your existing systems.",
+      "why.i2h": "We Adapt to Your System, Not the Other Way Around", "why.i2p": "We work directly within your existing accounting system, drawing on hands-on experience with Microsoft Dynamics 365 and Odoo.",
       "why.i3h": "Practical business understanding", "why.i3p": "We understand that financial data is connected to real operations — not just what fits in a spreadsheet cell.",
       "why.i4h": "Financial clarity", "why.i4p": "We turn financial information into something decision-makers can actually use — clear, current, and understood.",
       "trust.l1": "Years Combined Practical Experience", "trust.l2": "Industries Understood",
       "trust.l3": "Branches Coordinated in a Single Engagement", "trust.l4": "ERP Platforms — Dynamics 365 &amp; Odoo",
       "cta.eyebrow": "Get Started", "cta.h2": "Let's bring <em>clarity</em> to your numbers.",
-      "cta.p": "A short conversation is enough to see where your books stand — and what a properly reconciled ledger could look like.",
+      "cta.p": "A short conversation is enough to understand where your business stands now, and to show you the next step.",
       "contact.eyebrow": "Contact", "contact.h2": "Reach M H Balance directly",
       "contact.p": "No forms, no intermediaries — every enquiry goes straight to our team.",
       "contact.emailLabel": "Email", "contact.phoneLabel": "Phone &amp; WhatsApp",
@@ -1731,7 +1757,7 @@
       window.setTimeout(() => { intro.style.display = 'none'; }, 850);
     }
 
-    const autoTimer = window.setTimeout(dismiss, 2300);
+    const autoTimer = window.setTimeout(dismiss, 2750);
     skipBtn.addEventListener('click', () => { window.clearTimeout(autoTimer); dismiss(); });
     intro.addEventListener('click', (e) => {
       if (e.target === intro) { window.clearTimeout(autoTimer); dismiss(); }
