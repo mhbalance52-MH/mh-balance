@@ -217,7 +217,8 @@
 
   .hero{
     position:relative; min-height: 100vh; display:flex; align-items:center;
-    background: var(--navy); color: var(--off-white); overflow:hidden; padding-top: 90px;
+    background: radial-gradient(ellipse 130% 90% at 50% 10%, var(--navy-dark) 0%, var(--navy) 50%, var(--black-navy) 100%);
+    color: var(--off-white); overflow:hidden; padding-top: 90px;
   }
   .hero-grid{ position:absolute; inset:0; opacity: 0.55; pointer-events:none; transition: transform .4s ease; }
   html[dir="rtl"] .hero-grid{ transform: scaleX(-1); }
@@ -279,10 +280,14 @@
     #expertise.section-pad, #services.section-pad, #approach.section-pad,
     #why-section.section-pad{ padding: 76px 0; }
   }
-  .section-light{ background: var(--bg-light); color: var(--navy); }
-  .section-off{ background: var(--off-white); color: var(--navy); }
-  .section-navy{ background: var(--navy-dark); color: var(--off-white); }
-  .section-black{ background: var(--black-navy); color: var(--off-white); }
+  /* Each surface is a radial atmosphere blended from its own color
+     family, not a flat fill — light sections shift between the two
+     light tones, navy sections deepen toward the corners. No colors
+     outside the approved palette; only their relationship changes. */
+  .section-light{ background: radial-gradient(ellipse 130% 100% at 50% 0%, var(--off-white) 0%, var(--bg-light) 60%); color: var(--navy); }
+  .section-off{ background: radial-gradient(ellipse 130% 100% at 50% 100%, var(--off-white) 0%, var(--bg-light) 65%); color: var(--navy); }
+  .section-navy{ background: radial-gradient(ellipse 150% 110% at 50% 15%, var(--navy-dark) 0%, var(--navy) 55%, var(--black-navy) 100%); color: var(--off-white); }
+  .section-black{ background: radial-gradient(ellipse 140% 110% at 50% 50%, var(--navy) 0%, var(--black-navy) 70%); color: var(--off-white); }
 
   .section-head{ max-width: 680px; margin-bottom: 70px; }
   .section-head h2{ font-size: clamp(30px, 3.8vw, 46px); line-height:1.3; }
@@ -881,23 +886,54 @@
      the page reads as one composition instead of stacked blocks. Only
      applied at the actual hard-cut points in the section sequence —
      same-tone neighbors (e.g. two off-white sections in a row) don't
-     need one. Purely decorative, sits behind real content. ---- */
+     need one. Purely decorative, sits behind real content.
+
+     Two-sided: the incoming section fades FROM the previous color at
+     its top (::before, existing), and the outgoing section now also
+     fades TOWARD the next color at its bottom (::after, new) — both
+     surfaces reach toward each other instead of one side patching a
+     hard edge left by the other. ---- */
   #who-we-are::before,
   #experience::before,
   #industries::before,
   #why-section::before,
-  #contact::before{
-    content:""; position:absolute; top:0; inset-inline-start:0; inset-inline-end:0;
+  #contact::before,
+  #home::after,
+  #who-we-are::after,
+  #experience::after,
+  #approach::after,
+  #why-section::after{
+    content:""; position:absolute; inset-inline-start:0; inset-inline-end:0;
     height:150px; pointer-events:none; z-index:0;
   }
+  #who-we-are::before,
+  #experience::before,
+  #industries::before,
+  #why-section::before,
+  #contact::before{ top:0; }
+  #home::after,
+  #who-we-are::after,
+  #experience::after,
+  #approach::after,
+  #why-section::after{ bottom:0; }
+
   #who-we-are::before{ background: linear-gradient(to bottom, rgba(3,25,52,0.45), transparent); }
   #experience::before{ background: linear-gradient(to bottom, rgba(240,240,239,0.35), transparent); }
   #industries::before{ background: linear-gradient(to bottom, rgba(21,40,64,0.3), transparent); }
   #why-section::before{ background: linear-gradient(to bottom, rgba(240,240,239,0.35), transparent); }
   #contact::before{ background: linear-gradient(to bottom, rgba(21,40,64,0.3), transparent); }
+
+  #home::after{ height:220px; background: linear-gradient(to top, rgba(240,240,239,0.1), transparent); }
+  #who-we-are::after{ background: linear-gradient(to top, rgba(21,40,64,0.3), transparent); }
+  #experience::after{ background: linear-gradient(to top, rgba(235,233,232,0.3), transparent); }
+  #approach::after{ background: linear-gradient(to top, rgba(21,40,64,0.28), transparent); }
+  #why-section::after{ background: linear-gradient(to top, rgba(240,240,239,0.3), transparent); }
+
   @media (max-width: 640px){
     #who-we-are::before, #experience::before, #industries::before,
-    #why-section::before, #contact::before{ height:80px; }
+    #why-section::before, #contact::before,
+    #who-we-are::after, #experience::after, #approach::after, #why-section::after{ height:80px; }
+    #home::after{ height:120px; }
   }
 
   :focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; }
