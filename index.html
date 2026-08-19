@@ -16,43 +16,6 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 
 <style>
-  /* ================= TYPE SYSTEM ================= */
-  /* IBM Plex Sans Arabic + IBM Plex Sans — same type family, two
-     scripts, so Arabic and English read as one brand. SIL Open Font
-     License 1.1 (see assets/fonts/LICENSE-IBM-Plex.txt), self-hosted
-     as WOFF2. Three weights only (400/500/700) — the site never
-     requests 600, so it isn't loaded. */
-  @font-face{
-    font-family: 'IBM Plex Sans Arabic';
-    src: url('assets/fonts/IBMPlexSansArabic-Regular.woff2') format('woff2');
-    font-weight: 400; font-style: normal; font-display: swap;
-  }
-  @font-face{
-    font-family: 'IBM Plex Sans Arabic';
-    src: url('assets/fonts/IBMPlexSansArabic-Medium.woff2') format('woff2');
-    font-weight: 500; font-style: normal; font-display: swap;
-  }
-  @font-face{
-    font-family: 'IBM Plex Sans Arabic';
-    src: url('assets/fonts/IBMPlexSansArabic-Bold.woff2') format('woff2');
-    font-weight: 700; font-style: normal; font-display: swap;
-  }
-  @font-face{
-    font-family: 'IBM Plex Sans';
-    src: url('assets/fonts/IBMPlexSans-Regular.woff2') format('woff2');
-    font-weight: 400; font-style: normal; font-display: swap;
-  }
-  @font-face{
-    font-family: 'IBM Plex Sans';
-    src: url('assets/fonts/IBMPlexSans-Medium.woff2') format('woff2');
-    font-weight: 500; font-style: normal; font-display: swap;
-  }
-  @font-face{
-    font-family: 'IBM Plex Sans';
-    src: url('assets/fonts/IBMPlexSans-Bold.woff2') format('woff2');
-    font-weight: 700; font-style: normal; font-display: swap;
-  }
-
   :root{
     --navy:        #031934;
     --navy-dark:   #152840;
@@ -63,15 +26,9 @@
     --black-navy:  #040B1B;
     --slate:       #445167;
 
-    /* Arabic-covering face listed first — browsers fall through to
-       IBM Plex Sans for any Latin run (ERP, Dynamics 365, WhatsApp,
-       M H BALANCE) automatically, so mixed strings stay one family. */
-    --font: 'IBM Plex Sans Arabic', 'IBM Plex Sans', -apple-system, 'Segoe UI', Tahoma, Arial, sans-serif;
+    --font: 'Sakkal Majalla', 'Traditional Arabic', 'Simplified Arabic', 'Palatino Linotype', 'Book Antiqua', Georgia, 'Times New Roman', serif;
 
-    /* Fixed at 1180px, the reading column looked lost inside a huge
-       empty margin on a 1920px monitor — this lets it breathe wider
-       on large screens while staying exactly 1180px on laptops. */
-    --container: clamp(1180px, 82vw, 1320px);
+    --container: 1180px;
     --radius: 3px;
   }
 
@@ -120,6 +77,17 @@
   .reveal-delay-2{ transition-delay: .24s; }
   .reveal-delay-3{ transition-delay: .36s; }
   @media (prefers-reduced-motion: reduce){ .reveal{ opacity:1; transform:none; transition:none; } html{ scroll-behavior:auto; } }
+
+  /* hero copy/CTA/stats/hub are choreographed off the intro's actual
+     completion (html.hero-ready), not the generic scroll-reveal
+     observer — otherwise, being in-viewport at load, they'd silently
+     finish revealing behind the opaque intro before it even lifts,
+     undercutting the intended hierarchy: headline leads, everything
+     else follows once the curtain is gone. */
+  html.hero-ready .hero-reveal.reveal{ opacity:1; transform:none; }
+  html:not(.intro-lock):not(.hero-ready) .hero-reveal.reveal{ opacity:1; transform:none; } /* no-JS fallback */
+
+  .hero-meta .num, .trust-num{ font-variant-numeric: tabular-nums; letter-spacing:0.01em; }
 
   header{
     position: fixed; top:0; left:0; right:0; z-index: 999;
@@ -217,7 +185,15 @@
 
   .hero{
     position:relative; min-height: 100vh; display:flex; align-items:center;
-    background: radial-gradient(ellipse 130% 90% at 50% 10%, var(--navy-dark) 0%, var(--navy) 50%, var(--black-navy) 100%);
+    /* atmosphere, not a flat rectangle: a faint gold wash top-left where
+       the eye lands first, a deeper pool bottom-right, and a diagonal
+       navy→navy-dark→black-navy gradient carrying the whole surface —
+       the same three brand tones the directive names, layered instead
+       of picked as one flat fill */
+    background:
+      radial-gradient(ellipse 760px 480px at 12% -6%, rgba(198,149,80,0.09), transparent 60%),
+      radial-gradient(ellipse 820px 620px at 104% 108%, rgba(4,11,27,0.65), transparent 58%),
+      linear-gradient(158deg, var(--black-navy) 0%, var(--navy) 44%, var(--navy-dark) 100%);
     color: var(--off-white); overflow:hidden; padding-top: 90px;
   }
   .hero-grid{ position:absolute; inset:0; opacity: 0.55; pointer-events:none; transition: transform .4s ease; }
@@ -226,20 +202,25 @@
   .hero h1{ font-size: clamp(38px, 6.4vw, 76px); line-height: 1.22; color: var(--off-white); margin-bottom: 26px; letter-spacing: 0.002em; }
   .hero h1 em{ font-style: normal; color: var(--gold); }
 
-  /* hero headline — curtain-style clip reveal, timed off page load so it
-     never depends on JS to become visible (fill-mode:both = safe fallback) */
-  .hero-thread{
-    width:0; height:1px; background: var(--gold); margin-bottom:22px;
-    animation: threadDraw .9s cubic-bezier(.2,.7,.2,1) 2.15s both;
-  }
+  /* hero headline — curtain-style clip reveal. No longer timed off page
+     load: it waits for .hero-ready on <html>, which JS applies the
+     instant the intro actually finishes (auto or Skip) — so the
+     headline never fires early or late relative to the real intro
+     duration. fill-mode:both + the .reveal fallback below still
+     guarantee visibility if JS never runs. */
+  .hero-thread{ width:0; height:1px; background: var(--gold); margin-bottom:22px; }
+  html.hero-ready .hero-thread{ animation: threadDraw .9s cubic-bezier(.2,.7,.2,1) .05s both; }
   @keyframes threadDraw{ to{ width:64px; } }
-  .hero-headline{
-    clip-path: inset(-20% 100% -20% -2%);
-    animation: heroRevealLtr 1.1s cubic-bezier(.16,.84,.24,1) 2.3s both;
-  }
+  .hero-headline{ clip-path: inset(-20% 100% -20% -2%); }
+  html.hero-ready .hero-headline{ animation: heroRevealLtr 1.1s cubic-bezier(.16,.84,.24,1) .2s both; }
   @keyframes heroRevealLtr{ to{ clip-path: inset(-20% -2% -20% -2%); } }
-  html[dir="rtl"] .hero-headline{ clip-path: inset(-20% -2% -20% 100%); animation-name: heroRevealRtl; }
+  html[dir="rtl"] .hero-headline{ clip-path: inset(-20% -2% -20% 100%); }
+  html[dir="rtl"].hero-ready .hero-headline{ animation-name: heroRevealRtl; }
   @keyframes heroRevealRtl{ to{ clip-path: inset(-20% -2% -20% -2%); } }
+  /* safety net: if JS never adds .hero-ready (error, disabled JS after
+     intro removal), these must not stay permanently hidden */
+  html:not(.intro-lock):not(.hero-ready) .hero-thread{ width:64px; }
+  html:not(.intro-lock):not(.hero-ready) .hero-headline{ clip-path:none; }
   @media (prefers-reduced-motion: reduce){
     .hero-thread{ animation:none; width:64px; }
     .hero-headline{ animation:none; clip-path:none; }
@@ -247,10 +228,10 @@
   .hero p.lead{ font-size: 19px; color: rgba(235,233,232,0.78); max-width: 620px; margin-bottom: 42px; line-height:1.9; }
   .hero-actions{ display:flex; gap:18px; flex-wrap:wrap; margin-bottom: 64px; }
 
-  .hero-meta{ display:flex; gap: 52px; flex-wrap:wrap; border-top: 1px solid rgba(198,149,80,0.22); padding-top: 32px; }
+  .hero-meta{ display:flex; gap: 46px; flex-wrap:wrap; border-top: 1px solid rgba(198,149,80,0.22); padding-top: 28px; }
   .hero-meta div{ min-width:130px; }
-  .hero-meta .num{ font-size: 48px; color: var(--gold); font-weight:700; margin-bottom:8px; line-height:1; letter-spacing:-0.01em; font-variant-numeric: tabular-nums; }
-  .hero-meta .label{ font-size: 12.5px; letter-spacing:0.02em; color: rgba(235,233,232,0.62); line-height:1.5; max-width:150px; }
+  .hero-meta .num{ font-size: 26px; color: var(--gold); font-weight:700; margin-bottom:6px; }
+  .hero-meta .label{ font-size: 12.5px; letter-spacing:0.02em; color: rgba(235,233,232,0.62); line-height:1.5; }
 
   .scroll-cue{
     position:absolute; bottom: 34px; left:50%; transform:translateX(-50%);
@@ -262,32 +243,18 @@
 
   section{ position:relative; }
   .section-pad{ padding: 130px 0; }
-  /* Every section sharing one identical padding value was the "same
-     intensity throughout" problem — this gives each one a vertical
-     weight matching its actual role: signature/substantial sections
-     stay generous, shorter connective ones move at a quicker pace,
-     so the page has an actual QUIET → BUILD → BREATH rhythm instead
-     of one flat beat repeated fourteen times. */
-  #experience.section-pad{ padding: 104px 0; }
-  #industries.section-pad{ padding: 142px 0; }
-  #challenges.section-pad{ padding: 100px 0; }
-  #expertise.section-pad{ padding: 138px 0; }
-  #services.section-pad{ padding: 138px 0; }
-  #approach.section-pad{ padding: 100px 0; }
-  #why-section.section-pad{ padding: 108px 0; }
-  @media (max-width: 640px){
-    #experience.section-pad, #industries.section-pad, #challenges.section-pad,
-    #expertise.section-pad, #services.section-pad, #approach.section-pad,
-    #why-section.section-pad{ padding: 76px 0; }
+  .section-light{ background: var(--bg-light); color: var(--navy); }
+  .section-off{ background: var(--off-white); color: var(--navy); }
+  .section-navy{
+    background: linear-gradient(165deg, var(--navy) 0%, var(--navy-dark) 58%, var(--black-navy) 100%);
+    color: var(--off-white);
   }
-  /* Each surface is a radial atmosphere blended from its own color
-     family, not a flat fill — light sections shift between the two
-     light tones, navy sections deepen toward the corners. No colors
-     outside the approved palette; only their relationship changes. */
-  .section-light{ background: radial-gradient(ellipse 130% 100% at 50% 0%, var(--off-white) 0%, var(--bg-light) 60%); color: var(--navy); }
-  .section-off{ background: radial-gradient(ellipse 130% 100% at 50% 100%, var(--off-white) 0%, var(--bg-light) 65%); color: var(--navy); }
-  .section-navy{ background: radial-gradient(ellipse 150% 110% at 50% 15%, var(--navy-dark) 0%, var(--navy) 55%, var(--black-navy) 100%); color: var(--off-white); }
-  .section-black{ background: radial-gradient(ellipse 140% 110% at 50% 50%, var(--navy) 0%, var(--black-navy) 70%); color: var(--off-white); }
+  .section-black{
+    background:
+      radial-gradient(ellipse 980px 560px at 50% -10%, rgba(21,40,64,0.55), transparent 62%),
+      var(--black-navy);
+    color: var(--off-white);
+  }
 
   .section-head{ max-width: 680px; margin-bottom: 70px; }
   .section-head h2{ font-size: clamp(30px, 3.8vw, 46px); line-height:1.3; }
@@ -343,8 +310,7 @@
 
   .industry-stage{
     position:sticky; top:110px; min-height:320px; padding: 48px 46px;
-    border-top: 1px solid rgba(198,149,80,0.28);
-    overflow:hidden;
+    background: var(--off-white); border: 1px solid rgba(3,25,52,0.1); overflow:hidden;
   }
   .industry-stage::before{
     content:""; position:absolute; inset:0;
@@ -353,8 +319,9 @@
   }
   .industry-geo{
     position:absolute; top:-36px; inset-inline-end:-30px; width:150px; height:150px;
-    pointer-events:none; opacity:.9; transition: transform .7s cubic-bezier(.2,.7,.2,1);
+    pointer-events:none; opacity:.9; transition: opacity .35s ease;
   }
+  .industry-geo.is-swapping{ opacity:0; }
   .industry-panel{ position:relative; display:none; }
   .industry-panel.is-active{ display:block; animation: panelIn .55s cubic-bezier(.2,.7,.2,1); }
   .industry-panel-tag{ font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color: var(--gold-dark); font-weight:700; margin-bottom:16px; display:block; }
@@ -458,7 +425,7 @@
   .service-index-item.active .service-index-name,
   .service-index-item:hover .service-index-name{ color: var(--navy); font-weight:700; }
 
-  .services-stage{ position:relative; min-height:280px; border-top: 1px solid rgba(198,149,80,0.28); padding: 50px 44px; }
+  .services-stage{ position:relative; min-height:280px; background: var(--bg-light); border: 1px solid rgba(3,25,52,0.1); padding: 50px 44px; }
   .service-panel{ display:none; }
   .service-panel.active{ display:block; animation: panelIn .5s cubic-bezier(.2,.7,.2,1); }
   @keyframes panelIn{ from{ opacity:0; transform: translateY(10px); } to{ opacity:1; transform: translateY(0); } }
@@ -639,9 +606,9 @@
 
   /* ================= ARABIC TYPOGRAPHY SYSTEM ================= */
   /* Arabic script needs more vertical breathing room than Latin —
-     these overrides only apply when html[lang="ar"] is active. Font
-     itself is now IBM Plex Sans Arabic/Sans for both languages (see
-     @font-face block at the top) — this section only tunes rhythm. */
+     these overrides only apply when html[lang="ar"] is active. */
+  html[lang="ar"]{ --font-family-primary: 'Sakkal Majalla', 'Traditional Arabic', 'Simplified Arabic', serif; }
+  html[lang="en"]{ --font-family-primary: 'Sakkal Majalla', 'Palatino Linotype', 'Book Antiqua', Georgia, serif; }
 
   h1, h2{ text-wrap: balance; }
   .hero p.lead, .section-head p{ text-wrap: pretty; }
@@ -675,36 +642,41 @@
   html.intro-lock, html.intro-lock body{ overflow:hidden; height:100%; }
   #introScreen{
     position:fixed; inset:0; z-index:3000;
-    background: var(--black-navy);
+    background: radial-gradient(ellipse 780px 780px at 50% 42%, var(--navy) 0%, var(--black-navy) 72%);
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     overflow:hidden;
     transition: opacity .7s ease, transform .8s cubic-bezier(.6,0,.2,1);
   }
   #introScreen.intro-hide{ opacity:0; transform: translateY(-6%); pointer-events:none; }
+  /* ---- Retimed for a cinematic opening (~4.5s to auto-dismiss) rather
+     than a rushed one: the glow arrives, the logo settles into it, the
+     wordmark confirms the brand, and the statement gets real dwell
+     time to actually be read before the curtain lifts. Each stage
+     still only starts once the previous one has had room to land. ---- */
   .intro-glow{
     position:absolute; width:560px; height:560px; border-radius:50%;
     background: radial-gradient(circle, rgba(198,149,80,0.24) 0%, rgba(198,149,80,0) 68%);
-    opacity:0; animation: introGlow 2.9s ease forwards;
+    opacity:0; animation: introGlow 3.6s ease forwards;
   }
-  @keyframes introGlow{ 0%{ opacity:0; } 35%{ opacity:1; } 100%{ opacity:.55; } }
+  @keyframes introGlow{ 0%{ opacity:0; } 30%{ opacity:1; } 100%{ opacity:.55; } }
   .intro-logo{
     width:104px; height:auto; position:relative; z-index:2;
     opacity:0; transform: translateY(14px) scale(0.94);
-    animation: introLogo 1.25s cubic-bezier(.2,.8,.2,1) forwards;
-    animation-delay:.4s;
+    animation: introLogo 1.3s cubic-bezier(.2,.8,.2,1) forwards;
+    animation-delay:.35s;
   }
   @keyframes introLogo{ to{ opacity:1; transform: translateY(0) scale(1); } }
   .intro-word{
     position:relative; z-index:2; margin-top:22px;
     color: var(--off-white); font-family: var(--font);
     font-size:14px; letter-spacing:0.32em; font-weight:700;
-    opacity:0; animation: introFade .8s ease forwards; animation-delay:1.3s;
+    opacity:0; animation: introFade .8s ease forwards; animation-delay:1.5s;
   }
   .intro-statement{
     position:relative; z-index:2; margin-top:16px; padding:0 24px;
     color: rgba(235,233,232,0.68); font-size:14.5px; line-height:1.9;
     max-width:380px; text-align:center;
-    opacity:0; animation: introFade .8s ease forwards; animation-delay:1.7s;
+    opacity:0; animation: introFade .9s ease forwards; animation-delay:2.05s;
   }
   @keyframes introFade{ to{ opacity:1; } }
   .intro-skip{
@@ -712,7 +684,7 @@
     background:none; border:1px solid rgba(235,233,232,0.22); color: rgba(235,233,232,0.5);
     font-family: var(--font); font-size:12px; letter-spacing:0.06em;
     padding:9px 20px; border-radius:20px; cursor:pointer;
-    opacity:0; animation: introFade .6s ease forwards; animation-delay:1.9s;
+    opacity:0; animation: introFade .6s ease forwards; animation-delay:1s;
     transition: border-color .3s ease, color .3s ease;
   }
   .intro-skip:hover{ border-color: var(--gold); color: var(--gold); }
@@ -871,69 +843,27 @@
   .brand-geo-echo.on-dark{ opacity:.09; }
   @media (prefers-reduced-motion: reduce){ .brand-geo-echo{ transition:none; } }
 
-  /* the Hero's own geometry is the source these echoes lead back to —
-     bound to the same shared angle, so once the visitor explores
-     Industries, the very first screen's geometry has already been
-     part of that same system rather than a disconnected decoration */
-  .hero-geo-cluster{
-    transform-origin: 980px 340px;
-    transform: rotate(var(--brand-geo-angle));
-    transition: transform 1.1s cubic-bezier(.2,.7,.2,1);
-  }
-  @media (prefers-reduced-motion: reduce){ .hero-geo-cluster{ transition:none; } }
-
   /* ---- section continuity: soften the navy↔off-white boundaries so
      the page reads as one composition instead of stacked blocks. Only
      applied at the actual hard-cut points in the section sequence —
      same-tone neighbors (e.g. two off-white sections in a row) don't
-     need one. Purely decorative, sits behind real content.
-
-     Two-sided: the incoming section fades FROM the previous color at
-     its top (::before, existing), and the outgoing section now also
-     fades TOWARD the next color at its bottom (::after, new) — both
-     surfaces reach toward each other instead of one side patching a
-     hard edge left by the other. ---- */
+     need one. Purely decorative, sits behind real content. ---- */
   #who-we-are::before,
   #experience::before,
   #industries::before,
   #why-section::before,
-  #contact::before,
-  #home::after,
-  #who-we-are::after,
-  #experience::after,
-  #approach::after,
-  #why-section::after{
-    content:""; position:absolute; inset-inline-start:0; inset-inline-end:0;
+  #contact::before{
+    content:""; position:absolute; top:0; inset-inline-start:0; inset-inline-end:0;
     height:150px; pointer-events:none; z-index:0;
   }
-  #who-we-are::before,
-  #experience::before,
-  #industries::before,
-  #why-section::before,
-  #contact::before{ top:0; }
-  #home::after,
-  #who-we-are::after,
-  #experience::after,
-  #approach::after,
-  #why-section::after{ bottom:0; }
-
   #who-we-are::before{ background: linear-gradient(to bottom, rgba(3,25,52,0.45), transparent); }
   #experience::before{ background: linear-gradient(to bottom, rgba(240,240,239,0.35), transparent); }
   #industries::before{ background: linear-gradient(to bottom, rgba(21,40,64,0.3), transparent); }
   #why-section::before{ background: linear-gradient(to bottom, rgba(240,240,239,0.35), transparent); }
   #contact::before{ background: linear-gradient(to bottom, rgba(21,40,64,0.3), transparent); }
-
-  #home::after{ height:220px; background: linear-gradient(to top, rgba(240,240,239,0.1), transparent); }
-  #who-we-are::after{ background: linear-gradient(to top, rgba(21,40,64,0.3), transparent); }
-  #experience::after{ background: linear-gradient(to top, rgba(235,233,232,0.3), transparent); }
-  #approach::after{ background: linear-gradient(to top, rgba(21,40,64,0.28), transparent); }
-  #why-section::after{ background: linear-gradient(to top, rgba(240,240,239,0.3), transparent); }
-
   @media (max-width: 640px){
     #who-we-are::before, #experience::before, #industries::before,
-    #why-section::before, #contact::before,
-    #who-we-are::after, #experience::after, #approach::after, #why-section::after{ height:80px; }
-    #home::after{ height:120px; }
+    #why-section::before, #contact::before{ height:80px; }
   }
 
   :focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; }
@@ -1012,40 +942,76 @@
       <line x1="0" y1="440" x2="1200" y2="440"></line>
       <line x1="0" y1="600" x2="1200" y2="600"></line>
     </g>
-    <!-- abstract brand geometry — the same circle-and-line language used
-         throughout the site (Industries explorer, section echoes), bound
-         to the same rotation variable so the very first thing a visitor
-         sees is already part of the system Industries/Services/CTA
-         later respond to — not a standalone decoration -->
-    <g class="hero-geo-cluster">
-      <g fill="none" stroke="#C69550">
-        <circle cx="980" cy="340" r="58" stroke-opacity="0.24" stroke-width="1"></circle>
-        <circle cx="980" cy="340" r="118" stroke-opacity="0.15" stroke-width="1"></circle>
-        <circle cx="980" cy="340" r="190" stroke-opacity="0.08" stroke-width="1"></circle>
-      </g>
-      <g stroke="#C69550" stroke-opacity="0.32" stroke-width="1">
-        <line x1="850" y1="470" x2="1095" y2="220"></line>
-        <line x1="895" y1="510" x2="1155" y2="245"></line>
-      </g>
-      <g stroke="#152840" stroke-opacity="0.5" stroke-width="1">
-        <line x1="805" y1="425" x2="1050" y2="175"></line>
-      </g>
+
+    <!-- faint ledger texture: column rules + row rules, low enough to
+         read as atmosphere first and structure on closer inspection —
+         not a literal table, just the visual grammar of one -->
+    <g stroke="#C69550" stroke-opacity="0.05" stroke-width="1">
+      <line x1="120" y1="0" x2="120" y2="800"></line>
+      <line x1="320" y1="0" x2="320" y2="800"></line>
+      <line x1="520" y1="0" x2="520" y2="800"></line>
+    </g>
+    <g stroke="#EBE9E8" stroke-opacity="0.04" stroke-width="1">
+      <line x1="0" y1="60" x2="1200" y2="60"></line>
+      <line x1="0" y1="200" x2="1200" y2="200"></line>
+      <line x1="0" y1="360" x2="1200" y2="360"></line>
+      <line x1="0" y1="520" x2="1200" y2="520"></line>
+      <line x1="0" y1="680" x2="1200" y2="680"></line>
+    </g>
+
+    <!-- signature geometry — the same circle-and-arrow language used
+         throughout the site, now anchored to an explicit baseline
+         (a ledger axis) instead of floating unattached; the arrow
+         carries small ascending bar-ticks echoing the logo's own
+         bar-chart mark, so it reads as financial movement, not a
+         generic diagonal line -->
+    <g fill="none" stroke="#C69550">
+      <circle cx="980" cy="340" r="58" stroke-opacity="0.24" stroke-width="1"></circle>
+      <circle cx="980" cy="340" r="118" stroke-opacity="0.15" stroke-width="1"></circle>
+      <circle cx="980" cy="340" r="190" stroke-opacity="0.08" stroke-width="1"></circle>
+    </g>
+    <g stroke="#C69550" stroke-opacity="0.34" stroke-width="1">
+      <line x1="760" y1="340" x2="1170" y2="340"></line>
+    </g>
+    <g stroke="#C69550" stroke-opacity="0.3" stroke-width="1">
+      <line x1="800" y1="332" x2="800" y2="348"></line>
+      <line x1="890" y1="332" x2="890" y2="348"></line>
+      <line x1="980" y1="326" x2="980" y2="354"></line>
+      <line x1="1070" y1="332" x2="1070" y2="348"></line>
+      <line x1="1150" y1="332" x2="1150" y2="348"></line>
+    </g>
+    <circle cx="980" cy="340" r="2.5" fill="#C69550" fill-opacity="0.55"></circle>
+    <g stroke="#C69550" stroke-opacity="0.32" stroke-width="1">
+      <line x1="850" y1="470" x2="1095" y2="220"></line>
+    </g>
+    <g fill="#C69550" fill-opacity="0.4">
+      <rect x="878" y="432" width="5" height="14"></rect>
+      <rect x="898" y="410" width="5" height="22"></rect>
+      <rect x="918" y="384" width="5" height="34"></rect>
+      <rect x="938" y="358" width="5" height="46"></rect>
+    </g>
+    <g stroke="#C69550" stroke-opacity="0.55" stroke-width="1.4">
+      <line x1="960" y1="330" x2="1095" y2="220"></line>
+    </g>
+    <polygon points="1095,220 1069,225 1082,241" fill="#C69550" fill-opacity="0.7"></polygon>
+    <g stroke="#152840" stroke-opacity="0.5" stroke-width="1">
+      <line x1="805" y1="425" x2="1050" y2="175"></line>
     </g>
   </svg>
 
   <div class="wrap hero-content">
-    <p class="eyebrow reveal is-visible" data-i18n="hero.eyebrow">M H BALANCE · محاسبة واستشارات مالية</p>
-    <div class="hero-thread" aria-hidden="true"></div>
-    <h1 class="hero-headline" data-i18n="hero.h1">نحوّل حساباتكم من أرقام إلى <em>قرارات واضحة.</em></h1>
-    <p class="lead reveal is-visible reveal-delay-2" data-i18n="hero.lead">تقدّم M H Balance خدمات المحاسبة والتقارير المالية استنادًا إلى خبرة عملية ممتدة عبر قطاعات المقاولات، والتصنيع، والتجزئة عالية القيمة، والسلع الاستهلاكية — لأن لكل نشاط تجاري بنية مالية مختلفة، ولا تكتسب الأرقام معناها الحقيقي إلا حين تُفهم هذه البنية أولًا.</p>
-    <div class="hero-actions reveal is-visible reveal-delay-3">
+    <p class="eyebrow reveal hero-reveal" id="heroEyebrow" data-i18n="hero.eyebrow">M H BALANCE · محاسبة واستشارات مالية</p>
+    <div class="hero-thread" id="heroThread" aria-hidden="true"></div>
+    <h1 class="hero-headline" id="heroHeadline" data-i18n="hero.h1">نحوّل حساباتكم من أرقام إلى <em>قرارات واضحة.</em></h1>
+    <p class="lead reveal hero-reveal reveal-delay-1" id="heroLead" data-i18n="hero.lead">تقدّم M H Balance خدمات المحاسبة والتقارير المالية استنادًا إلى خبرة عملية ممتدة عبر قطاعات المقاولات، والتصنيع، والتجزئة عالية القيمة، والسلع الاستهلاكية — لأن لكل نشاط تجاري بنية مالية مختلفة، ولا تكتسب الأرقام معناها الحقيقي إلا حين تُفهم هذه البنية أولًا.</p>
+    <div class="hero-actions reveal hero-reveal reveal-delay-2" id="heroActions">
       <a href="https://wa.me/201041930453" target="_blank" rel="noopener noreferrer" class="btn btn-gold">
         <span data-i18n="hero.btn1">تواصل معنا عبر واتساب</span>
         <span class="btn-arrow" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span>
       </a>
       <a href="tel:01041930453" class="btn btn-outline" data-i18n="hero.btn2">اتصل بنا</a>
     </div>
-    <div class="hero-meta reveal is-visible reveal-delay-3">
+    <div class="hero-meta reveal hero-reveal reveal-delay-3" id="heroMeta">
       <div>
         <div class="num">+4</div>
         <div class="label" data-i18n="hero.meta1">سنوات من الخبرة العملية المتراكمة</div>
@@ -1059,7 +1025,7 @@
         <div class="label" data-i18n="hero.meta4">إعداد قوائم مالية متوافقة مع IFRS</div>
       </div>
     </div>
-    <nav class="hero-hub reveal is-visible reveal-delay-3" aria-label="Quick section links">
+    <nav class="hero-hub reveal hero-reveal reveal-delay-3" id="heroHub" aria-label="Quick section links">
       <a href="#who-we-are" data-i18n="nav.who">من نحن</a>
       <a href="#experience" data-i18n="hub.experience">خبرتنا</a>
       <a href="#industries" data-i18n="nav.industries">القطاعات</a>
@@ -1156,9 +1122,20 @@
       </div>
       <div class="industry-stage" id="industryStage">
         <svg class="industry-geo" id="industryGeo" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="75" cy="75" r="46" fill="none" stroke="#C69550" stroke-opacity="0.4" stroke-width="1.3"></circle>
-          <line x1="40" y1="105" x2="112" y2="42" stroke="#C69550" stroke-opacity="0.55" stroke-width="1.5"></line>
-          <polygon points="112,42 96,46 108,58" fill="#C69550" fill-opacity="0.55"></polygon>
+          <!-- 01 Construction — structural frame: uprights on a baseline,
+               load-bearing crossbeams, a rising diagonal brace. Reads as
+               a building elevation, not an icon. -->
+          <g id="geoConstruction" stroke="#C69550" fill="none">
+            <line x1="18" y1="128" x2="132" y2="128" stroke-opacity="0.4" stroke-width="1.3"></line>
+            <line x1="34" y1="128" x2="34" y2="46" stroke-opacity="0.5" stroke-width="1.3"></line>
+            <line x1="76" y1="128" x2="76" y2="30" stroke-opacity="0.5" stroke-width="1.3"></line>
+            <line x1="118" y1="128" x2="118" y2="60" stroke-opacity="0.5" stroke-width="1.3"></line>
+            <line x1="34" y1="70" x2="118" y2="70" stroke-opacity="0.3" stroke-width="1"></line>
+            <line x1="34" y1="98" x2="118" y2="98" stroke-opacity="0.3" stroke-width="1"></line>
+            <line x1="34" y1="98" x2="76" y2="70" stroke-opacity="0.55" stroke-width="1.4"></line>
+            <line x1="76" y1="70" x2="118" y2="98" stroke-opacity="0.55" stroke-width="1.4"></line>
+            <circle cx="76" cy="30" r="3" fill="#C69550" fill-opacity="0.6" stroke="none"></circle>
+          </g>
         </svg>
         <div class="industry-panel is-active" data-industry-panel="0" id="industryPanel0" role="tabpanel" aria-labelledby="industryTab0" tabindex="0">
           <span class="industry-panel-tag" data-i18n="ind.c1tag">المقاولات والإنشاءات</span>
@@ -1864,13 +1841,21 @@
     }
 
     function dismiss(){
+      // both class changes land in the same tick, so the browser never
+      // paints an in-between frame: the intro starts its .7s/.8s fade
+      // + rise at the exact instant the hero's own reveal begins
+      // underneath it — one continuous handoff, not a hard cut.
       intro.classList.add('intro-hide');
       document.documentElement.classList.remove('intro-lock');
+      document.documentElement.classList.add('hero-ready');
       flyLogoToNav();
       window.setTimeout(() => { intro.style.display = 'none'; }, 850);
     }
 
-    const autoTimer = window.setTimeout(dismiss, 2750);
+    // auto-dismiss gives the statement real time to be read (it lands
+    // fully visible ~2.95s in) before the curtain lifts on its own —
+    // Skip remains available from 1s for anyone who doesn't want to wait
+    const autoTimer = window.setTimeout(dismiss, 5000);
     skipBtn.addEventListener('click', () => { window.clearTimeout(autoTimer); dismiss(); });
     intro.addEventListener('click', (e) => {
       if (e.target === intro) { window.clearTimeout(autoTimer); dismiss(); }
@@ -1991,7 +1976,7 @@
   scrim.addEventListener('click', closeMenu);
   document.querySelectorAll('.mnav').forEach(a => a.addEventListener('click', closeMenu));
 
-  const revealEls = document.querySelectorAll('.reveal:not(.is-visible)');
+  const revealEls = document.querySelectorAll('.reveal:not(.is-visible):not(.hero-reveal)');
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting){
@@ -2063,7 +2048,11 @@
   })();
 
   // ---- Industries: interactive explorer — click a sector, the stage
-  // morphs (gold geometry rotates, ambient light shifts, panel crossfades) ----
+  // morphs. Each of the four sectors now has its own abstract motion-
+  // graphic identity (construction frame / refined retail facet /
+  // manufacturing flow-line / consumer-goods distribution stack)
+  // instead of one icon rotating — four expressions of one visual DNA,
+  // not four rotations of the same object. ----
   (function initIndustryExplorer(){
     const buttons = document.querySelectorAll('.industry-item');
     const panels = document.querySelectorAll('.industry-panel');
@@ -2071,16 +2060,80 @@
     const geo = document.getElementById('industryGeo');
     if (!buttons.length || !panels.length || !stage) return;
 
+    const GOLD = '#C69550';
     const stops = [
-      { rot: 0,   tx: '80%', ty: '10%' },
-      { rot: 90,  tx: '88%', ty: '85%' },
-      { rot: 180, tx: '15%', ty: '82%' },
-      { rot: 270, tx: '12%', ty: '12%' }
+      {
+        tx: '80%', ty: '10%', angle: '0deg',
+        // 01 Construction — structural frame: uprights on a baseline,
+        // load-bearing crossbeams, a rising brace
+        svg: `<g stroke="${GOLD}" fill="none">
+          <line x1="18" y1="128" x2="132" y2="128" stroke-opacity="0.4" stroke-width="1.3"/>
+          <line x1="34" y1="128" x2="34" y2="46" stroke-opacity="0.5" stroke-width="1.3"/>
+          <line x1="76" y1="128" x2="76" y2="30" stroke-opacity="0.5" stroke-width="1.3"/>
+          <line x1="118" y1="128" x2="118" y2="60" stroke-opacity="0.5" stroke-width="1.3"/>
+          <line x1="34" y1="70" x2="118" y2="70" stroke-opacity="0.3" stroke-width="1"/>
+          <line x1="34" y1="98" x2="118" y2="98" stroke-opacity="0.3" stroke-width="1"/>
+          <line x1="34" y1="98" x2="76" y2="70" stroke-opacity="0.55" stroke-width="1.4"/>
+          <line x1="76" y1="70" x2="118" y2="98" stroke-opacity="0.55" stroke-width="1.4"/>
+          <circle cx="76" cy="30" r="3" fill="${GOLD}" fill-opacity="0.6" stroke="none"/>
+        </g>`
+      },
+      {
+        tx: '88%', ty: '85%', angle: '45deg',
+        // 02 Gold / high-value retail — refined concentric rings around
+        // a faceted form, precise and controlled rather than industrial
+        svg: `<g stroke="${GOLD}" fill="none">
+          <circle cx="75" cy="75" r="20" stroke-opacity="0.5" stroke-width="1.2"/>
+          <circle cx="75" cy="75" r="34" stroke-opacity="0.32" stroke-width="1"/>
+          <circle cx="75" cy="75" r="48" stroke-opacity="0.18" stroke-width="1"/>
+          <path d="M75 55 L91 75 L75 95 L59 75 Z" stroke-opacity="0.6" stroke-width="1.3"/>
+          <line x1="75" y1="55" x2="75" y2="95" stroke-opacity="0.32" stroke-width="0.8"/>
+          <line x1="59" y1="75" x2="91" y2="75" stroke-opacity="0.32" stroke-width="0.8"/>
+        </g>
+        <circle cx="75" cy="75" r="2.4" fill="${GOLD}" fill-opacity="0.6" stroke="none"/>`
+      },
+      {
+        tx: '15%', ty: '82%', angle: '0deg',
+        // 03 Manufacturing — a production flow line with process nodes,
+        // mechanical and sequential
+        svg: `<g stroke="${GOLD}" fill="none">
+          <line x1="20" y1="75" x2="130" y2="75" stroke-opacity="0.3" stroke-width="1"/>
+          <rect x="24" y="63" width="20" height="24" stroke-opacity="0.5" stroke-width="1.2"/>
+          <rect x="65" y="55" width="20" height="40" stroke-opacity="0.5" stroke-width="1.2"/>
+          <rect x="106" y="63" width="20" height="24" stroke-opacity="0.5" stroke-width="1.2"/>
+          <line x1="44" y1="75" x2="65" y2="75" stroke-opacity="0.4" stroke-width="1"/>
+          <line x1="85" y1="75" x2="106" y2="75" stroke-opacity="0.4" stroke-width="1"/>
+        </g>
+        <circle cx="34" cy="75" r="1.8" fill="${GOLD}" fill-opacity="0.55" stroke="none"/>
+        <circle cx="75" cy="75" r="1.8" fill="${GOLD}" fill-opacity="0.55" stroke="none"/>
+        <circle cx="116" cy="75" r="1.8" fill="${GOLD}" fill-opacity="0.55" stroke="none"/>`
+      },
+      {
+        tx: '12%', ty: '12%', angle: '90deg',
+        // 04 Consumer goods — stacked packaging silhouettes with a
+        // distribution vector moving through them
+        svg: `<g stroke="${GOLD}" fill="none">
+          <rect x="30" y="90" width="28" height="28" stroke-opacity="0.5" stroke-width="1.2"/>
+          <rect x="62" y="76" width="28" height="42" stroke-opacity="0.45" stroke-width="1.2"/>
+          <rect x="94" y="60" width="28" height="58" stroke-opacity="0.4" stroke-width="1.2"/>
+          <line x1="30" y1="104" x2="58" y2="104" stroke-opacity="0.25" stroke-width="0.8"/>
+          <line x1="62" y1="97" x2="90" y2="97" stroke-opacity="0.25" stroke-width="0.8"/>
+          <line x1="94" y1="89" x2="122" y2="89" stroke-opacity="0.25" stroke-width="0.8"/>
+        </g>
+        <g stroke="${GOLD}" stroke-opacity="0.5" stroke-width="1.2">
+          <line x1="30" y1="46" x2="118" y2="46"/>
+        </g>
+        <polygon points="118,46 108,41 108,51" fill="${GOLD}" fill-opacity="0.55"/>`
+      }
     ];
 
+    let current = 0;
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
         const idx = parseInt(btn.getAttribute('data-industry'), 10);
+        if (idx === current) return;
+        current = idx;
+
         buttons.forEach(b => { b.classList.remove('is-active'); b.setAttribute('aria-selected', 'false'); });
         panels.forEach(p => p.classList.remove('is-active'));
         btn.classList.add('is-active');
@@ -2091,10 +2144,18 @@
         const stop = stops[idx] || stops[0];
         stage.style.setProperty('--tint-x', stop.tx);
         stage.style.setProperty('--tint-y', stop.ty);
-        if (geo) geo.style.transform = `rotate(${stop.rot}deg)`;
-        // the same rotation echoes site-wide, so the geometry chosen
-        // here persists faintly into Services and the closing CTA
-        document.documentElement.style.setProperty('--brand-geo-angle', stop.rot + 'deg');
+        // the chosen sector's angle still echoes site-wide via the
+        // shared --brand-geo-angle variable (Services, closing CTA)
+        document.documentElement.style.setProperty('--brand-geo-angle', stop.angle);
+
+        if (!geo) return;
+        const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reducedMotion) { geo.innerHTML = stop.svg; return; }
+        geo.classList.add('is-swapping');
+        window.setTimeout(() => {
+          geo.innerHTML = stop.svg;
+          geo.classList.remove('is-swapping');
+        }, 350);
       });
     });
   })();
