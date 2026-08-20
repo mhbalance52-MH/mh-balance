@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#031934">
 <title id="metaTitle">M H Balance — نفهم العمل خلف الأرقام</title>
 <meta id="metaDesc" name="description" content="M H Balance تقدّم خدمات المحاسبة والتقارير المالية استنادًا إلى خبرة عملية عبر قطاعات المقاولات والتصنيع والتجزئة عالية القيمة والسلع الاستهلاكية.">
-<meta name="keywords" content="M H Balance, محاسبة مصر, تقارير مالية, معايير IFRS, تسوية المخزون, محاسبة ERP">
+<meta name="keywords" content="M H Balance, محاسبة مصر, تقارير مالية, معايير IFRS, تسوية المخزون, الرقابة الداخلية">
 
 <meta property="og:type" content="website">
 <meta id="ogTitle" property="og:title" content="M H Balance — نفهم العمل خلف الأرقام">
@@ -279,6 +279,21 @@
   .balance-figure .plate .fig small{ display:block; font-weight:400; font-size:11px; color: var(--slate); margin-top:6px; letter-spacing:0.01em; }
   .balance-figure .stand{ position:absolute; left:50%; bottom:6%; top:52%; width:1px; background: rgba(3,25,52,0.18); transform: translateX(-50%); }
   .balance-figure .base{ position:absolute; bottom:5%; left:38%; right:38%; height:1px; background: rgba(3,25,52,0.18); }
+  /* measurement axis: a vertical baseline directly under each plate, with
+     tick marks like a ledger scale — the plate's bob then reads as travel
+     ALONG this line rather than floating in empty space */
+  .balance-figure .plate-axis{
+    position:absolute; bottom:8%; top:38%; width:1px;
+    background: linear-gradient(to bottom, rgba(198,149,80,0.55), rgba(3,25,52,0.12) 70%);
+  }
+  .balance-figure .plate-axis.axis-start{ inset-inline-start: calc(2% + 59px); }
+  .balance-figure .plate-axis.axis-end{ inset-inline-end: calc(2% + 59px); }
+  .balance-figure .axis-tick{
+    position:absolute; inset-inline-start:-3px; width:7px; height:1px; background: rgba(3,25,52,0.28);
+  }
+  .balance-figure .axis-tick:nth-child(1){ top:14%; }
+  .balance-figure .axis-tick:nth-child(2){ top:46%; }
+  .balance-figure .axis-tick:nth-child(3){ top:78%; }
 
   .understand-grid{ display:grid; grid-template-columns: repeat(4,1fr); gap: 46px; }
   .understand-item .num{ font-size:13px; color: var(--gold); font-weight:700; letter-spacing:0.05em; margin-bottom:16px; }
@@ -344,6 +359,23 @@
   @media (prefers-reduced-motion: reduce){
     .industry-panel.is-active{ animation:none; }
     .industry-geo{ transition:none; }
+  }
+  /* ---- Industry visuals: restrained idle motion, one idea per sector ----
+     Construction: a single beacon pulse at the frame's control point.
+     Gold/retail:  the faceted form turns slowly, like a precision dial.
+     Manufacturing: nodes light up in sequence — a process moving through stages.
+     Consumer goods: the distribution line runs, dashes flowing outward. */
+  .geo-beacon{ animation: geoBeacon 3.2s ease-in-out infinite; transform-box: view-box; transform-origin: 76px 30px; }
+  @keyframes geoBeacon{ 0%,100%{ opacity:.6; transform:scale(1); } 50%{ opacity:1; transform:scale(1.5); } }
+  .geo-dial{ animation: geoDial 22s linear infinite; transform-box: view-box; transform-origin: 75px 75px; }
+  @keyframes geoDial{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
+  .geo-node{ animation: geoNode 2.4s ease-in-out infinite; transform-origin: center; }
+  .geo-node-1{ animation-delay:0s; } .geo-node-2{ animation-delay:.5s; } .geo-node-3{ animation-delay:1s; }
+  @keyframes geoNode{ 0%,100%{ opacity:.45; transform:scale(1); } 40%{ opacity:1; transform:scale(1.7); } }
+  .geo-flow{ stroke-dasharray: 3 5; animation: geoFlow 2.6s linear infinite; }
+  @keyframes geoFlow{ to{ stroke-dashoffset:-32; } }
+  @media (prefers-reduced-motion: reduce){
+    .geo-beacon, .geo-dial, .geo-node, .geo-flow{ animation:none; }
   }
 
   /* ===== Expertise — sticky editorial "pinned" storytelling =====
@@ -445,9 +477,26 @@
   .proc-num{ width: 44px; height:44px; background: var(--bg-light); border: 1px solid var(--gold); color: var(--gold-dark); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; margin-bottom: 22px; position:relative; z-index:2; }
   .proc-item h4{ font-size:16px; margin-bottom:10px; color: var(--navy); }
   .proc-item p{ font-size:13.5px; color: var(--slate); line-height:1.8; }
+  /* stage 5 — this is not a finish line, it's the stage that keeps running:
+     a filled, gently pulsing node instead of an outline, plus a dashed
+     tail that continues past the row rather than stopping dead */
+  .proc-item-continuous .proc-num{
+    background: var(--gold); color: var(--black-navy); border-color: var(--gold);
+    animation: procPulse 2.6s ease-in-out infinite;
+  }
+  @keyframes procPulse{
+    0%,100%{ box-shadow: 0 0 0 0 rgba(198,149,80,0.38); }
+    50%{ box-shadow: 0 0 0 9px rgba(198,149,80,0); }
+  }
+  .process-row::after{
+    content:""; position:absolute; top:22px; inset-inline-end:-26px; width:26px; height:1px;
+    background: repeating-linear-gradient(to right, var(--gold) 0 4px, transparent 4px 9px);
+    opacity:.55;
+  }
+  @media (prefers-reduced-motion: reduce){ .proc-item-continuous .proc-num{ animation:none; } }
   @media (max-width: 900px){
     .process-row{ grid-template-columns: 1fr; gap: 0; }
-    .process-row::before{ display:none; }
+    .process-row::before, .process-row::after{ display:none; }
     /* the horizontal connector doesn't fit a phone — replaced with a
        vertical one, so this still reads as a sequence, not a list */
     .proc-item{ display:flex; gap:20px; align-items:flex-start; padding-bottom:34px; position:relative; }
@@ -457,6 +506,13 @@
       width:1px; background: rgba(198,149,80,0.32);
     }
     .proc-item:last-child::after{ display:none; }
+    /* the continuous stage gets its own short fading tail instead of
+       just stopping — same idea as the desktop dashed extension */
+    .proc-item-continuous::after{
+      display:block; content:""; position:absolute; top:44px; height:30px; bottom:auto;
+      inset-inline-start:21px; width:1px;
+      background: linear-gradient(to bottom, rgba(198,149,80,0.45), transparent);
+    }
     .proc-num{ margin-bottom:0; flex-shrink:0; }
     .proc-item h4{ margin-bottom:6px; }
   }
@@ -468,11 +524,11 @@
   .why-item p{ font-size:15.5px; color: rgba(235,233,232,0.65); line-height:1.85; }
   @media (max-width: 980px){ .why-grid{ grid-template-columns: 1fr; } }
 
-  .trust-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(235,233,232,0.14); border: 1px solid rgba(235,233,232,0.14); }
+  .trust-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(235,233,232,0.14); border: 1px solid rgba(235,233,232,0.14); }
   .trust-card{ background: var(--navy); padding: 46px 28px; text-align:center; }
   .trust-num{ font-size: 40px; color: var(--gold); font-weight:700; margin-bottom: 12px; }
   .trust-label{ font-size: 12.5px; letter-spacing:0.01em; color: rgba(235,233,232,0.68); line-height:1.6; }
-  @media (max-width: 900px){ .trust-grid{ grid-template-columns: 1fr 1fr; } }
+  
 
   .cta-final{ text-align:center; padding: 150px 0; }
   .cta-final h2{ font-size: clamp(30px, 4.6vw, 50px); color: var(--off-white); max-width: 780px; margin: 0 auto 26px; line-height:1.35; }
@@ -586,7 +642,7 @@
     .service-panel h3{ font-size: 19px; }
 
     /* ---- Trust / stats: two per row, still legible, no crowding ---- */
-    .trust-grid{ grid-template-columns: 1fr 1fr; }
+    .trust-grid{ grid-template-columns: 1fr; }
     .trust-num{ font-size: 32px; }
 
     /* ---- Contact: the entire point of a mobile visit — make every
@@ -936,7 +992,10 @@
     <div class="hero-sweep"></div>
   </div>
   <svg class="hero-grid" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <g stroke="#C69550" stroke-opacity="0.13">
+    <!-- structure reads in navy/slate — the system. gold is reserved
+         for the one signal below (the trend itself), not spent on
+         atmosphere. -->
+    <g stroke="#445167" stroke-opacity="0.14">
       <line x1="0" y1="120" x2="1200" y2="120"></line>
       <line x1="0" y1="280" x2="1200" y2="280"></line>
       <line x1="0" y1="440" x2="1200" y2="440"></line>
@@ -946,7 +1005,7 @@
     <!-- faint ledger texture: column rules + row rules, low enough to
          read as atmosphere first and structure on closer inspection —
          not a literal table, just the visual grammar of one -->
-    <g stroke="#C69550" stroke-opacity="0.05" stroke-width="1">
+    <g stroke="#445167" stroke-opacity="0.09" stroke-width="1">
       <line x1="120" y1="0" x2="120" y2="800"></line>
       <line x1="320" y1="0" x2="320" y2="800"></line>
       <line x1="520" y1="0" x2="520" y2="800"></line>
@@ -959,44 +1018,33 @@
       <line x1="0" y1="680" x2="1200" y2="680"></line>
     </g>
 
-    <!-- signature geometry — the same circle-and-arrow language used
-         throughout the site, now anchored to an explicit baseline
-         (a ledger axis) instead of floating unattached; the arrow
-         carries small ascending bar-ticks echoing the logo's own
-         bar-chart mark, so it reads as financial movement, not a
-         generic diagonal line -->
-    <g fill="none" stroke="#C69550">
-      <circle cx="980" cy="340" r="58" stroke-opacity="0.24" stroke-width="1"></circle>
-      <circle cx="980" cy="340" r="118" stroke-opacity="0.15" stroke-width="1"></circle>
-      <circle cx="980" cy="340" r="190" stroke-opacity="0.08" stroke-width="1"></circle>
-    </g>
-    <g stroke="#C69550" stroke-opacity="0.34" stroke-width="1">
+    <!-- signature geometry — a baseline (the ledger axis) with ascending
+         bars and a trend line rising off it into an arrowhead: one
+         readable idea, growth measured against a fixed reference, not
+         a halo of circles around an arrow. The axis and its ticks stay
+         in slate (structure); only the bars, the trend and its arrow —
+         the actual signal — carry gold. -->
+    <g stroke="#445167" stroke-opacity="0.4" stroke-width="1">
       <line x1="760" y1="340" x2="1170" y2="340"></line>
     </g>
-    <g stroke="#C69550" stroke-opacity="0.3" stroke-width="1">
+    <g stroke="#445167" stroke-opacity="0.35" stroke-width="1">
       <line x1="800" y1="332" x2="800" y2="348"></line>
       <line x1="890" y1="332" x2="890" y2="348"></line>
       <line x1="980" y1="326" x2="980" y2="354"></line>
       <line x1="1070" y1="332" x2="1070" y2="348"></line>
       <line x1="1150" y1="332" x2="1150" y2="348"></line>
     </g>
-    <circle cx="980" cy="340" r="2.5" fill="#C69550" fill-opacity="0.55"></circle>
-    <g stroke="#C69550" stroke-opacity="0.32" stroke-width="1">
-      <line x1="850" y1="470" x2="1095" y2="220"></line>
-    </g>
-    <g fill="#C69550" fill-opacity="0.4">
+    <circle cx="980" cy="340" r="2.5" fill="#C69550" fill-opacity="0.6"></circle>
+    <g fill="#C69550" fill-opacity="0.42">
       <rect x="878" y="432" width="5" height="14"></rect>
       <rect x="898" y="410" width="5" height="22"></rect>
       <rect x="918" y="384" width="5" height="34"></rect>
       <rect x="938" y="358" width="5" height="46"></rect>
     </g>
-    <g stroke="#C69550" stroke-opacity="0.55" stroke-width="1.4">
+    <g stroke="#C69550" stroke-opacity="0.58" stroke-width="1.4">
       <line x1="960" y1="330" x2="1095" y2="220"></line>
     </g>
-    <polygon points="1095,220 1069,225 1082,241" fill="#C69550" fill-opacity="0.7"></polygon>
-    <g stroke="#152840" stroke-opacity="0.5" stroke-width="1">
-      <line x1="805" y1="425" x2="1050" y2="175"></line>
-    </g>
+    <polygon points="1095,220 1069,225 1082,241" fill="#C69550" fill-opacity="0.72"></polygon>
   </svg>
 
   <div class="wrap hero-content">
@@ -1054,6 +1102,8 @@
       <div class="base"></div>
       <div class="beam"></div>
       <div class="pivot"></div>
+      <div class="plate-axis axis-start" aria-hidden="true"><span class="axis-tick"></span><span class="axis-tick"></span><span class="axis-tick"></span></div>
+      <div class="plate-axis axis-end" aria-hidden="true"><span class="axis-tick"></span><span class="axis-tick"></span><span class="axis-tick"></span></div>
       <div class="plate pstart"><div class="fig" data-i18n="about.plate1">الفهم<small data-i18n="about.plate1s">طبيعة النشاط</small></div></div>
       <div class="plate pend"><div class="fig" data-i18n="about.plate2">التقرير<small data-i18n="about.plate2s">الأرقام</small></div></div>
     </div>
@@ -1125,7 +1175,7 @@
           <!-- 01 Construction — structural frame: uprights on a baseline,
                load-bearing crossbeams, a rising diagonal brace. Reads as
                a building elevation, not an icon. -->
-          <g id="geoConstruction" stroke="#C69550" fill="none">
+          <g id="geoConstruction" stroke="#445167" fill="none">
             <line x1="18" y1="128" x2="132" y2="128" stroke-opacity="0.4" stroke-width="1.3"></line>
             <line x1="34" y1="128" x2="34" y2="46" stroke-opacity="0.5" stroke-width="1.3"></line>
             <line x1="76" y1="128" x2="76" y2="30" stroke-opacity="0.5" stroke-width="1.3"></line>
@@ -1134,7 +1184,7 @@
             <line x1="34" y1="98" x2="118" y2="98" stroke-opacity="0.3" stroke-width="1"></line>
             <line x1="34" y1="98" x2="76" y2="70" stroke-opacity="0.55" stroke-width="1.4"></line>
             <line x1="76" y1="70" x2="118" y2="98" stroke-opacity="0.55" stroke-width="1.4"></line>
-            <circle cx="76" cy="30" r="3" fill="#C69550" fill-opacity="0.6" stroke="none"></circle>
+            <circle cx="76" cy="30" r="3" fill="#C69550" fill-opacity="0.6" stroke="none" class="geo-beacon"></circle>
           </g>
         </svg>
         <div class="industry-panel is-active" data-industry-panel="0" id="industryPanel0" role="tabpanel" aria-labelledby="industryTab0" tabindex="0">
@@ -1275,8 +1325,8 @@
         </div>
         <div class="expertise-item" data-index="4">
           <span class="expertise-item-num">05</span>
-          <h4 data-i18n="exp.c5h">المرونة مع نظامكم المحاسبي</h4>
-          <p data-i18n="exp.c5p">نعمل داخل نظامكم الحالي مباشرة — من خبرة عملية مع Microsoft Dynamics 365 و Odoo.</p>
+          <h4 data-i18n="exp.c5h">المرونة مع دفاتركم القائمة</h4>
+          <p data-i18n="exp.c5p">ندخل على أنظمتكم ودفاتركم المحاسبية كما هي، ونعمل داخلها مباشرة — دون أن نفرض عليكم تغيير الأدوات التي اعتدتم عليها.</p>
         </div>
         <div class="expertise-item" data-index="5">
           <span class="expertise-item-num">06</span>
@@ -1291,9 +1341,13 @@
 <section class="section-pad section-off" id="services" style="overflow:hidden;">
   <svg class="brand-geo-echo" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
        style="width:260px; height:260px; top:-60px; inset-inline-end:-40px;">
-    <circle cx="75" cy="75" r="46" fill="none" stroke="#031934" stroke-width="1.3"></circle>
-    <line x1="40" y1="105" x2="112" y2="42" stroke="#031934" stroke-width="1.5"></line>
-    <polygon points="112,42 96,46 108,58" fill="#031934"></polygon>
+    <line x1="16" y1="118" x2="134" y2="118" stroke="#031934" stroke-width="1"></line>
+    <rect x="23" y="102" width="10" height="16" fill="#031934"></rect>
+    <rect x="47" y="90" width="10" height="28" fill="#031934"></rect>
+    <rect x="71" y="76" width="10" height="42" fill="#031934"></rect>
+    <rect x="95" y="60" width="10" height="58" fill="#031934"></rect>
+    <polyline points="28,102 52,90 76,76 100,60 122,42" fill="none" stroke="#031934" stroke-width="1.5"></polyline>
+    <polygon points="122,42 106,46 118,58" fill="#031934"></polygon>
   </svg>
   <div class="wrap">
     <div class="section-head">
@@ -1382,27 +1436,27 @@
       <div class="proc-item reveal">
         <div class="proc-num">01</div>
         <h4 data-i18n="app.s1h">القيد</h4>
-        <p data-i18n="app.s1p">تسجيل كل عملية بدقة، من المستند المصدر إلى الدفتر.</p>
+        <p data-i18n="app.s1p">تسجيل كل عملية بدقة في دفتر اليومية، من المستند المصدر إلى الدفتر، وترحيلها لدفتر الأستاذ العام.</p>
       </div>
       <div class="proc-item reveal reveal-delay-1">
         <div class="proc-num">02</div>
-        <h4 data-i18n="app.s2h">التسوية</h4>
-        <p data-i18n="app.s2p">مراجعة حسابات العملاء والموردين والمخزون على أرض الواقع، وحل الفروقات من مصدرها.</p>
+        <h4 data-i18n="app.s2h">التسويات الجردية</h4>
+        <p data-i18n="app.s2p">إثبات المصروفات والإيرادات المستحقة، والمقدمات، والإهلاك، وفروقات الجرد الفعلي — قبل استخراج ميزان مراجعة معدّل.</p>
       </div>
       <div class="proc-item reveal reveal-delay-2">
         <div class="proc-num">03</div>
-        <h4 data-i18n="app.s3h">الإقفال</h4>
-        <p data-i18n="app.s3p">إقفال نهاية المدة وفق معيار متوافق مع IFRS.</p>
+        <h4 data-i18n="app.s3h">التقرير</h4>
+        <p data-i18n="app.s3p">إعداد دفتر الأستاذ العام وميزان المراجعة وقوائم الدخل من الأرقام المعدّلة.</p>
       </div>
       <div class="proc-item reveal reveal-delay-3">
         <div class="proc-num">04</div>
-        <h4 data-i18n="app.s4h">التقرير</h4>
-        <p data-i18n="app.s4p">تسليم دفتر الأستاذ العام وميزان المراجعة وقوائم الدخل بوضوح.</p>
+        <h4 data-i18n="app.s4h">الإقفال</h4>
+        <p data-i18n="app.s4p">إقفال الحسابات المؤقتة نهاية المدة وفق المعايير الدولية لإعداد التقارير المالية، واستخراج ميزان مراجعة بعد الإقفال.</p>
       </div>
-      <div class="proc-item reveal">
+      <div class="proc-item proc-item-continuous reveal">
         <div class="proc-num">05</div>
         <h4 data-i18n="app.s5h">المتابعة</h4>
-        <p data-i18n="app.s5p">مراجعة مستمرة ودعم للرقابة الداخلية، بحيث تظهر المشكلات مبكرًا.</p>
+        <p data-i18n="app.s5p">مطابقة مستمرة لحسابات العملاء والموردين والمخزون، ودعم للرقابة الداخلية، بحيث تظهر المشكلات مبكرًا.</p>
       </div>
     </div>
   </div>
@@ -1426,7 +1480,7 @@
         <div class="why-mark">2</div>
         <div>
           <h4 data-i18n="why.i2h">نتكيف مع نظامكم، لا العكس</h4>
-          <p data-i18n="why.i2p">نعمل داخل نظامكم المحاسبي الحالي مباشرة، من خبرة عملية مع Microsoft Dynamics 365 و Odoo.</p>
+          <p data-i18n="why.i2p">ندخل على أنظمتكم ودفاتركم المحاسبية القائمة كما هي، ونعمل داخلها مباشرة دون تعطيل الطريقة التي تُدار بها أعمالكم اليوم.</p>
         </div>
       </div>
       <div class="why-item reveal reveal-delay-2">
@@ -1462,10 +1516,6 @@
         <div class="trust-num" data-count="3">0</div>
         <div class="trust-label" data-i18n="trust.l3">فروع تم تنسيقها ضمن تكليف واحد</div>
       </div>
-      <div class="trust-card">
-        <div class="trust-num" data-count="2">0</div>
-        <div class="trust-label" data-i18n="trust.l4">أنظمة ERP — Dynamics 365 و Odoo</div>
-      </div>
     </div>
   </div>
 </section>
@@ -1473,9 +1523,13 @@
 <section class="section-black cta-final" style="overflow:hidden;">
   <svg class="brand-geo-echo on-dark" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
        style="width:340px; height:340px; top:50%; inset-inline-start:50%; margin-top:-170px; margin-inline-start:-170px;">
-    <circle cx="75" cy="75" r="46" fill="none" stroke="#C69550" stroke-width="1.3"></circle>
-    <line x1="40" y1="105" x2="112" y2="42" stroke="#C69550" stroke-width="1.5"></line>
-    <polygon points="112,42 96,46 108,58" fill="#C69550"></polygon>
+    <line x1="16" y1="118" x2="134" y2="118" stroke="#C69550" stroke-width="1"></line>
+    <rect x="23" y="102" width="10" height="16" fill="#C69550"></rect>
+    <rect x="47" y="90" width="10" height="28" fill="#C69550"></rect>
+    <rect x="71" y="76" width="10" height="42" fill="#C69550"></rect>
+    <rect x="95" y="60" width="10" height="58" fill="#C69550"></rect>
+    <polyline points="28,102 52,90 76,76 100,60 122,42" fill="none" stroke="#C69550" stroke-width="1.5"></polyline>
+    <polygon points="122,42 106,46 118,58" fill="#C69550"></polygon>
   </svg>
   <div class="wrap">
     <p class="eyebrow reveal" style="justify-content:center;" data-i18n="cta.eyebrow">ابدأ الآن</p>
@@ -1627,7 +1681,7 @@
       "exp.c2h": "الرقابة على التكاليف والمخزون", "exp.c2p": "بطاقات الأصناف، وتتبع حركة المخزون، والجرد الفعلي، والتسوية عبر القطاعات.",
       "exp.c3h": "إدارة الأجور والرواتب", "exp.c3p": "معالجة الأجور، وتسوية سلف الموظفين والالتزامات بانضباط على مستوى الدفاتر.",
       "exp.c4h": "تسوية الحسابات والتحصيل", "exp.c4p": "تسوية حسابات العملاء والموردين، وتنسيق التحصيل عبر الفروع المتعددة.",
-      "exp.c5h": "المرونة مع نظامكم المحاسبي", "exp.c5p": "نعمل داخل نظامكم الحالي مباشرة — من خبرة عملية مع Microsoft Dynamics 365 و Odoo.",
+      "exp.c5h": "المرونة مع دفاتركم القائمة", "exp.c5p": "ندخل على أنظمتكم ودفاتركم المحاسبية كما هي، ونعمل داخلها مباشرة — دون أن نفرض عليكم تغيير الأدوات التي اعتدتم عليها.",
       "exp.c6h": "الرقابة الداخلية وحماية الأصول — Corporate Governance", "exp.c6p": "ممارسات رقابية متوافقة مع معايير حماية الأصول المعترف بها.",
       "svc.eyebrow": "خدماتنا", "svc.h2": "ما نقدّمه لعملائنا", "svc.p": "إذا كانت الخبرة تشرح ما نفهمه، فإن هذه هي الخدمات التي نقدّمها مباشرة.",
       "svc.c1h": "التقارير والقوائم المالية", "svc.c1p": "إعداد دفتر الأستاذ العام وميزان المراجعة وقوائم الدخل — وإقفالها وفق معيار متوافق مع IFRS.", "svc.c1b": "أرقام واضحة وجاهزة للمراجعة في كل فترة",
@@ -1637,18 +1691,18 @@
       "svc.c5h": "محاسبة المقاولات والمشاريع", "svc.c5p": "إعداد مستخلصات العملاء ومقاولي الباطن لمشاريع المقاولات والإنشاءات، مرتبطة بالدفاتر الأساسية.", "svc.c5b": "فوترة مشاريع تعكس التقدم والتكلفة الفعليين",
       "svc.c6h": "التوافق مع نظامكم المحاسبي", "svc.c6p": "ندير العمليات المحاسبية اليومية داخل نظامكم الحالي، إضافة إلى ممارسات رقابة داخلية متوافقة مع معايير حماية الأصول.", "svc.c6b": "محاسبة تتوافق مع الأنظمة التي تعملون بها بالفعل",
       "app.eyebrow": "نهجنا", "app.h2": "الدورة التي يقوم عليها كل تكليف",
-      "app.s1h": "القيد", "app.s1p": "تسجيل كل عملية بدقة، من المستند المصدر إلى الدفتر.",
-      "app.s2h": "التسوية", "app.s2p": "مراجعة حسابات العملاء والموردين والمخزون على أرض الواقع، وحل الفروقات من مصدرها.",
-      "app.s3h": "الإقفال", "app.s3p": "إقفال نهاية المدة وفق معيار متوافق مع IFRS.",
-      "app.s4h": "التقرير", "app.s4p": "تسليم دفتر الأستاذ العام وميزان المراجعة وقوائم الدخل بوضوح.",
-      "app.s5h": "المتابعة", "app.s5p": "مراجعة مستمرة ودعم للرقابة الداخلية، بحيث تظهر المشكلات مبكرًا.",
+      "app.s1h": "القيد", "app.s1p": "تسجيل كل عملية بدقة في دفتر اليومية، من المستند المصدر إلى الدفتر، وترحيلها لدفتر الأستاذ العام.",
+      "app.s2h": "التسويات الجردية", "app.s2p": "إثبات المصروفات والإيرادات المستحقة، والمقدمات، والإهلاك، وفروقات الجرد الفعلي — قبل استخراج ميزان مراجعة معدّل.",
+      "app.s3h": "التقرير", "app.s3p": "إعداد دفتر الأستاذ العام وميزان المراجعة وقوائم الدخل من الأرقام المعدّلة.",
+      "app.s4h": "الإقفال", "app.s4p": "إقفال الحسابات المؤقتة نهاية المدة وفق المعايير الدولية لإعداد التقارير المالية، واستخراج ميزان مراجعة بعد الإقفال.",
+      "app.s5h": "المتابعة", "app.s5p": "مطابقة مستمرة لحسابات العملاء والموردين والمخزون، ودعم للرقابة الداخلية، بحيث تظهر المشكلات مبكرًا.",
       "why.eyebrow": "لماذا M H Balance", "why.h2": "فهم عملي، لا نموذج جاهز",
       "why.i1h": "خبرة عابرة للقطاعات", "why.i1p": "تمتد خبرتنا عبر المقاولات، والتصنيع، والتجزئة عالية القيمة، والسلع الاستهلاكية — قراءة أوسع لكيفية عمل الأنشطة التجارية فعليًا.",
-      "why.i2h": "نتكيف مع نظامكم، لا العكس", "why.i2p": "نعمل داخل نظامكم المحاسبي الحالي مباشرة، من خبرة عملية مع Microsoft Dynamics 365 و Odoo.",
+      "why.i2h": "نتكيف مع نظامكم، لا العكس", "why.i2p": "ندخل على أنظمتكم ودفاتركم المحاسبية القائمة كما هي، ونعمل داخلها مباشرة دون تعطيل الطريقة التي تُدار بها أعمالكم اليوم.",
       "why.i3h": "فهم عملي للأعمال", "why.i3p": "نفهم أن البيانات المالية مرتبطة بعمليات حقيقية — لا بما يتسع فقط لخانة في جدول بيانات.",
       "why.i4h": "وضوح مالي", "why.i4p": "نحوّل المعلومات المالية إلى ما يمكن لصاحب القرار استخدامه فعليًا — واضح، ومحدث، ومفهوم.",
       "trust.l1": "سنوات من الخبرة العملية المتراكمة", "trust.l2": "قطاعات نفهمها جيدًا",
-      "trust.l3": "فروع تم تنسيقها ضمن تكليف واحد", "trust.l4": "أنظمة ERP — Dynamics 365 و Odoo",
+      "trust.l3": "فروع تم تنسيقها ضمن تكليف واحد",
       "cta.eyebrow": "ابدأ الآن", "cta.h2": "فلنُضف <em>وضوحًا</em> إلى أرقامكم.",
       "cta.p": "محادثة قصيرة تكفي لنفهم موقع أعمالكم الآن، ونوضح لكم الخطوة التالية.",
       "contact.eyebrow": "تواصل معنا", "contact.h2": "تواصل مع M H Balance مباشرة",
@@ -1712,7 +1766,7 @@
       "exp.c2h": "Inventory &amp; Cost Control", "exp.c2p": "Item cards, stock movement tracking, physical counts and reconciliation across industries.",
       "exp.c3h": "Payroll &amp; Wages Management", "exp.c3p": "Wage processing and employee advance and covenant settlements with ledger-level discipline.",
       "exp.c4h": "Accounts Reconciliation &amp; Collections", "exp.c4p": "Customer and supplier reconciliation and multi-branch collections coordination.",
-      "exp.c5h": "Flexibility With Your Accounting System", "exp.c5p": "We work directly within your existing system — hands-on experience with Microsoft Dynamics 365 and Odoo.",
+      "exp.c5h": "Flexibility With Your Existing Records", "exp.c5p": "We work directly inside your existing bookkeeping and accounting records as they stand today — without asking you to change the tools you already rely on.",
       "exp.c6h": "Internal Controls &amp; Asset Safeguarding — Corporate Governance", "exp.c6p": "Control practices aligned with recognized asset-safeguarding standards.",
       "svc.eyebrow": "Our Services", "svc.h2": "What we provide to clients", "svc.p": "Where expertise explains what we understand, these are the services we deliver directly.",
       "svc.c1h": "Financial Reporting &amp; Statements", "svc.c1p": "General ledger maintenance, trial balance preparation, and income statements — closed to an IFRS-aligned standard.", "svc.c1b": "Clear, audit-ready numbers every period",
@@ -1722,18 +1776,18 @@
       "svc.c5h": "Contracting &amp; Project Accounting", "svc.c5p": "Preparation of client and subcontractor extracts for contracting and construction projects, tied to the underlying ledger.", "svc.c5b": "Project billing that reflects real progress and cost",
       "svc.c6h": "Compatibility With Your Accounting System", "svc.c6p": "We run day-to-day accounting operations inside your existing system, plus internal-control practices aligned with asset-safeguarding standards.", "svc.c6b": "Accounting that fits the systems you already run on",
       "app.eyebrow": "Our Approach", "app.h2": "The cycle behind every engagement",
-      "app.s1h": "Record", "app.s1p": "Every transaction entered accurately, from source documents to the ledger.",
-      "app.s2h": "Reconcile", "app.s2p": "Customer, supplier and inventory accounts checked against reality, discrepancies resolved at the source.",
-      "app.s3h": "Close", "app.s3p": "Period-end closing carried out to an IFRS-aligned standard.",
-      "app.s4h": "Report", "app.s4p": "General ledger, trial balance and income statements delivered clearly.",
-      "app.s5h": "Support", "app.s5p": "Ongoing review and internal-control support, so issues surface early.",
+      "app.s1h": "The Entry", "app.s1p": "Every transaction recorded accurately in the journal, from source document to ledger, then posted to the general ledger.",
+      "app.s2h": "Adjusting Entries", "app.s2p": "Accrued expenses and revenue, prepayments, depreciation and physical-count variances are recorded — before an adjusted trial balance is drawn.",
+      "app.s3h": "Reporting", "app.s3p": "The general ledger, trial balance and income statements are prepared from the adjusted figures.",
+      "app.s4h": "Closing", "app.s4p": "Temporary accounts closed at period-end to an IFRS-aligned standard, with a post-closing trial balance drawn.",
+      "app.s5h": "Follow-Up", "app.s5p": "Ongoing reconciliation of customer, supplier and inventory accounts, with internal-control support — so issues surface early.",
       "why.eyebrow": "Why M H Balance", "why.h2": "Practical understanding, not a generic template",
       "why.i1h": "Cross-industry exposure", "why.i1p": "Our experience spans contracting, manufacturing, high-value retail and consumer goods — a broader read on how businesses actually work.",
-      "why.i2h": "We Adapt to Your System, Not the Other Way Around", "why.i2p": "We work directly within your existing accounting system, drawing on hands-on experience with Microsoft Dynamics 365 and Odoo.",
+      "why.i2h": "We Adapt to Your System, Not the Other Way Around", "why.i2p": "We work inside your existing accounting records and systems as they are, without disrupting how your business already runs.",
       "why.i3h": "Practical business understanding", "why.i3p": "We understand that financial data is connected to real operations — not just what fits in a spreadsheet cell.",
       "why.i4h": "Financial clarity", "why.i4p": "We turn financial information into something decision-makers can actually use — clear, current, and understood.",
       "trust.l1": "Years Combined Practical Experience", "trust.l2": "Industries Understood",
-      "trust.l3": "Branches Coordinated in a Single Engagement", "trust.l4": "ERP Platforms — Dynamics 365 &amp; Odoo",
+      "trust.l3": "Branches Coordinated in a Single Engagement",
       "cta.eyebrow": "Get Started", "cta.h2": "Let's bring <em>clarity</em> to your numbers.",
       "cta.p": "A short conversation is enough to understand where your business stands now, and to show you the next step.",
       "contact.eyebrow": "Contact", "contact.h2": "Reach M H Balance directly",
@@ -1852,10 +1906,11 @@
       window.setTimeout(() => { intro.style.display = 'none'; }, 850);
     }
 
-    // auto-dismiss gives the statement real time to be read (it lands
-    // fully visible ~2.95s in) before the curtain lifts on its own —
-    // Skip remains available from 1s for anyone who doesn't want to wait
-    const autoTimer = window.setTimeout(dismiss, 5000);
+    // the client asked explicitly for more time to read the statement:
+    // it lands fully visible at ~2.95s (see .intro-statement above), so
+    // auto-dismiss now waits until 6.2s — roughly 3.2s of full, settled
+    // dwell time on the sentence itself, not just a longer intro overall
+    const autoTimer = window.setTimeout(dismiss, 6200);
     skipBtn.addEventListener('click', () => { window.clearTimeout(autoTimer); dismiss(); });
     intro.addEventListener('click', (e) => {
       if (e.target === intro) { window.clearTimeout(autoTimer); dismiss(); }
@@ -2061,12 +2116,14 @@
     if (!buttons.length || !panels.length || !stage) return;
 
     const GOLD = '#C69550';
+    const SLATE = '#445167';
     const stops = [
       {
         tx: '80%', ty: '10%', angle: '0deg',
         // 01 Construction — structural frame: uprights on a baseline,
-        // load-bearing crossbeams, a rising brace
-        svg: `<g stroke="${GOLD}" fill="none">
+        // load-bearing crossbeams, a rising brace. Structure reads in
+        // slate; gold is spent only on the single measurement signal.
+        svg: `<g stroke="${SLATE}" fill="none">
           <line x1="18" y1="128" x2="132" y2="128" stroke-opacity="0.4" stroke-width="1.3"/>
           <line x1="34" y1="128" x2="34" y2="46" stroke-opacity="0.5" stroke-width="1.3"/>
           <line x1="76" y1="128" x2="76" y2="30" stroke-opacity="0.5" stroke-width="1.3"/>
@@ -2075,18 +2132,20 @@
           <line x1="34" y1="98" x2="118" y2="98" stroke-opacity="0.3" stroke-width="1"/>
           <line x1="34" y1="98" x2="76" y2="70" stroke-opacity="0.55" stroke-width="1.4"/>
           <line x1="76" y1="70" x2="118" y2="98" stroke-opacity="0.55" stroke-width="1.4"/>
-          <circle cx="76" cy="30" r="3" fill="${GOLD}" fill-opacity="0.6" stroke="none"/>
+          <circle cx="76" cy="30" r="3" fill="${GOLD}" fill-opacity="0.6" stroke="none" class="geo-beacon"/>
         </g>`
       },
       {
         tx: '88%', ty: '85%', angle: '45deg',
         // 02 Gold / high-value retail — refined concentric rings around
-        // a faceted form, precise and controlled rather than industrial
+        // a faceted form, precise and controlled rather than industrial.
+        // Gold is more present here by design — this is the one sector
+        // where the material itself is gold.
         svg: `<g stroke="${GOLD}" fill="none">
           <circle cx="75" cy="75" r="20" stroke-opacity="0.5" stroke-width="1.2"/>
           <circle cx="75" cy="75" r="34" stroke-opacity="0.32" stroke-width="1"/>
           <circle cx="75" cy="75" r="48" stroke-opacity="0.18" stroke-width="1"/>
-          <path d="M75 55 L91 75 L75 95 L59 75 Z" stroke-opacity="0.6" stroke-width="1.3"/>
+          <path d="M75 55 L91 75 L75 95 L59 75 Z" stroke-opacity="0.6" stroke-width="1.3" class="geo-dial"/>
           <line x1="75" y1="55" x2="75" y2="95" stroke-opacity="0.32" stroke-width="0.8"/>
           <line x1="59" y1="75" x2="91" y2="75" stroke-opacity="0.32" stroke-width="0.8"/>
         </g>
@@ -2095,24 +2154,29 @@
       {
         tx: '15%', ty: '82%', angle: '0deg',
         // 03 Manufacturing — a production flow line with process nodes,
-        // mechanical and sequential
-        svg: `<g stroke="${GOLD}" fill="none">
+        // mechanical and sequential. Stations and baseline are slate;
+        // gold is spent only where material actually moves between them.
+        svg: `<g stroke="${SLATE}" fill="none">
           <line x1="20" y1="75" x2="130" y2="75" stroke-opacity="0.3" stroke-width="1"/>
           <rect x="24" y="63" width="20" height="24" stroke-opacity="0.5" stroke-width="1.2"/>
           <rect x="65" y="55" width="20" height="40" stroke-opacity="0.5" stroke-width="1.2"/>
           <rect x="106" y="63" width="20" height="24" stroke-opacity="0.5" stroke-width="1.2"/>
-          <line x1="44" y1="75" x2="65" y2="75" stroke-opacity="0.4" stroke-width="1"/>
-          <line x1="85" y1="75" x2="106" y2="75" stroke-opacity="0.4" stroke-width="1"/>
         </g>
-        <circle cx="34" cy="75" r="1.8" fill="${GOLD}" fill-opacity="0.55" stroke="none"/>
-        <circle cx="75" cy="75" r="1.8" fill="${GOLD}" fill-opacity="0.55" stroke="none"/>
-        <circle cx="116" cy="75" r="1.8" fill="${GOLD}" fill-opacity="0.55" stroke="none"/>`
+        <g stroke="${GOLD}" fill="none">
+          <line x1="44" y1="75" x2="65" y2="75" stroke-opacity="0.5" stroke-width="1.2" class="geo-flow"/>
+          <line x1="85" y1="75" x2="106" y2="75" stroke-opacity="0.5" stroke-width="1.2" class="geo-flow"/>
+        </g>
+        <circle cx="34" cy="75" r="1.8" fill="${GOLD}" fill-opacity="0.55" stroke="none" class="geo-node geo-node-1"/>
+        <circle cx="75" cy="75" r="1.8" fill="${GOLD}" fill-opacity="0.55" stroke="none" class="geo-node geo-node-2"/>
+        <circle cx="116" cy="75" r="1.8" fill="${GOLD}" fill-opacity="0.55" stroke="none" class="geo-node geo-node-3"/>`
       },
       {
         tx: '12%', ty: '12%', angle: '90deg',
         // 04 Consumer goods — stacked packaging silhouettes with a
-        // distribution vector moving through them
-        svg: `<g stroke="${GOLD}" fill="none">
+        // distribution vector moving through them. Inventory itself is
+        // slate (structured light/dark contrast); gold marks only the
+        // flow indicator — where goods are actually moving.
+        svg: `<g stroke="${SLATE}" fill="none">
           <rect x="30" y="90" width="28" height="28" stroke-opacity="0.5" stroke-width="1.2"/>
           <rect x="62" y="76" width="28" height="42" stroke-opacity="0.45" stroke-width="1.2"/>
           <rect x="94" y="60" width="28" height="58" stroke-opacity="0.4" stroke-width="1.2"/>
@@ -2120,8 +2184,8 @@
           <line x1="62" y1="97" x2="90" y2="97" stroke-opacity="0.25" stroke-width="0.8"/>
           <line x1="94" y1="89" x2="122" y2="89" stroke-opacity="0.25" stroke-width="0.8"/>
         </g>
-        <g stroke="${GOLD}" stroke-opacity="0.5" stroke-width="1.2">
-          <line x1="30" y1="46" x2="118" y2="46"/>
+        <g stroke="${GOLD}" stroke-opacity="0.55" stroke-width="1.2">
+          <line x1="30" y1="46" x2="118" y2="46" class="geo-flow"/>
         </g>
         <polygon points="118,46 108,41 108,51" fill="${GOLD}" fill-opacity="0.55"/>`
       }
