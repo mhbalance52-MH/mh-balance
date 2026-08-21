@@ -196,7 +196,7 @@
       linear-gradient(158deg, var(--black-navy) 0%, var(--navy) 44%, var(--navy-dark) 100%);
     color: var(--off-white); overflow:hidden; padding-top: 90px;
   }
-  .hero-grid{ position:absolute; inset:0; opacity: 0.55; pointer-events:none; transition: transform .4s ease; }
+  .hero-grid{ position:absolute; inset:0; opacity: 0.8; pointer-events:none; transition: transform .4s ease; }
   html[dir="rtl"] .hero-grid{ transform: scaleX(-1); }
   .hero-content{ position:relative; z-index:2; max-width: 800px; }
   .hero h1{ font-size: clamp(38px, 6.4vw, 76px); line-height: 1.22; color: var(--off-white); margin-bottom: 26px; letter-spacing: 0.002em; }
@@ -209,7 +209,10 @@
      duration. fill-mode:both + the .reveal fallback below still
      guarantee visibility if JS never runs. */
   .hero-thread{ width:0; height:1px; background: var(--gold); margin-bottom:22px; }
-  html.hero-ready .hero-thread{ animation: threadDraw .9s cubic-bezier(.2,.7,.2,1) .05s both; }
+  /* this line already drew itself once, in the intro — it doesn't redraw
+     here, it simply persists, so the Hero reads as a continuation of the
+     same moment rather than a second, similar-looking animation */
+  html.hero-ready .hero-thread{ width:64px; }
   @keyframes threadDraw{ to{ width:64px; } }
   .hero-headline{ clip-path: inset(-20% 100% -20% -2%); }
   html.hero-ready .hero-headline{ animation: heroRevealLtr 1.1s cubic-bezier(.16,.84,.24,1) .2s both; }
@@ -228,8 +231,9 @@
   .hero p.lead{ font-size: 19px; color: rgba(235,233,232,0.78); max-width: 620px; margin-bottom: 42px; line-height:1.9; }
   .hero-actions{ display:flex; gap:18px; flex-wrap:wrap; margin-bottom: 64px; }
 
-  .hero-meta{ display:flex; gap: 46px; flex-wrap:wrap; border-top: 1px solid rgba(198,149,80,0.22); padding-top: 28px; }
-  .hero-meta div{ min-width:130px; }
+  .hero-meta{ display:flex; gap:0; flex-wrap:wrap; border-top: 1px solid rgba(198,149,80,0.22); padding-top: 28px; }
+  .hero-meta div{ min-width:130px; padding-inline-end:32px; margin-inline-end:32px; border-inline-end:1px solid rgba(198,149,80,0.16); }
+  .hero-meta div:last-child{ border-inline-end:none; margin-inline-end:0; padding-inline-end:0; }
   .hero-meta .num{ font-size: 26px; color: var(--gold); font-weight:700; margin-bottom:6px; }
   .hero-meta .label{ font-size: 12.5px; letter-spacing:0.02em; color: rgba(235,233,232,0.62); line-height:1.5; }
 
@@ -268,13 +272,23 @@
   .about-foot{ margin-top: 30px; padding-top: 26px; border-top: 1px solid rgba(3,25,52,0.12); font-size: 14.5px; color: var(--slate); font-style:italic; }
 
   .balance-figure{ position:relative; aspect-ratio: 1/1; max-width: 420px; margin: 0 auto; }
-  .balance-figure .beam{ position:absolute; top:50%; inset-inline-start:8%; inset-inline-end:8%; height:1px; background: var(--gold); transform-origin:center; animation: tilt 6s ease-in-out infinite; }
-  @keyframes tilt{ 0%,100%{ transform: rotate(-3deg); } 50%{ transform: rotate(3deg); } }
+  .balance-figure .beam{ position:absolute; top:50%; inset-inline-start:8%; inset-inline-end:8%; height:1px; background: var(--gold); transform-origin:center; animation: tilt 7s infinite; }
+  @keyframes tilt{
+    0%,10%{ transform: rotate(-3deg); }
+    42%{ transform: rotate(3deg); animation-timing-function: cubic-bezier(.16,1,.3,1); }
+    52%{ transform: rotate(3deg); }
+    84%,100%{ transform: rotate(-3deg); animation-timing-function: cubic-bezier(.16,1,.3,1); }
+  }
   .balance-figure .pivot{ position:absolute; left:50%; top:50%; width:8px; height:8px; background: var(--gold); transform: translate(-50%,-50%) rotate(45deg); }
-  .balance-figure .plate{ position:absolute; width: 118px; height:118px; border: 1px solid rgba(3,25,52,0.16); border-radius: 3px; background: rgba(3,25,52,0.03); display:flex; align-items:center; justify-content:center; animation: bob 6s ease-in-out infinite; }
+  .balance-figure .plate{ position:absolute; width: 118px; height:118px; border: 1px solid rgba(3,25,52,0.16); border-radius: 3px; background: rgba(3,25,52,0.03); display:flex; align-items:center; justify-content:center; animation: bob 7s infinite; }
   .balance-figure .plate.pstart{ top: 20%; inset-inline-start: 2%; }
-  .balance-figure .plate.pend{ top: 20%; inset-inline-end: 2%; animation-delay: -3s; }
-  @keyframes bob{ 0%,100%{ transform: translateY(-6px); } 50%{ transform: translateY(10px); } }
+  .balance-figure .plate.pend{ top: 20%; inset-inline-end: 2%; animation-delay: -3.5s; }
+  @keyframes bob{
+    0%,10%{ transform: translateY(-6px); }
+    42%{ transform: translateY(10px); animation-timing-function: cubic-bezier(.16,1,.3,1); }
+    52%{ transform: translateY(10px); }
+    84%,100%{ transform: translateY(-6px); animation-timing-function: cubic-bezier(.16,1,.3,1); }
+  }
   .balance-figure .plate .fig{ font-size: 13.5px; letter-spacing:0.02em; color: var(--navy); text-align:center; font-weight:700; }
   .balance-figure .plate .fig small{ display:block; font-weight:400; font-size:11px; color: var(--slate); margin-top:6px; letter-spacing:0.01em; }
   .balance-figure .stand{ position:absolute; left:50%; bottom:6%; top:52%; width:1px; background: rgba(3,25,52,0.18); transform: translateX(-50%); }
@@ -294,6 +308,11 @@
   .balance-figure .axis-tick:nth-child(1){ top:14%; }
   .balance-figure .axis-tick:nth-child(2){ top:46%; }
   .balance-figure .axis-tick:nth-child(3){ top:78%; }
+  @media (prefers-reduced-motion: reduce){
+    .balance-figure .plate, .balance-figure .beam{ animation:none; }
+    .balance-figure .plate.pstart{ transform: translateY(2px); }
+    .balance-figure .plate.pend{ transform: translateY(2px); }
+  }
 
   .understand-grid{ display:grid; grid-template-columns: repeat(4,1fr); gap: 46px; }
   .understand-item .num{ font-size:13px; color: var(--gold); font-weight:700; letter-spacing:0.05em; margin-bottom:16px; }
@@ -472,14 +491,16 @@
   }
 
   .process-row{ display:grid; grid-template-columns: repeat(5, 1fr); gap: 30px; position:relative; }
-  .process-row::before{ content:""; position:absolute; top: 22px; inset-inline-start: 5%; inset-inline-end:5%; height:1px; background: rgba(3,25,52,0.14); }
+  .process-row::before{ content:""; position:absolute; top: 22px; inset-inline-start: 5%; inset-inline-end:5%; height:1px; background: rgba(68,81,103,0.22); }
   .proc-item{ position:relative; }
-  .proc-num{ width: 44px; height:44px; background: var(--bg-light); border: 1px solid var(--gold); color: var(--gold-dark); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; margin-bottom: 22px; position:relative; z-index:2; }
+  .proc-num{ width: 44px; height:44px; background: var(--bg-light); border: 1px solid rgba(68,81,103,0.4); color: var(--slate); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; margin-bottom: 22px; position:relative; z-index:2; }
   .proc-item h4{ font-size:16px; margin-bottom:10px; color: var(--navy); }
   .proc-item p{ font-size:13.5px; color: var(--slate); line-height:1.8; }
-  /* stage 5 — this is not a finish line, it's the stage that keeps running:
-     a filled, gently pulsing node instead of an outline, plus a dashed
-     tail that continues past the row rather than stopping dead */
+  /* stage 5 — the only gold node in the row. Steps 1–4 are structure
+     (slate, like the connecting line they sit on); this is the one
+     place the process actually produces a signal, so it's the one
+     place gold appears — filled and gently pulsing, with a dashed
+     tail continuing past the row rather than stopping dead */
   .proc-item-continuous .proc-num{
     background: var(--gold); color: var(--black-navy); border-color: var(--gold);
     animation: procPulse 2.6s ease-in-out infinite;
@@ -503,7 +524,7 @@
     .proc-item:last-child{ padding-bottom:0; }
     .proc-item::after{
       content:""; position:absolute; top:44px; bottom:-34px; inset-inline-start:21px;
-      width:1px; background: rgba(198,149,80,0.32);
+      width:1px; background: rgba(68,81,103,0.28);
     }
     .proc-item:last-child::after{ display:none; }
     /* the continuous stage gets its own short fading tail instead of
@@ -726,15 +747,29 @@
     position:relative; z-index:2; margin-top:22px;
     color: var(--off-white); font-family: var(--font);
     font-size:14px; letter-spacing:0.32em; font-weight:700;
-    opacity:0; animation: introFade .8s ease forwards; animation-delay:1.5s;
+    opacity:0; transform: translateY(8px);
+    animation: introSettle .8s cubic-bezier(.16,1,.3,1) forwards; animation-delay:1.5s;
   }
   .intro-statement{
     position:relative; z-index:2; margin-top:16px; padding:0 24px;
     color: rgba(235,233,232,0.68); font-size:14.5px; line-height:1.9;
     max-width:380px; text-align:center;
-    opacity:0; animation: introFade .9s ease forwards; animation-delay:2.05s;
+    opacity:0; transform: translateY(8px);
+    animation: introSettle .9s cubic-bezier(.16,1,.3,1) forwards; animation-delay:2.05s;
   }
   @keyframes introFade{ to{ opacity:1; } }
+  @keyframes introSettle{ to{ opacity:1; transform: translateY(0); } }
+  .intro-thread{
+    width:0; height:1px; background: var(--gold); margin:20px auto 0;
+    animation: threadDraw .6s cubic-bezier(.2,.7,.2,1) 1.15s both;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .intro-glow, .intro-logo, .intro-word, .intro-statement, .intro-skip{
+      animation: none !important; opacity:1 !important; transform:none !important;
+    }
+    .intro-glow{ opacity:.55 !important; }
+    .intro-thread{ animation:none; width:64px; }
+  }
   .intro-skip{
     position:absolute; bottom:30px; inset-inline-end:30px; z-index:3;
     background:none; border:1px solid rgba(235,233,232,0.22); color: rgba(235,233,232,0.5);
@@ -910,16 +945,16 @@
   #why-section::before,
   #contact::before{
     content:""; position:absolute; top:0; inset-inline-start:0; inset-inline-end:0;
-    height:150px; pointer-events:none; z-index:0;
+    height:420px; pointer-events:none; z-index:0;
   }
-  #who-we-are::before{ background: linear-gradient(to bottom, rgba(3,25,52,0.45), transparent); }
-  #experience::before{ background: linear-gradient(to bottom, rgba(240,240,239,0.35), transparent); }
-  #industries::before{ background: linear-gradient(to bottom, rgba(21,40,64,0.3), transparent); }
-  #why-section::before{ background: linear-gradient(to bottom, rgba(240,240,239,0.35), transparent); }
-  #contact::before{ background: linear-gradient(to bottom, rgba(21,40,64,0.3), transparent); }
+  #who-we-are::before{ background: linear-gradient(to bottom, rgba(3,25,52,0.5) 0%, rgba(3,25,52,0.3) 15%, rgba(3,25,52,0.08) 42%, transparent 100%); }
+  #experience::before{ background: linear-gradient(to bottom, rgba(240,240,239,0.4) 0%, rgba(240,240,239,0.24) 15%, rgba(240,240,239,0.06) 42%, transparent 100%); }
+  #industries::before{ background: linear-gradient(to bottom, rgba(21,40,64,0.34) 0%, rgba(21,40,64,0.2) 15%, rgba(21,40,64,0.05) 42%, transparent 100%); }
+  #why-section::before{ background: linear-gradient(to bottom, rgba(240,240,239,0.4) 0%, rgba(240,240,239,0.24) 15%, rgba(240,240,239,0.06) 42%, transparent 100%); }
+  #contact::before{ background: linear-gradient(to bottom, rgba(21,40,64,0.34) 0%, rgba(21,40,64,0.2) 15%, rgba(21,40,64,0.05) 42%, transparent 100%); }
   @media (max-width: 640px){
     #who-we-are::before, #experience::before, #industries::before,
-    #why-section::before, #contact::before{ height:80px; }
+    #why-section::before, #contact::before{ height:230px; }
   }
 
   :focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; }
@@ -939,6 +974,7 @@
 <div id="introScreen">
   <div class="intro-glow"></div>
   <span class="logo-halo logo-halo-lg"><img class="intro-logo" id="introLogoImg" src="assets/logo-light.png" alt="M H Balance"></span>
+  <div class="intro-thread" aria-hidden="true"></div>
   <div class="intro-word">M H BALANCE</div>
   <p class="intro-statement" data-i18n="intro.statement">بنحول الحسابات من مجرد أرقام إلي رؤية تساعدك تاخد قرار صح.</p>
   <button class="intro-skip" id="introSkip" data-i18n="intro.skip" type="button">تخطي</button>
