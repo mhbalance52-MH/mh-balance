@@ -517,6 +517,13 @@
 
   .process-row{ display:grid; grid-template-columns: repeat(5, 1fr); gap: 30px; position:relative; }
   .process-row::before{ content:""; position:absolute; top: 22px; inset-inline-start: 5%; inset-inline-end:5%; height:1px; background: rgba(68,81,103,0.22); }
+  .process-fill{
+    position:absolute; top:22px; inset-inline-start:5%; height:1px; width:0%;
+    background: var(--gold); z-index:1; pointer-events:none;
+    transform-origin: inset-inline-start;
+  }
+  @media (prefers-reduced-motion: reduce){ .process-fill{ transition:none !important; } }
+  @media (max-width: 900px){ .process-fill{ display:none; } }
   .proc-item{ position:relative; }
   .proc-num{ width: 44px; height:44px; background: var(--bg-light); border: 1px solid rgba(68,81,103,0.4); color: var(--slate); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; margin-bottom: 22px; position:relative; z-index:2; }
   .proc-item h4{ font-size:16px; margin-bottom:10px; color: var(--navy); }
@@ -1493,7 +1500,8 @@
       <p class="eyebrow reveal" data-i18n="app.eyebrow">نهجنا</p>
       <h2 class="reveal reveal-delay-1" data-i18n="app.h2">الدورة التي يقوم عليها كل تكليف</h2>
     </div>
-    <div class="process-row">
+    <div class="process-row" id="processRow">
+      <div class="process-fill" id="processFill" aria-hidden="true"></div>
       <div class="proc-item reveal">
         <div class="proc-num">01</div>
         <h4 data-i18n="app.s1h">القيد</h4>
@@ -1976,6 +1984,41 @@
     intro.addEventListener('click', (e) => {
       if (e.target === intro) { window.clearTimeout(autoTimer); dismiss(); }
     });
+  })();
+
+  // ---- Process connector: scroll-linked fill (same rAF pattern as the
+  // page-wide scroll-thread above, but progress is local to this section —
+  // continuous with scroll position through the row, not a viewport-entry
+  // trigger) ----
+  (function initProcessFill(){
+    const row = document.getElementById('processRow');
+    const fill = document.getElementById('processFill');
+    if (!row || !fill) return;
+    let ticking = false;
+    function update(){
+      const r = row.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // 0% once the row's top reaches mid-screen, 100% once its bottom
+      // has cleared to 30% up the viewport — a deliberate window inside
+      // the scroll, not the full page, so the fill completes while the
+      // row is still comfortably in view rather than rushing past it
+      const start = vh * 0.55;
+      const end = vh * 0.3;
+      let pct = (start - r.top) / (start - end + r.height);
+      pct = Math.min(1, Math.max(0, pct));
+      fill.style.width = (pct * 90) + '%';
+      ticking = false;
+    }
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    }, { passive: true });
+    window.addEventListener('resize', update);
+    if (!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)){
+      fill.style.transition = 'width .1s linear';
+    }
+    update();
   })();
 
   // ---- Connecting gold thread: page-wide scroll progress ----
