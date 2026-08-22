@@ -15,6 +15,10 @@
 
 <link rel="icon" type="image/png" href="assets/favicon.png">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
   :root{
     --navy:        #031934;
@@ -26,11 +30,20 @@
     --black-navy:  #040B1B;
     --slate:       #445167;
 
-    --font: 'Sakkal Majalla', 'Traditional Arabic', 'Simplified Arabic', 'Palatino Linotype', 'Book Antiqua', Georgia, 'Times New Roman', serif;
+    --font: 'IBM Plex Sans Arabic', 'IBM Plex Sans', 'Sakkal Majalla', 'Traditional Arabic', 'Simplified Arabic', 'Palatino Linotype', 'Book Antiqua', Georgia, 'Times New Roman', serif;
 
     --container: 1180px;
     --radius: 3px;
   }
+
+  /* the container width was never reconsidered above 640px anywhere in
+     this file — same 1180px column at 1440px as at 2560px. These two
+     steps give the grids that live on .wrap (industries, services,
+     expertise, trust, process, contact) real additional width at the
+     sizes actually in use on a modern desktop, instead of leaving that
+     decision unmade by omission. */
+  @media (min-width: 1600px){ :root{ --container: 1320px; } }
+  @media (min-width: 2000px){ :root{ --container: 1460px; } }
 
   *{ margin:0; padding:0; box-sizing:border-box; }
   html{ scroll-behavior:smooth; }
@@ -199,6 +212,8 @@
   .hero-grid{ position:absolute; inset:0; opacity: 0.8; pointer-events:none; transition: transform .4s ease; }
   html[dir="rtl"] .hero-grid{ transform: scaleX(-1); }
   .hero-content{ position:relative; z-index:2; max-width: 800px; }
+  @media (min-width: 1600px){ .hero-content{ max-width: 900px; } }
+  @media (min-width: 2000px){ .hero-content{ max-width: 995px; } }
   .hero h1{ font-size: clamp(38px, 6.4vw, 76px); line-height: 1.22; color: var(--off-white); margin-bottom: 26px; letter-spacing: 0.002em; }
   .hero h1 em{ font-style: normal; color: var(--gold); }
 
@@ -247,8 +262,18 @@
 
   section{ position:relative; }
   .section-pad{ padding: 130px 0; }
-  .section-light{ background: var(--bg-light); color: var(--navy); }
-  .section-off{ background: var(--off-white); color: var(--navy); }
+  .section-light{
+    background:
+      radial-gradient(ellipse 900px 520px at 88% -4%, rgba(198,149,80,0.045), transparent 62%),
+      linear-gradient(168deg, var(--bg-light) 0%, var(--off-white) 100%);
+    color: var(--navy);
+  }
+  .section-off{
+    background:
+      radial-gradient(ellipse 900px 520px at 8% 104%, rgba(198,149,80,0.04), transparent 62%),
+      linear-gradient(168deg, var(--off-white) 0%, var(--bg-light) 100%);
+    color: var(--navy);
+  }
   .section-navy{
     background: linear-gradient(165deg, var(--navy) 0%, var(--navy-dark) 58%, var(--black-navy) 100%);
     color: var(--off-white);
@@ -791,7 +816,7 @@
   }
 
   /* portfolio-hub quick links inside the hero */
-  .hero-hub{ display:flex; flex-wrap:wrap; gap: 8px 24px; margin-top:34px; padding-top:0; }
+  .hero-hub{ display:flex; flex-wrap:wrap; gap: 8px 24px; margin-top:34px; margin-bottom:70px; padding-top:0; }
   .hero-hub a{
     font-size:12.5px; letter-spacing:0.03em; color: rgba(235,233,232,0.52);
     position:relative; padding-bottom:4px;
@@ -1273,7 +1298,7 @@
         </div>
         <div>
           <div class="challenge-answer-label" data-i18n="chal.answerLabel">فهمنا</div>
-          <div class="challenge-answer" data-i18n="chal.p1answer">نساعدكم في تحديد نظام الجرد المناسب لطبيعة نشاطكم، ونربط بيانات المخزون عبر عدة مخازن لمعرفة الموجود، ومكانه، وكميته.</div>
+          <div class="challenge-answer" data-i18n="chal.p1answer">نساعدكم في تحديد نظام الجرد المناسب لطبيعة نشاطكم، ونربط بيانات المخزون عبر عدة مخازن — ونربطها بالمشاريع عند الحاجة — لمعرفة الموجود، ومكانه، وكميته في أي لحظة.</div>
         </div>
       </div>
       <div class="challenge-row">
@@ -1546,7 +1571,7 @@
       </div>
       <div class="trust-card">
         <div class="trust-num" data-count="4">0</div>
-        <div class="trust-label" data-i18n="trust.l2">قطاعات نفهمها جيدًا</div>
+        <div class="trust-label" data-i18n="trust.l2">قطاعات نفهم طبيعة عملها من الداخل</div>
       </div>
       <div class="trust-card">
         <div class="trust-num" data-count="3">0</div>
@@ -1703,7 +1728,7 @@
       "chal.p": "هذه أمثلة من مشكلات واجهناها مباشرة في عملنا اليومي، وما تعلمناه من التعامل معها.",
       "chal.p1label": "المشكلة", "chal.answerLabel": "فهمنا",
       "chal.p1problem": "الجرد الدوري أم المستمر؟ ولو عندكم أكثر من مخزن، هل تعرفون بدقة ما يوجد في كل واحد؟",
-      "chal.p1answer": "نساعدكم في تحديد نظام الجرد المناسب لطبيعة نشاطكم، ونربط بيانات المخزون عبر عدة مخازن لمعرفة الموجود، ومكانه، وكميته.",
+      "chal.p1answer": "نساعدكم في تحديد نظام الجرد المناسب لطبيعة نشاطكم، ونربط بيانات المخزون عبر عدة مخازن — ونربطها بالمشاريع عند الحاجة — لمعرفة الموجود، ومكانه، وكميته في أي لحظة.",
       "chal.p2problem": "تحصيل وتسوية حسابات متفرقة عبر أكثر من فرع.",
       "chal.p2answer": "خبرة مباشرة في تنسيق التحصيل وتسوية الحسابات عبر ثلاثة فروع في وقت واحد، وحل الفروقات من مصدرها.",
       "chal.p3problem": "غياب رؤية واضحة لتكلفة المشروع الفعلية في أعمال المقاولات.",
@@ -1737,7 +1762,7 @@
       "why.i2h": "نتكيف مع نظامكم، لا العكس", "why.i2p": "ندخل على أنظمتكم ودفاتركم المحاسبية القائمة كما هي، ونعمل داخلها مباشرة دون تعطيل الطريقة التي تُدار بها أعمالكم اليوم.",
       "why.i3h": "فهم عملي للأعمال", "why.i3p": "نفهم أن البيانات المالية مرتبطة بعمليات حقيقية — لا بما يتسع فقط لخانة في جدول بيانات.",
       "why.i4h": "وضوح مالي", "why.i4p": "نحوّل المعلومات المالية إلى ما يمكن لصاحب القرار استخدامه فعليًا — واضح، ومحدث، ومفهوم.",
-      "trust.l1": "سنوات من الخبرة العملية المتراكمة", "trust.l2": "قطاعات نفهمها جيدًا",
+      "trust.l1": "سنوات من الخبرة العملية المتراكمة", "trust.l2": "قطاعات نفهم طبيعة عملها من الداخل",
       "trust.l3": "فروع تم تنسيقها ضمن تكليف واحد",
       "cta.eyebrow": "ابدأ الآن", "cta.h2": "فلنُضف <em>وضوحًا</em> إلى أرقامكم.",
       "cta.p": "محادثة قصيرة تكفي لنفهم موقع أعمالكم الآن، ونوضح لكم الخطوة التالية.",
@@ -1788,7 +1813,7 @@
       "chal.p": "These are examples of problems we've encountered directly in day-to-day work, and what handling them taught us.",
       "chal.p1label": "The Problem", "chal.answerLabel": "Our Understanding",
       "chal.p1problem": "Periodic or perpetual inventory? And if you run more than one warehouse, do you know exactly what's in each?",
-      "chal.p1answer": "We help determine the right inventory system for your activity, and connect inventory data across multiple warehouses to show what exists, where, and how much.",
+      "chal.p1answer": "We help determine the right inventory system for your activity, connect inventory data across multiple warehouses — and link it to projects where relevant — so you know what exists, where, and how much, at any moment.",
       "chal.p2problem": "Collecting and reconciling scattered accounts across more than one branch.",
       "chal.p2answer": "Direct experience coordinating collections and account reconciliation across three branches at once, resolving discrepancies at the source.",
       "chal.p3problem": "Limited visibility into the real cost of a contracting project.",
@@ -1822,7 +1847,7 @@
       "why.i2h": "We Adapt to Your System, Not the Other Way Around", "why.i2p": "We work inside your existing accounting records and systems as they are, without disrupting how your business already runs.",
       "why.i3h": "Practical business understanding", "why.i3p": "We understand that financial data is connected to real operations — not just what fits in a spreadsheet cell.",
       "why.i4h": "Financial clarity", "why.i4p": "We turn financial information into something decision-makers can actually use — clear, current, and understood.",
-      "trust.l1": "Years Combined Practical Experience", "trust.l2": "Industries Understood",
+      "trust.l1": "Years Combined Practical Experience", "trust.l2": "Industries We Understand From the Inside",
       "trust.l3": "Branches Coordinated in a Single Engagement",
       "cta.eyebrow": "Get Started", "cta.h2": "Let's bring <em>clarity</em> to your numbers.",
       "cta.p": "A short conversation is enough to understand where your business stands now, and to show you the next step.",
